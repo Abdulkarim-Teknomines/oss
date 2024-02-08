@@ -1,0 +1,324 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use App\Models\Country;
+use App\Models\State;
+use App\Models\City;
+use App\Models\Bloodgroup;
+use PDF;
+use Auth;
+use App\Mail\DemoMail;
+use App\Exports\UsersExport;
+use Illuminate\Support\Str;
+use App\Imports\UsersImport;
+use DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+
+class UserController extends Controller
+{
+    /**
+     * Instantiate a new UserController instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:create-user|edit-user|delete-user', ['only' => ['index','show']]);
+        $this->middleware('permission:create-user', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-user', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete-user', ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request,User $user)
+    {
+        
+        if ($request->ajax()) {
+            $data =User::where('parent_id',auth()->user()->id)->get();
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+            //     $query->where('name','Admin');
+            //     $query->orWhere('name','Manager');
+            //     $query->orWhere('name','Agent');
+            // })->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){
+                        foreach($row->getRoleNames() as $role){
+                            if($role=='Agent'){
+                                return $row['user_id'];
+                            }else{
+                                return '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edits" onClick="view('.$row->id.')">'.$row['user_id'].'</a>';
+                            }
+                        }
+                    }) 
+                    ->addColumn('added_by', function($row){
+                        return User::getUserNameByID($row->parent_id);
+                    })  
+                    ->addColumn('roles', function($row){
+                        foreach($row->getRoleNames() as $role){
+                            return $role;
+                        }
+                    })      
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="/users/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        if(Auth::user()->can('edit-user')) {
+                            $btn.='<a href="users/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                        }
+                        // if(Auth::user()->can('delete-user')) {
+                        //     $btn.='<form method="post" action="users/'.$row['id'].'">
+                        //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>
+                        //     </form>';
+                        // }
+                        return $btn;
+                    })
+                    ->rawColumns(['action','id'])
+                    ->make(true);
+        }
+        
+        return view('users.index', [
+            // 'users' => $data,
+            'title'=>'Users',
+            'content'=>'Manage Users'
+        ]);
+    }
+    public function view(Request $request,User $user)
+    {
+        if ($request->ajax()) {
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            $data =User::where('parent_id',$user->id)->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){
+                        // return $row['user_id'];
+                        foreach($row->getRoleNames() as $role){
+                            if($role=='Agent'){
+                                return $row['user_id'];
+                            }else{
+                                return '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edits" onClick="view('.$row->id.')">'.$row['user_id'].'</a>';
+                            }
+                        }
+                    }) 
+                    ->addColumn('added_by', function($row){
+                        return User::getUserNameByID($row->parent_id);
+                    })  
+                    ->addColumn('roles', function($row){
+                        foreach($row->getRoleNames() as $role){
+                            return $role;
+                        }
+                    })      
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="/users/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        if(Auth::user()->can('edit-user')) {
+                            $btn.='<a href="users/'.$row['id'].'/edit" class="editd btn btn-primary btn-sm" id="editd">Edit</a>';
+                        }
+                        // if(Auth::user()->can('delete-user')) {
+                        //     $btn.='<form method="post" action="users/'.$row['id'].'">
+                        //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>
+                        //     </form>';
+                        // }
+                        return $btn;
+                    })
+                    ->rawColumns(['action','id'])
+                    ->make(true);
+        }
+        
+        return view('users.view', [
+            'id'=>$user->id,
+            // 'users' => $data,
+            'title'=>'Users',
+            'content'=>'Manage Users'
+        ]);
+    }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): View
+    {
+        $data['roles'] =Role::pluck('name')->all();
+        $data['countries'] = Country::get(["name", "id"]);
+        $data['blood_group'] = Bloodgroup::get(["name", "id"]);
+        // dd($data['countries']);
+        $data['title']='Users';
+        $data['content']='Create User';
+        return view('users.create', $data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreUserRequest $request): RedirectResponse
+    {
+        // echo Auth::user()->id;die;
+        $input = $request->all();
+        $input['parent_id'] = Auth::user()->id;
+        $password = Str::random(8);
+        $input['password'] = Hash::make($password);
+        $input['isActive']=0;
+        $user = User::create($input);
+        if($user){
+            $user_id = 'USR'.str_pad($user->id, 5, '0', STR_PAD_LEFT);
+            User::whereId($user->id)->update([
+                'user_id' => $user_id,
+            ]);
+            $user->assignRole($request->roles);
+            $url = route('login');
+            $mailData = [
+                'title' => 'Mail from www.onestopsolution.com',
+                'body' => 'Login With Below Credentials',
+                'url'=>'<a href="'.$url.'">Click to Login</a>',
+                'username'=>$request->email,
+                'password'=>$password
+            ];
+            Mail::to($request->email)->send(new DemoMail($mailData));
+            return redirect()->route('users.index')
+                    ->withSuccess('New user is added successfully.');
+
+        }
+        
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user): View
+    {
+        return view('users.show', [
+            'user' => $user,
+            'title'=>'Users',
+            'content'=>'View Users'
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(User $user): View
+    {
+        // Check Only Super Admin can update his own Profile
+        if ($user->hasRole('Super Admin')){
+            if($user->id != auth()->user()->id){
+                abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
+            }
+        }
+        
+        return view('users.edit', [
+            'user' => $user,
+            'roles' => Role::pluck('name')->all(),
+            'userRoles' => $user->roles->pluck('name')->all(),
+            'title'=>'Users',
+            'content'=>'Edit User',
+            'countries'=>Country::get(["name", "id"]),
+            'blood_group'=>Bloodgroup::get(["name", "id"])
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    {
+        $input = $request->all();
+        if($request->isActive=="0"){
+            $input['isActive']=0;
+        }else{
+            $input['isActive']=1;
+        }
+        $user->update($input);
+        return redirect()->route('users.index')->withSuccess('User is updated successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $user): RedirectResponse
+    {
+        // About if user is Super Admin or User ID belongs to Auth User
+        if ($user->hasRole('Super Admin') || $user->id == auth()->user()->id)
+        {
+            abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
+        }
+
+        $user->syncRoles([]);
+        $user->delete();
+        return redirect()->route('users.index')
+                ->withSuccess('User is deleted successfully.');
+    }
+    public function export() 
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+    public function generatePDF()
+    {
+        $users = User::get();
+        $data = [
+            'title' => 'List Users',
+            'date' => date('m/d/Y'),
+            'users' => $users
+        ]; 
+        $pdf = PDF::loadView('users.pdf', $data);
+        return $pdf->download('listUsers.pdf');
+    }
+    public function profile(){
+        $data['user'] = Auth::user();
+        // dd($data['user']);
+        $data['title']='Users';
+        $data['content']='Update Profile';
+        return view('users.profile',$data);
+    }
+    public function update_profile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'middle_name' => 'required',
+            'surname' => 'required',
+            'email' => 'required|email',
+            'pancard_number' => 'required',
+            'adharcard_number' => 'required',
+            'mobile_number' => 'required',
+            'emergency_contact_number' => 'required',
+        ]);
+        $input = request()->except(['_token']);
+        User::whereId(Auth::user()->id)->update($input);
+        return redirect()->back()
+                ->withSuccess('User is updated successfully.');
+    }
+    public function change_password(){
+        $data['title']='Users';
+        $data['content']='Create User';
+        return view('users.change_password',$data);
+    }
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required','string'],
+            'password' => ['required', 'string', 'min:8', 'confirmed']
+        ]);
+
+        $currentPasswordStatus = Hash::check($request->current_password, auth()->user()->password);
+        if($currentPasswordStatus){
+            User::whereId(Auth::user()->id)->update([
+                'password' => Hash::make($request->password),
+            ]);
+            // dd(User::findOrFail(Auth::user()->id)->update([
+            //     'password' => Hash::make($request->password),
+            // ]));
+            return redirect()->back()->with('success','Password Updated Successfully');
+            
+        }else{
+            return redirect()->back()->with('error','Current Password does not match with Old Password');
+        }
+    }
+}
