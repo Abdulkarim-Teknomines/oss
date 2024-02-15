@@ -1713,7 +1713,7 @@ class MemberController extends Controller
                 $input['oct'] = 0;
                 $input['nov'] = 0;
                 $input['dec'] = 0;
-                $input['single'] = 0;
+                $input['single'] = 0; 
             }elseif($start_month==05){
                 $input['jan'] = 0;
                 $input['feb'] = 0;
