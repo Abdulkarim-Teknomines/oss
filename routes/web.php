@@ -97,8 +97,37 @@ Route::controller(MemberController::class)->group(function(){
     Route::get('members/create', 'create')->name('members.create');
     Route::post('members', 'store')->name('members.store');
     Route::get('members/{user}/edit', 'edit')->name('members.edit');
+    Route::get('members/{user}/reports', 'view_insurance_report')->name('members.reports');
     Route::put('members/{user}', 'update')->name('members.update');
+    Route::get('members/{user}', 'show')->name('members.show');
 
+    Route::get('mediclaim/{user}/add', 'add_mediclaim')->name('mediclaim.add');
+    Route::post('mediclaim', 'store_mediclaim')->name('mediclaim.store_mediclaim');
+    Route::get('mediclaim/{user}/view', 'list_mediclaim')->name('mediclaim.view');
+    Route::get('mediclaims/{mediclaim}', 'show_mediclaim')->name('mediclaim.show');
+    Route::get('mediclaims/{mediclaim}/edit_mediclaim', 'edit_mediclaim')->name('mediclaim.edit');
+    Route::put('mediclaims/{mediclaim}', 'update_mediclaim')->name('mediclaim.update_mediclaim');
+
+    Route::get('life_insurance/{user}/add', 'add_life_insurance')->name('life_insurance.add');
+    Route::post('life_insurance', 'store_life_insurance')->name('life_insurance.store_life_insurance');
+    Route::get('life_insurance/{user}/view', 'list_life_insurance')->name('life_insurance.view');
+    Route::get('life_insurances/{life_insurance}', 'show_life_insurance')->name('life_insurance.show');
+    Route::get('life_insurances/{life_insurance}/edit_life_insurance', 'edit_life_insurance')->name('life_insurance.edit');
+    Route::put('life_insurances/{life_insurance}', 'update_life_insurance')->name('life_insurance.update_life_insurance');
+
+    Route::get('vehicle_insurance/{user}/add', 'add_vehicle_insurance')->name('vehicle_insurance.add');
+    Route::post('vehicle_insurance', 'store_vehicle_insurance')->name('vehicle_insurance.store_vehicle_insurance');
+    Route::get('vehicle_insurance/{user}/view', 'list_vehicle_insurance')->name('vehicle_insurance.view');
+    Route::get('vehicle_insurances/{vehicle_insurance}', 'show_vehicle_insurance')->name('vehicle_insurance.show');
+    Route::get('vehicle_insurances/{vehicle_insurance}/edit_vehicle_insurance', 'edit_vehicle_insurance')->name('vehicle_insurance.edit');
+    Route::put('vehicle_insurances/{vehicle_insurance}', 'update_vehicle_insurance')->name('vehicle_insurance.update_vehicle_insurance');
+
+    Route::get('mutual_fund/{user}/add', 'add_mutual_fund')->name('mutual_fund.add');
+    Route::post('mutual_fund', 'store_mutual_fund')->name('mutual_fund.store_mutual_fund');
+    Route::get('mutual_fund/{user}/view', 'list_mutual_fund')->name('mutual_fund.view');
+    Route::get('mutual_funds/{mutual_fund}', 'show_mutual_fund')->name('mutual_fund.show');
+    Route::get('mutual_funds/{mutual_fund}/edit_mutual_fund', 'edit_mutual_fund')->name('mutual_fund.edit');
+    Route::put('mutual_funds/{mutual_fund}', 'update_mutual_fund')->name('mutual_fund.update_mutual_fund');
 });
     
 Route::controller(CommonController::class)->group(function(){

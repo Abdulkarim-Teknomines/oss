@@ -9,20 +9,18 @@
         @endif
     </div>
     
-        
     <div class="card-body ">
         <table class="table table-bordered dts1 table-responsive " id="dts1">
             <thead>
                 <tr>
                     <th scope="col">Sr No.</th>
-                    <th scope="col">Policy Holder Name</th>
-                    <th scope="col">Birth Date</th>
-                    <th scope="col">Policy Start Date</th>
-                    <th scope="col">Company Name</th>
+                    <th scope="col">Vehicle Category</th>
+                    <th scope="col">Vehicle Number</th>
+                    <th scope="col">Vehicle Name</th>
+                    <th scope="col">Insurance Company Name</th>
                     <th scope="col">Policy Number</th>
-                    <th scope="col">Plan Name</th>
-                    <th scope="col">PPT</th>
-                    <th scope="col">Premim Mode</th>
+                    <th scope="col">Insurance Policy Type</th>
+                    
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -40,26 +38,25 @@
     var table = $('.dts1').DataTable({
       processing: true,
       serverSide: true,
-      
-      ajax: "{{ route('life_insurance.view',[Request::segment(2)]) }}",
+      ajax: "{{ route('vehicle_insurance.view',[Request::segment(2)]) }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},
-            {data: 'policy_holder_name', name: 'policy_holder_name'},
-            {data: 'birth_date', name: 'birth_date'},
-            {data: 'policy_start_date', name: 'policy_start_date'},
-            {data: 'company_name_id', name: 'company_name_id'},
+            {data: 'vehicle_category_id', name: 'vehicle_category_id'},
+            {data: 'vehicle_number', name: 'vehicle_number'},
+            {data: 'vehicle_name', name: 'vehicle_name'},
+            {data: 'insurance_company_name', name: 'insurance_company_name'},
             {data: 'policy_number', name: 'policy_number'},
-            {data: 'plan_name', name: 'plan_name'},
-            {data: 'ppt_id', name: 'ppt_id'},
-            {data: 'premium_mode_id', name: 'premium_mode_id'},
+            {data: 'insurance_policy_type_id', name: 'insurance_policy_type_id'},
+            
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
-    function view_life_insurance(id){
-        window.location.href='/life_insurances/'+id;
+    function view_vehicle_insurance(id){
+        window.location.href='/vehicle_insurances/'+id;
     }
-    function edit_life_insurance(id){
-        window.location.href='/life_insurances/'+id+'/edit_life_insurance';
+    
+    function edit_vehicle_insurance(id){
+        window.location.href='/vehicle_insurances/'+id+'/edit_vehicle_insurance';
     }
 </script>
 @endsection

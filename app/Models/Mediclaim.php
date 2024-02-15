@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\CompanyName;
+use App\Models\PolicyType;
+use App\Models\User;
+use App\Models\PolicyMode;
 class Mediclaim extends Model
 {
     use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
@@ -24,15 +27,43 @@ class Mediclaim extends Model
         'policy_type_id',
         'sum_assured',
         'policy_name',
-        'policy_mode',
+        'policy_mode_id',
         'premium_amount',
         'yearly_premium_amount',
         'agent_name',
         'agent_mobile_number',
         'branch_name',
         'branch_address',
-        'branch_contact_no'
+        'branch_contact_no',
+        'jan',
+        'feb',
+        'mar',
+        'apr',
+        'may',
+        'jun',
+        'jul',
+        'aug',
+        'sep',
+        'oct',
+        'nov',
+        'dec',
+        'single'
     ];
-
+    public function company_name()
+    {
+        return $this->belongsTo(CompanyName::class);
+    }
+    public function policy_type()
+    {
+        return $this->belongsTo(PolicyType::class);
+    }
+    public function policy_mode()
+    {
+        return $this->belongsTo(PolicyMode::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 

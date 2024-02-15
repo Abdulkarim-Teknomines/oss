@@ -4,17 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Companyname;
+use App\Models\MutualFundType;
 
-class CompanynameSeeder extends Seeder
+class MutualFundTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Companyname::create(['name' => 'LIC']);
-        Companyname::create(['name' => 'AEGON']);
-        Companyname::create(['name' => 'DHFL']);
+        MutualFundType::create(['name' => 'One Time']);
+        MutualFundType::create(['name' => 'Sip']);
     }
 }

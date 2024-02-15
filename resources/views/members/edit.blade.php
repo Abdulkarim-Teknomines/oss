@@ -99,17 +99,17 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="spous_name" class="col-md-3 col-form-label text-md-end text-start">Spouse Name</label>
+                        <label for="spouse_name" class="col-md-3 col-form-label text-md-end text-start">Spouse Name</label>
                         <div class="col-md-4">
-                          <input type="text" class="form-control" id="spous_name" name="spous_name" value="{{ old('spous_name',$user[0]->member->spous_name) }}" placeholder="Spous Name" autocomplete="off">
+                          <input type="text" class="form-control" id="spouse_name" name="spouse_name" value="{{ old('spouse_name',$user[0]->member->spouse_name) }}" placeholder="Spouse Name" autocomplete="off">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="spous_dob" class="col-md-3 col-form-label text-md-end text-start">Spouse DOB </label>
+                        <label for="spouse_dob" class="col-md-3 col-form-label text-md-end text-start">Spouse DOB </label>
                         <div class="col-md-4">
-                            <div class="input-group spous_dob" id="spous_dob" data-target-input="nearest">
-                                <input type="text" name="spous_dob" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#spous_dob" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('spous_dob') ? old('spous_dob') : $user[0]->member->spous_dob }}"/>
-                                <div class="input-group-append" data-target="#spous_dob" data-toggle="datetimepicker">
+                            <div class="input-group spouse_dob" id="spouse_dob" data-target-input="nearest">
+                                <input type="text" name="spouse_dob" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#spouse_dob" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('spouse_dob') ? old('spouse_dob') : $user[0]->member->spouse_dob }}"/>
+                                <div class="input-group-append" data-target="#spouse_dob" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>
@@ -192,7 +192,7 @@
                             
                         </div>
                     </div>
-                    <input type="hidden" id="chidrens" value="{{$user[0]->children}}">
+                    <input type="hidden" id="childrens" value="{{json_encode($user[0]->children)}}">
                     <div class="row mb-3"><label for="child" class="col-md-3 col-form-label text-md-end text-start">Children</label><div class="col-md-3"><button id="rowAdder" type="button" class="btn btn-dark">
                         <span class="bi bi-plus-square-dotted">
                         </span> ADD
@@ -200,7 +200,7 @@
                     <div id="newinput"></div>
                     
                     <div class="mb-3 row">
-                        <input type="submit" class="col-md-2 offset-md-10 btn btn-primary" value="Add Member">
+                        <input type="submit" class="col-md-2 offset-md-10 btn btn-primary" value="Update Member">
                     </div>
                 </form>
             </div>
@@ -210,9 +210,9 @@
 <script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        var children = $("#childrens").val();
-        $.each(children,function(key,val){
-            newRowAdd ='<div id="row" class="row mb-3"> <label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label><div class="col-md-3"><input type="text" class="form-control m-input child_name" name="child_name[]"> </div><label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label><div class="col-md-3"><div class="input-group child_dob" id="child_dob" data-target-input="nearest"><input type="text" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#child_dob" placeholder="YYYY-MM-DD" readonly="true" name="child_dob[]"/><div class="input-group-append" data-target="#child_dob" data-toggle="datetimepicker"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div></div></div><div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
+        var childrens= @php echo json_encode($user[0]->children) @endphp; 
+        $(childrens).each(function(key,val){
+            newRowAdd ='<div id="row" class="row mb-3"> <label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label><div class="col-md-3"><input type="text" class="form-control m-input child_name" value="'+val.name+'"name="child_name[]"> </div><label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label><div class="col-md-3"><div class="input-group child_dob" id="child_dob" data-target-input="nearest"><input type="text" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#child_dob" placeholder="YYYY-MM-DD" value="'+val.birth_date+'" readonly="true" name="child_dob[]"/><div class="input-group-append" data-target="#child_dob" data-toggle="datetimepicker"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div></div></div><div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
             $('#newinput').append(newRowAdd);
         });
         $("#rowAdder").click(function () {

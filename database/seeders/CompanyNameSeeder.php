@@ -4,16 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\PolicyType;
-class PolicyTypeSeeder extends Seeder
+use App\Models\CompanyName;
+class CompanyNameSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        PolicyType::create(['name' => 'Family']);
-        PolicyType::create(['name' => 'Individual']);
-        PolicyType::create(['name' => 'Other']);
+        CompanyName::create(['name' => 'LIC']);
+        CompanyName::create(['name' => 'AEGON']);
+        CompanyName::create(['name' => 'DHFL']);
     }
 }

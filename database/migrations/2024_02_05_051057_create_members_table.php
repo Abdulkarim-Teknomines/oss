@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('father_name');
             $table->string('mother_name');
-            $table->string('spous_name')->nullable();
-            $table->date('spous_dob')->nullable();
+            $table->string('spouse_name')->nullable();
+            $table->date('spouse_dob')->nullable();
             $table->date('anniversary_date')->nullable();
             // $table->rememberToken();
             $table->timestamps();

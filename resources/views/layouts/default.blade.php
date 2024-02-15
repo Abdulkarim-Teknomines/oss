@@ -168,6 +168,8 @@
       $(this).val('1');
     }
   });
+  
+  
     $(document).ready(function () {
       
       $("input[data-bootstrap-switch]").each(function(){
@@ -232,14 +234,24 @@
     $('.child_dob').datetimepicker({
         format: 'yyyy-MM-DD',
     });
-    
-    $('#spous_dob').datetimepicker({
+    $('#policy_start_date').datetimepicker({
+        format: 'yyyy-MM-DD',
+    });
+    $('#policy_end_date').datetimepicker({
+        format: 'yyyy-MM-DD',
+    });
+    $('#spouse_dob').datetimepicker({
+        format: 'yyyy-MM-DD',
+    });
+    $('#purchase_date').datetimepicker({
         format: 'yyyy-MM-DD',
     });
     $('#anniversary_date').datetimepicker({
         format: 'yyyy-MM-DD',
     });
-
+    $('#nominee_dob').datetimepicker({
+        format: 'yyyy-MM-DD',
+    });
   $('#rolesTable').DataTable({
     "paging": true,
     "lengthChange": false,

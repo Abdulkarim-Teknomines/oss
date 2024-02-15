@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MutualFundType;
+use App\Models\User;
 
 class Mutualfund extends Model
 {
@@ -17,7 +19,7 @@ class Mutualfund extends Model
         'user_id',
         'sr_no',
         'mutual_fund_holder_name',
-        'multual_fund_type_id',
+        'mutual_fund_type_id',
         'folio_number',
         'fund_name',
         'fund_type',
@@ -29,6 +31,27 @@ class Mutualfund extends Model
         'nominee_dob',
         'agent_name',
         'agent_mobile_number',
+        'jan',
+        'feb',
+        'mar',
+        'apr',
+        'may',
+        'jun',
+        'jul',
+        'aug',
+        'sep',
+        'oct',
+        'nov',
+        'dec',
+        'single'
     ];
-}
+    public function mutual_fund_type()
+    {
+        return $this->belongsTo(MutualFundType::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}   
 

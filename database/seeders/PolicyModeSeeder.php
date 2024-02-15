@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Policymode;
+use App\Models\PolicyMode;
 
 class PolicyModeSeeder extends Seeder
 {
@@ -13,10 +13,10 @@ class PolicyModeSeeder extends Seeder
      */
     public function run(): void
     {
-        Policymode::create(['name' => 'Monthly']);
-        Policymode::create(['name' => 'Quarterly']);
-        Policymode::create(['name' => 'Half Yearly']);
-        Policymode::create(['name' => 'Yearly']);
-        Policymode::create(['name' => 'Single']);
+        PolicyMode::create(['name' => 'Monthly']);
+        PolicyMode::create(['name' => 'Quarterly']);
+        PolicyMode::create(['name' => 'Half Yearly']);
+        PolicyMode::create(['name' => 'Yearly']);
+        PolicyMode::create(['name' => 'Single']);
     }
 }

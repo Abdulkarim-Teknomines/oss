@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('sr_no');
             $table->string('mutual_fund_holder_name');
-            $table->integer('multual_fund_type_id');     //[dropdown provided by team]
-            $table->string('folio_number');
+            $table->integer('mutual_fund_type_id');     //[dropdown provided by team]
+            $table->integer('folio_number');
             $table->string('fund_name');
             $table->string('fund_type');
             $table->date('purchase_date');
@@ -28,6 +28,20 @@ return new class extends Migration
             $table->date('nominee_dob');
             $table->string('agent_name')->nullable();
             $table->integer('agent_mobile_number')->nullable();         
+            $table->string('other_details')->nullable();
+            $table->integer('jan')->default(0);
+            $table->integer('feb')->default(0);
+            $table->integer('mar')->default(0);
+            $table->integer('apr')->default(0);
+            $table->integer('may')->default(0);
+            $table->integer('jun')->default(0);
+            $table->integer('jul')->default(0);
+            $table->integer('aug')->default(0);
+            $table->integer('sep')->default(0);
+            $table->integer('oct')->default(0);
+            $table->integer('nov')->default(0);
+            $table->integer('dec')->default(0);
+            $table->integer('single')->default(0);
             $table->timestamps();
         });
     }

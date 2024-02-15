@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class CompanyName extends Model
 {
     use HasFactory;
     protected $fillable = [
         'name'
     ];
-    public function users()
+    public function mediclaim()
     {
-        return $this->hasMany(User::class);
+    return $this->hasMany(Mediclaim::class);
     }
-    
+    public function life_insurance()
+    {
+    return $this->hasMany(LifeInsurance::class);
+    }
 }

@@ -1,0 +1,197 @@
+@extends('layouts.default')
+
+@section('content')
+
+<div class="row justify-content-center">
+    <div class="col-md-11">
+        <div class="card card-primary">
+            @if (session('success'))
+                <div class="float-left">
+                    <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
+                </div>
+            @endif
+            <div class="card-header">
+                <div class="float-left pt-1">
+                    Edit Vehicle Insurance
+                </div>
+                <div class="float-right">
+                    <a href="{{ route('members.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('vehicle_insurance.update_vehicle_insurance', $vehicle_insurance->id) }}" method="post">
+                    @csrf
+                    @method("PUT")
+                    <input type="hidden" name="vehicle_insurance_id" id="vehicle_insurance_id" value="{{$vehicle_insurance->id}}">
+                    <div class="row mb-3">
+                        <label for="sr_no" class="col-md-3 col-form-label text-md-end text-start">Sr No <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                        <input type="number" class="form-control @error('sr_no') is-invalid @enderror" id="sr_no" name="sr_no" value="{{ old('sr_no',$vehicle_insurance->sr_no) }}" placeholder="Sr No." autocomplete="off">
+                            @if ($errors->has('sr_no'))
+                                <span class="error invalid-feedback">{{ $errors->first('sr_no') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label text-md-end text-start">Vehicle Category<span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <select id="vehicle_category" class="form-control @error('vehicle_category') is-invalid @enderror vehicle_category" name="vehicle_category" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                <option value="">-- Select Vehicle Category --</option>
+                                @foreach ($vehicle_category as $data)
+                                @if (old('vehicle_category',$vehicle_insurance->vehicle_category_id) == $data->id)
+                                    <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
+                                @else
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @endif
+                                
+                                @endforeach
+                            </select>
+                            @if ($errors->has('vehicle_category'))
+                                    <span class="error invalid-feedback">{{ $errors->first('vehicle_category') }}</span>
+                                @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="vehicle_number" class="col-md-3 col-form-label text-md-end text-start">Vehicle Number <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                        <input type="text" class="form-control @error('vehicle_number') is-invalid @enderror" id="vehicle_number" name="vehicle_number" value="{{ old('vehicle_number',$vehicle_insurance->vehicle_number) }}" placeholder="Vehicle Number" autocomplete="off">
+                            @if ($errors->has('vehicle_number'))
+                                <span class="error invalid-feedback">{{ $errors->first('vehicle_number') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="vehicle_name" class="col-md-3 col-form-label text-md-end text-start">Vehicle Name <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                        <input type="text" class="form-control @error('vehicle_name') is-invalid @enderror" id="vehicle_name" name="vehicle_name" value="{{ old('vehicle_name',$vehicle_insurance->vehicle_name) }}" placeholder="Vehicle Name" autocomplete="off">
+                            @if ($errors->has('vehicle_name'))
+                                <span class="error invalid-feedback">{{ $errors->first('vehicle_name') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="insurance_company_name" class="col-md-3 col-form-label text-md-end text-start">Insurance Company Name <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                        <input type="text" class="form-control @error('insurance_company_name') is-invalid @enderror" id="insurance_company_name" name="insurance_company_name" value="{{ old('insurance_company_name',$vehicle_insurance->insurance_company_name) }}" placeholder="Insurance Company Name" autocomplete="off">
+                            @if ($errors->has('insurance_company_name'))
+                                <span class="error invalid-feedback">{{ $errors->first('insurance_company_name') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="policy_number" class="col-md-3 col-form-label text-md-end text-start">Policy Number <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                        <input type="text" class="form-control @error('policy_number') is-invalid @enderror" id="policy_number" name="policy_number" value="{{ old('policy_number',$vehicle_insurance->policy_number) }}" placeholder="Policy Number" autocomplete="off">
+                            @if ($errors->has('policy_number'))
+                                <span class="error invalid-feedback">{{ $errors->first('policy_number') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="chasis_number" class="col-md-3 col-form-label text-md-end text-start">Chasis Number <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                        <input type="text" class="form-control @error('chasis_number') is-invalid @enderror" id="chasis_number" name="chasis_number" value="{{ old('chasis_number',$vehicle_insurance->chasis_number) }}" placeholder="Chasis Number" autocomplete="off">
+                            @if ($errors->has('chasis_number'))
+                                <span class="error invalid-feedback">{{ $errors->first('chasis_number') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label text-md-end text-start">Policy Type<span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <select id="policy_type" class="form-control @error('policy_type') is-invalid @enderror policy_type" name="policy_type" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                <option value="">-- Select Policy Type --</option>
+                                @foreach ($policy_type as $data)
+                                @if (old('policy_type',$vehicle_insurance->insurance_policy_type_id) == $data->id)
+                                    <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
+                                @else
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @endif
+                                
+                                @endforeach
+                            </select>
+                            @if ($errors->has('policy_type'))
+                                    <span class="error invalid-feedback">{{ $errors->first('policy_type') }}</span>
+                                @endif
+                        </div>
+                    </div>
+                    
+
+
+                    <div class="mb-3 row">
+                        <label for="policy_premium" class="col-md-3 col-form-label text-md-end text-start">Policy Premium <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                          <input type="number" class="form-control @error('policy_premium') is-invalid @enderror" id="policy_premium" name="policy_premium" value="{{ old('policy_premium',$vehicle_insurance->policy_premium) }}" placeholder="Policy Premium" autocomplete="off">
+                            @if ($errors->has('policy_premium'))
+                                <span class="error invalid-feedback">{{ $errors->first('policy_premium') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                   
+                    
+                    <div class="mb-3 row">
+                        <label for="vehicle_owner_name" class="col-md-3 col-form-label text-md-end text-start">Vehicle Owner Name <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                          <input type="text" class="form-control @error('vehicle_owner_name') is-invalid @enderror" id="vehicle_owner_name" name="vehicle_owner_name" value="{{ old('vehicle_owner_name',$vehicle_insurance->vehicle_owner_name) }}" placeholder="Vehicle Owner Name" autocomplete="off">
+                            @if ($errors->has('vehicle_owner_name'))
+                                <span class="error invalid-feedback">{{ $errors->first('vehicle_owner_name') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="policy_start_date" class="col-md-3 col-form-label text-md-end text-start">Policy Start Date <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <div class="input-group policy_start_date" id="policy_start_date" data-target-input="nearest">
+                                <input type="text" name="policy_start_date" class="form-control select2 select2-hidden-accessible state @error('policy_start_date') is-invalid @enderror  datetimepicker-input" data-target="#policy_start_date" placeholder="YYYY-MM-DD" value="{{ old('policy_start_date') ? old('policy_start_date') : $vehicle_insurance->policy_start_date }}"/>
+                                <div class="input-group-append" data-target="#policy_start_date" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                                @if ($errors->has('policy_start_date'))
+                                    <span class="error invalid-feedback">{{ $errors->first('policy_start_date') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="policy_end_date" class="col-md-3 col-form-label text-md-end text-start">Policy End Date <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <div class="input-group policy_end_date" id="policy_end_date" data-target-input="nearest">
+                                <input type="text" name="policy_end_date" class="form-control select2 select2-hidden-accessible state @error('policy_end_date') is-invalid @enderror  datetimepicker-input" data-target="#policy_end_date" placeholder="YYYY-MM-DD" value="{{ old('policy_end_date') ? old('policy_end_date') : $vehicle_insurance->policy_end_date }}"/>
+                                <div class="input-group-append" data-target="#policy_end_date" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                                @if ($errors->has('policy_end_date'))
+                                    <span class="error invalid-feedback">{{ $errors->first('policy_end_date') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 row">
+                        <label for="agent_name" class="col-md-3 col-form-label text-md-end text-start">Agent Name</label>
+                        <div class="col-md-4">
+                        <input type="text" class="form-control" id="agent_name" name="agent_name" value="{{ old('agent_name',$vehicle_insurance->agent_name) }}" placeholder="Agent Name" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="agent_mobile_number" class="col-md-3 col-form-label text-md-end text-start">Agent Mobile Number</label>
+                        <div class="col-md-4">
+                        <input type="number" class="form-control" id="agent_mobile_number" name="agent_mobile_number" value="{{ old('agent_mobile_number',$vehicle_insurance->agent_mobile_number) }}" placeholder="Agent Mobile Number" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="other_details" class="col-md-3 col-form-label text-md-end text-start">Other Details </label>
+                        <div class="col-md-4">
+                            <textarea class="form-control select2 select2-hidden-accessible state " name="other_details" placeholder="Branch Address">{{ old('other_details') ? old('other_details') : '' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <input type="submit" class="col-md-2 offset-md-10 btn btn-primary" value="Update Vehicle Insurance">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>    
+
+@endsection

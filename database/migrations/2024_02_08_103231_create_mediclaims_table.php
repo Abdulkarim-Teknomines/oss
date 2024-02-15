@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('policy_type_id');      //[dropdown][family/individual/other]
             $table->integer('sum_assured');
             $table->string('policy_name');
-            $table->integer('policy_mode');         //[dropdown]	[monthly/quarterly/hlaf yearly/yearly/single]
+            $table->integer('policy_mode_id');         //[dropdown]	[monthly/quarterly/hlaf yearly/yearly/single]
             $table->integer('premium_amount');
             $table->integer('yearly_premium_amount');
             $table->string('agent_name')->nullable();
@@ -31,6 +31,20 @@ return new class extends Migration
             $table->string('branch_name')->nullable();
             $table->string('branch_address')->nullable();
             $table->string('branch_contact_no')->nullable();
+            $table->string('other_details')->nullable();
+            $table->integer('jan')->default(0);
+            $table->integer('feb')->default(0);
+            $table->integer('mar')->default(0);
+            $table->integer('apr')->default(0);
+            $table->integer('may')->default(0);
+            $table->integer('jun')->default(0);
+            $table->integer('jul')->default(0);
+            $table->integer('aug')->default(0);
+            $table->integer('sep')->default(0);
+            $table->integer('oct')->default(0);
+            $table->integer('nov')->default(0);
+            $table->integer('dec')->default(0);
+            $table->integer('single')->default(0);
             $table->timestamps();
         });
     }

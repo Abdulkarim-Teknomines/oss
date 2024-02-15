@@ -97,17 +97,17 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="spous_name" class="col-md-3 col-form-label text-md-end text-start">Spouse Name</label>
+                        <label for="spouse_name" class="col-md-3 col-form-label text-md-end text-start">Spouse Name</label>
                         <div class="col-md-4">
-                          <input type="text" class="form-control" id="spous_name" name="spous_name" value="{{ old('spous_name') }}" placeholder="Spous Name" autocomplete="off">
+                          <input type="text" class="form-control" id="spouse_name" name="spouse_name" value="{{ old('spouse_name') }}" placeholder="Spouse Name" autocomplete="off">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="spous_dob" class="col-md-3 col-form-label text-md-end text-start">Spouse DOB </label>
+                        <label for="spouse_dob" class="col-md-3 col-form-label text-md-end text-start">Spouse DOB </label>
                         <div class="col-md-4">
-                            <div class="input-group spous_dob" id="spous_dob" data-target-input="nearest">
-                                <input type="text" name="spous_dob" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#spous_dob" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('spous_dob') ? old('spous_dob') : '' }}"/>
-                                <div class="input-group-append" data-target="#spous_dob" data-toggle="datetimepicker">
+                            <div class="input-group spouse_dob" id="spouse_dob" data-target-input="nearest">
+                                <input type="text" name="spouse_dob" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#spouse_dob" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('spouse_dob') ? old('spouse_dob') : '' }}"/>
+                                <div class="input-group-append" data-target="#spouse_dob" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>

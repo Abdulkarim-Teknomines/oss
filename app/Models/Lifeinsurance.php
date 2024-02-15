@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CompanyName;
+use App\Models\Ppt;
+use App\Models\User;
+use App\Models\PolicyMode;
 
 class Lifeinsurance extends Model
+
 {
     use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -35,7 +40,36 @@ class Lifeinsurance extends Model
         'agent_mobile_number',
         'branch_name',
         'branch_address',
-        'branch_contact_no'
+        'branch_contact_no',
+        'jan',
+        'feb',
+        'mar',
+        'apr',
+        'may',
+        'jun',
+        'jul',
+        'aug',
+        'sep',
+        'oct',
+        'nov',
+        'dec',
+        'single'
     ];
+    public function company_name()
+    {
+        return $this->belongsTo(CompanyName::class);
+    }
+    public function policy_mode()
+    {
+        return $this->belongsTo(PolicyMode::class);
+    }
+    public function ppt()
+    {
+        return $this->belongsTo(ppt::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 

@@ -22,8 +22,8 @@ class Member extends Model
     protected $fillable = [
         'father_name',
         'mother_name',
-        'spous_name',
-        'spous_dob',
+        'spouse_name',
+        'spouse_dob',
         'anniversary_date',
         'user_id'
     ];

@@ -62,6 +62,23 @@ class User extends Authenticatable
     public function children(){
         return $this->hasMany(Children::class);
     }
+    public function mediclaim()
+    {
+    return $this->hasMany(Mediclaim::class);
+    }
+    public function vehicle_insurance()
+    {
+    return $this->hasMany(VehicleInsurance::class);
+    }
+    public function mutual_fund()
+    {
+    return $this->hasMany(Mutualfund::class);
+    }
+    public function life_insurance()
+    {
+    return $this->hasMany(Lifeinsurance::class);
+    }
+    
     /**
      * The attributes that should be hidden for serialization.
      *

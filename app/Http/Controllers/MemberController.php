@@ -15,7 +15,18 @@ use App\Models\Country;
 use App\Models\Member;
 use App\Models\State;
 use App\Models\City;
+use App\Models\PolicyType;
+use App\Models\VehicleCategory;
+use App\Models\VehicleInsurance;
 use App\Models\Children;
+use App\Models\CompanyName;
+use App\Models\InsurancePolicyType;
+use App\Models\Lifeinsurance;
+use App\Models\Mediclaim;
+use App\Models\Mutualfund;
+use App\Models\MutualFundType;
+use App\Models\PolicyMode;
+use App\Models\Ppt;
 use App\Models\Bloodgroup;
 use PDF;
 use Auth;
@@ -53,31 +64,33 @@ class MemberController extends Controller
                     ->addColumn('name', function($row){
                         return $row['name'];
                     }) 
-                    ->addColumn('life_insurance', function($row){
-                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="view('.$row->id.')"></a>
-                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view('.$row->id.')"></a>';
-                    }) 
                     ->addColumn('mediclaim', function($row){
-                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="view('.$row->id.')"></a>
-                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view('.$row->id.')"></a>';
+                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="add_mediclaim('.$row->id.')"></a>
+                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view_mediclaim('.$row->id.')"></a>'
+                        ;
                     }) 
                     ->addColumn('mutual_fund', function($row){
-                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="view('.$row->id.')"></a>
-                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view('.$row->id.')"></a>';
+                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="add_mutual_fund('.$row->id.')"></a>
+                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view_mutual_fund('.$row->id.')"></a>';
                     }) 
-                    ->addColumn('vehicle', function($row){
-                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="view('.$row->id.')"></a>
-                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view('.$row->id.')"></a>';
+                    ->addColumn('vehicle_insurance', function($row){
+                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="add_vehicle_insurance('.$row->id.')"></a>
+                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view_vehicle_insurance('.$row->id.')"></a>';
+                    }) 
+                    ->addColumn('life_insurance', function($row){
+                        return '<a href="javascript:void(0)" class="edit fa fa-plus btn-lg" id="edits" onClick="add_life_insurance('.$row->id.')"></a>
+                        <a href="javascript:void(0)" class="edit fa fa-eye btn-lg" id="edits" onClick="view_life_insurance('.$row->id.')"></a>';
                     }) 
                     ->addColumn('action', function ($row){
                         $btn='';
-                        $btn .= '<a href="/members/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        $btn .= '<a href="members/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
                         if(Auth::user()->can('edit-member')) {
                             $btn.='<a href="members/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
                         }
+                        $btn.='<a href="members/'.$row['id'].'/reports" class="ml-1 edit btn btn-dark btn-sm" id="view_report">Report</a>';
                         return $btn;
                     })
-                    ->rawColumns(['action','life_insurance','mediclaim','mutual_fund','vehicle'])
+                    ->rawColumns(['action','life_insurance','mediclaim','mutual_fund','vehicle_insurance'])
                     ->make(true);
         }
         
@@ -85,6 +98,15 @@ class MemberController extends Controller
             // 'users' => $data,
             'title'=>'Member',
             'content'=>'Manage Member'
+        ]);
+    }
+    public function show(Request $request,User $user){
+        $user =User::with('mediclaim','vehicle_insurance','life_insurance','mutual_fund','member','country','state','city','children')->where('id',$user->id)->get();
+        // dd($user);
+        return view('members.show', [
+            'user' => $user,
+            'title'=>'Member',
+            'content'=>'View Members'
         ]);
     }
     public function create()
@@ -101,14 +123,16 @@ class MemberController extends Controller
             'name' => 'required',
             'middle_name' => 'required',
             'surname' => 'required',
-            'mobile_number' => 'required',
-            
-            'email' => 'required|email',
-            'pancard_number' => 'required',
-            'adharcard_number' => 'required',
-            'emergency_contact_number' => 'required',
-
-        ]);
+            'mobile_number' => 'required|numeric',
+            'birth_date' => 'required',
+            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email',
+            'father_name' => 'required',
+            'mother_name' => 'required',
+            'country_id' => 'required',
+            'state_id' => 'required',
+            'city_id' => 'required',
+            'address' => 'required',
+        ]); 
         $password = Str::random(8);
         // dd($request->all());
         $input['parent_id'] = Auth::user()->id;
@@ -135,8 +159,8 @@ class MemberController extends Controller
             $user->assignRole('Member');
             $member['father_name'] = $request->father_name;
             $member['mother_name'] = $request->mother_name;
-            $member['spous_name'] = $request->spous_name;
-            $member['spous_dob'] = $request->spous_dob;
+            $member['spouse_name'] = $request->spouse_name;
+            $member['spouse_dob'] = $request->spouse_dob;
             $member['anniversary_date'] = $request->anniversary_date;
             $member['user_id'] = $user->id;
             $members = Member::create($member);
@@ -149,7 +173,7 @@ class MemberController extends Controller
                 }
             }
             return redirect()->route('members.index')
-                    ->withSuccess('New Member is added successfully.');
+                    ->withSuccess('Member is added successfully.');
 
         }
     }
@@ -157,7 +181,6 @@ class MemberController extends Controller
     {
         // $user = User::with('member')->where('id',$member->id)->get();
         $user =User::with('member','children')->where('id',$user->id)->get();
-        // dd($user[0]->children);
         // Check Only Super Admin can update his own Profile
         
         // $user[0]->user->mobile_number
@@ -176,7 +199,7 @@ class MemberController extends Controller
     public function update(Request $request, User $user)
     {
         // dd($user);
-        // $input = $request->all();
+        // $input = $regit quest->all();
         $input['name'] = $request->name;
         $input['surname'] = $request->surname;
         $input['middle_name'] = $request->middle_name;
@@ -200,8 +223,8 @@ class MemberController extends Controller
             
             $member['father_name'] = $request->father_name;
             $member['mother_name'] = $request->mother_name;
-            $member['spous_name'] = $request->spous_name;
-            $member['spous_dob'] = $request->spous_dob;
+            $member['spouse_name'] = $request->spouse_name;
+            $member['spouse_dob'] = $request->spouse_dob;
             $member['anniversary_date'] = $request->anniversary_date;
             $members = Member::where('user_id', $user->id)->update($member);
             
@@ -216,6 +239,1676 @@ class MemberController extends Controller
             }
         }
         
-        return redirect()->route('members.index')->withSuccess('User is updated successfully.');
+        return redirect()->route('members.index')->withSuccess('Member is updated successfully.');
+    }
+    public function add_mediclaim(User $user){
+        $data['user_id']=$user->id;
+        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['policy_type'] = PolicyType::get(["name", "id"]);
+        $data['policy_mode'] = PolicyMode::get(["name", "id"]);
+        
+        $data['title']='Members';
+        $data['content']='Create Mediclaim';
+        return view('mediclaim.create', $data);
+    }
+    public function store_mediclaim(Request $request){
+
+        
+        
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'policy_holder_name' => 'required',
+            'birth_date' => 'required',
+            'policy_start_date' => 'required',
+            'company_name' => 'required',
+            'policy_number' => 'required|numeric',
+            'policy_type' => 'required',
+            'sum_assured' => 'required|numeric',
+            'policy_name' => 'required',
+            'policy_mode' => 'required',
+            'premium_amount' => 'required|numeric',
+            'yearly_premium_amount' => 'required|numeric',
+        ]);
+        
+        $input['user_id'] = $request->user_id;
+        $input['sr_no'] = $request->sr_no;
+        $input['policy_holder_name'] = $request->policy_holder_name;
+        $input['birth_date'] = $request->birth_date;
+        $input['policy_start_date'] = $request->policy_start_date;
+        $input['company_name_id'] = $request->company_name;
+        $input['policy_number'] = $request->policy_number;
+        $input['policy_type_id'] = $request->policy_type;
+        $input['sum_assured'] = $request->sum_assured;
+        $input['policy_name'] = $request->policy_name;
+        $input['policy_mode_id'] = $request->policy_mode;
+        $input['premium_amount'] = $request->premium_amount;
+        $input['yearly_premium_amount'] = $request->yearly_premium_amount;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['branch_name'] = $request->branch_name;
+        $input['branch_address'] = $request->branch_address;
+        $input['branch_contact_no'] = $request->branch_contact_number;
+        $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->policy_start_date));
+        if($request->policy_mode=='1'){
+            $input['jan'] = $request->premium_amount;
+            $input['feb'] = $request->premium_amount;
+            $input['mar'] = $request->premium_amount;
+            $input['apr'] = $request->premium_amount;
+            $input['may'] = $request->premium_amount;
+            $input['jun'] = $request->premium_amount;
+            $input['jul'] = $request->premium_amount;
+            $input['aug'] = $request->premium_amount;
+            $input['sep'] = $request->premium_amount;
+            $input['oct'] = $request->premium_amount;
+            $input['nov'] = $request->premium_amount;
+            $input['dec'] = $request->premium_amount;
+            $input['single'] = 0;
+        }elseif($request->policy_mode=='2'){
+            if($start_month==01 || $start_month==04 || $start_month==07 || $start_month==10){
+                $input['jan'] = $request->premium_amount;
+                $input['apr'] = $request->premium_amount;
+                $input['jul'] = $request->premium_amount;
+                $input['oct'] = $request->premium_amount;
+            }elseif($start_month==02 || $start_month==05  || $start_month=="0008" || $start_month==11 ){
+                $input['feb'] = $request->premium_amount;
+                $input['may'] = $request->premium_amount;
+                $input['aug'] =$request->premium_amount;
+                $input['nov'] = $request->premium_amount;
+            }elseif($start_month==03 ||$start_month==06 || $start_month=='0009' || $start_month==12){
+                $input['mar'] = $request->premium_amount;
+                $input['jun'] = $request->premium_amount;
+                $input['sep'] = $request->premium_amount;
+                $input['dec'] = $request->premium_amount;
+            }
+        }elseif($request->policy_mode=='3'){
+            if($start_month==01 || $start_month==07){
+                $input['jan'] = $request->premium_amount;
+                $input['jul'] = $request->premium_amount;
+            }elseif($start_month==02 || $start_month=='0008'){
+                $input['feb'] = $request->premium_amount;
+                $input['aug'] = $request->premium_amount;
+            }elseif($start_month==03 || $start_month=='0009'){
+                $input['mar'] = $request->premium_amount;
+                $input['sep'] = $request->premium_amount;
+            }elseif($start_month==04 || $start_month==10){
+                $input['apr'] = $request->premium_amount;
+                $input['oct'] = $request->premium_amount;
+            }elseif($start_month==05 || $start_month==11){
+                $input['may'] = $request->premium_amount;
+                $input['nov'] = $request->premium_amount;
+            }elseif($start_month==06 || $start_month==12){
+                $input['jun'] = $request->premium_amount;
+                $input['dec'] = $request->premium_amount;
+            }
+        }
+        elseif($request->policy_mode=='4'){
+            if($start_month==01){
+                $input['jan'] = $request->premium_amount;
+            }elseif($start_month==02){
+                $input['feb'] = $request->premium_amount;
+            }elseif($start_month==03){
+                $input['mar'] = $request->premium_amount;
+            }elseif($start_month==04){
+                $input['apr'] = $request->premium_amount;
+            }elseif($start_month==05){
+                $input['may'] = $request->premium_amount;
+            }elseif($start_month==06){
+                $input['jul'] = $request->premium_amount;
+            }elseif($start_month==07){
+                $input['jul'] = $request->premium_amount;
+            }elseif($start_month=='0008'){
+                $input['aug'] = $request->premium_amount;
+            }elseif($start_month=='0009'){
+                $input['sep'] = $request->premium_amount;
+            }elseif($start_month==10){
+                $input['oct'] = $request->premium_amount;
+            }elseif($start_month==11){
+                $input['nov'] = $request->premium_amount;
+            }else{
+                $input['dec'] = $request->premium_amount;
+            }
+        }elseif($request->policy_mode=='5'){
+            $input['single'] = $request->premium_amount;
+        }
+        
+        $user = Mediclaim::create($input);
+            return redirect()->route('members.index')
+                    ->withSuccess('Mediclaim is added successfully.');
+
+        
+    }
+    public function add_life_insurance(User $user){
+        $data['user_id']=$user->id;
+        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['ppt'] = Ppt::get(["name", "id"]);
+        $data['policy_mode'] = PolicyMode::get(["name", "id"]);
+        
+        $data['title']='Members';
+        $data['content']='Create Life Insurance';
+        return view('life_insurance.create', $data);
+    }
+    public function store_life_insurance(Request $request){
+        
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'policy_holder_name' => 'required',
+            'birth_date' => 'required',
+            'policy_start_date' => 'required',
+            'company_name' => 'required',
+            'policy_number' => 'required|numeric',
+            'sum_assured' => 'required|numeric',
+            'plan_name' => 'required',
+            'ppt' => 'required',
+            'policy_term' => 'required',
+            'premium_mode' => 'required',
+            'premium_amount' => 'required|numeric',
+            'yearly_premium_amount' => 'required|numeric',
+            'nominee_name' => 'required',
+            'nominee_relation' => 'required',
+            'nominee_dob' => 'required',
+        ]);
+        $input['user_id'] = $request->user_id;
+        $input['sr_no'] = $request->sr_no;
+        $input['policy_holder_name'] = $request->policy_holder_name;
+        $input['birth_date'] = $request->birth_date;
+        $input['policy_start_date'] = $request->policy_start_date;
+        $input['company_name_id'] = $request->company_name;
+        $input['policy_number'] = $request->policy_number;
+        $input['sum_assured'] = $request->sum_assured;
+        $input['plan_name'] = $request->plan_name;
+        $input['ppt_id'] = $request->ppt;
+        $input['policy_term'] = $request->policy_term;
+        $input['policy_mode_id'] = $request->premium_mode;
+        $input['premium_amount'] = $request->premium_amount;
+        $input['yearly_premium_amount'] = $request->yearly_premium_amount;
+        $input['nominee_name'] = $request->nominee_name;
+        $input['nominee_relation'] = $request->nominee_relation;
+        $input['nominee_dob'] = $request->nominee_dob;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['branch_name'] = $request->branch_name;
+        $input['branch_address'] = $request->branch_address;
+        $input['branch_contact_no'] = $request->branch_contact_number;
+        $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->policy_start_date));
+        if($request->premium_mode=='1'){
+            $input['jan'] = $request->premium_amount;
+            $input['feb'] = $request->premium_amount;
+            $input['mar'] = $request->premium_amount;
+            $input['apr'] = $request->premium_amount;
+            $input['may'] = $request->premium_amount;
+            $input['jun'] = $request->premium_amount;
+            $input['jul'] = $request->premium_amount;
+            $input['aug'] = $request->premium_amount;
+            $input['sep'] = $request->premium_amount;
+            $input['oct'] = $request->premium_amount;
+            $input['nov'] = $request->premium_amount;
+            $input['dec'] = $request->premium_amount;
+        }elseif($request->premium_mode=='2'){
+            if($start_month==01){
+                $input['jan'] = $request->premium_amount;
+                $input['apr'] = $request->premium_amount;
+                $input['jul'] = $request->premium_amount;
+                $input['oct'] = $request->premium_amount;
+            }elseif($start_month==02){
+                $input['feb'] = $request->premium_amount;
+                $input['may'] = $request->premium_amount;
+                $input['aug'] = $request->premium_amount;
+                $input['nov'] = $request->premium_amount;
+            }elseif($start_month==03){
+                $input['mar'] = $request->premium_amount;
+                $input['jun'] = $request->premium_amount;
+                $input['sep'] = $request->premium_amount;
+                $input['dec'] = $request->premium_amount;
+            }elseif($start_month==04){
+                $input['apr'] = $request->premium_amount;
+                $input['jul'] = $request->premium_amount;
+                $input['oct'] = $request->premium_amount;
+                $input['jan'] = $request->premium_amount;
+            }elseif($start_month==05){
+                $input['may'] = $request->premium_amount;
+                $input['aug'] = $request->premium_amount;
+                $input['nov'] = $request->premium_amount;
+                $input['feb'] = $request->premium_amount;
+            }elseif($start_month==06){
+                $input['jun'] = $request->premium_amount;
+                $input['sep'] = $request->premium_amount;
+                $input['dec'] = $request->premium_amount;
+                $input['mar'] = $request->premium_amount;
+            }elseif($start_month==07){
+                $input['jul'] = $request->premium_amount;
+                $input['oct'] = $request->premium_amount;
+                $input['jan'] = $request->premium_amount;
+                $input['apr'] = $request->premium_amount;
+            }elseif($start_month=='0008'){
+                $input['aug'] = $request->premium_amount;
+                $input['nov'] = $request->premium_amount;
+                $input['feb'] = $request->premium_amount;
+                $input['may'] = $request->premium_amount;
+            }elseif($start_month=='0009'){
+                $input['sep'] = $request->premium_amount;
+                $input['dec'] = $request->premium_amount;
+                $input['mar'] = $request->premium_amount;
+                $input['jun'] = $request->premium_amount;
+            }elseif($start_month==10){
+                $input['oct'] = $request->premium_amount;
+                $input['jan'] = $request->premium_amount;
+                $input['apr'] = $request->premium_amount;
+                $input['jul'] = $request->premium_amount;
+            }elseif($start_month==11){
+                $input['nov'] = $request->premium_amount;
+                $input['feb'] = $request->premium_amount;
+                $input['may'] = $request->premium_amount;
+                $input['aug'] = $request->premium_amount;
+            }else{
+                $input['dec'] = $request->premium_amount;
+                $input['mar'] = $request->premium_amount;
+                $input['jun'] = $request->premium_amount;
+                $input['sep'] = $request->premium_amount;
+            }
+        }elseif($request->premium_mode=='3'){
+            if($start_month==01){
+                $input['jan'] = $request->premium_amount;
+                $input['jul'] = $request->premium_amount;
+            }elseif($start_month==02){
+                $input['feb'] = $request->premium_amount;
+                $input['aug'] = $request->premium_amount;
+            }elseif($start_month==03){
+                $input['mar'] = $request->premium_amount;
+                $input['sep'] = $request->premium_amount;
+            }elseif($start_month==04){
+                $input['apr'] = $request->premium_amount;
+                $input['oct'] = $request->premium_amount;
+            }elseif($start_month==05){
+                $input['may'] = $request->premium_amount;
+                $input['nov'] = $request->premium_amount;
+            }elseif($start_month==06){
+                $input['jun'] = $request->premium_amount;
+                $input['dec'] = $request->premium_amount;
+            }elseif($start_month==07){
+                $input['jul'] = $request->premium_amount;
+                $input['jan'] = $request->premium_amount;
+            }elseif($start_month=='0008'){
+                $input['aug'] = $request->premium_amount;
+                $input['feb'] = $request->premium_amount;
+            }elseif($start_month=='0009'){
+                $input['sep'] = $request->premium_amount;
+                $input['mar'] = $request->premium_amount;
+            }elseif($start_month==10){
+                $input['oct'] = $request->premium_amount;
+                $input['apr'] = $request->premium_amount;
+            }elseif($start_month==11){
+                $input['nov'] = $request->premium_amount;
+                $input['may'] = $request->premium_amount;
+            }else{
+                $input['dec'] = $request->premium_amount;
+                $input['jun'] = $request->premium_amount;
+            }
+        }
+        elseif($request->premium_mode=='4'){
+            if($start_month==01){
+                $input['jan'] = $request->premium_amount;
+            }elseif($start_month==02){
+                $input['feb'] = $request->premium_amount;
+            }elseif($start_month==03){
+                $input['mar'] = $request->premium_amount;
+            }elseif($start_month==04){
+                $input['apr'] = $request->premium_amount;
+            }elseif($start_month==05){
+                $input['may'] = $request->premium_amount;
+            }elseif($start_month==06){
+                $input['jun'] = $request->premium_amount;
+            }elseif($start_month==07){
+                $input['jul'] = $request->premium_amount;
+            }elseif($start_month=='0008'){
+                $input['aug'] = $request->premium_amount;
+            }elseif($start_month=='0009'){
+                $input['sep'] = $request->premium_amount;
+            }elseif($start_month==10){
+                $input['oct'] = $request->premium_amount;
+            }elseif($start_month==11){
+                $input['nov'] = $request->premium_amount;
+            }else{
+                $input['dec'] = $request->premium_amount;
+            }
+        }elseif($request->premium_mode=='5'){
+            $input['single'] = $request->premium_amount;
+        }
+        $user = Lifeinsurance::create($input);
+            return redirect()->route('members.index')
+                    ->withSuccess('Life Insurance is added successfully.');
+
+        
+    }
+    public function add_vehicle_insurance(User $user){
+        $data['user_id']=$user->id;
+        $data['vehicle_category'] = VehicleCategory::get(["name", "id"]);
+        $data['policy_type'] = InsurancePolicyType::get(["name", "id"]);
+        $data['ppt'] = Ppt::get(["name", "id"]);
+        $data['title']='Members';
+        $data['content']='Create Vehicle Insurance';
+        return view('vehicle_insurance.create', $data);
+    }
+    public function store_vehicle_insurance(Request $request){
+        
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'vehicle_category' => 'required',
+            'vehicle_number' => 'required',
+            'vehicle_name' => 'required',
+            'insurance_company_name' => 'required',
+            'policy_number' => 'required',
+            'chasis_number' => 'required',
+            'policy_type' => 'required',
+            'policy_premium' => 'required|numeric',
+            'vehicle_owner_name' => 'required',
+            'policy_start_date' => 'required',
+            'policy_end_date' => 'required',
+        ]);
+
+        $input['user_id'] = $request->user_id;
+        $input['sr_no'] = $request->sr_no;
+        $input['vehicle_category_id'] = $request->vehicle_category;
+        $input['vehicle_number'] = $request->vehicle_number;
+        $input['vehicle_name'] = $request->vehicle_name;
+        $input['insurance_company_name'] = $request->insurance_company_name;
+        $input['policy_number'] = $request->policy_number;
+        $input['chasis_number'] = $request->chasis_number;
+        $input['insurance_policy_type_id'] = $request->policy_type;
+        $input['policy_premium'] = $request->policy_premium;
+        $input['vehicle_owner_name'] = $request->vehicle_owner_name;
+        $input['policy_start_date'] = $request->policy_start_date;
+        $input['policy_end_date'] = $request->policy_end_date;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['other_details'] = $request->other_details;
+        $user = VehicleInsurance::create($input);
+            return redirect()->route('members.index')
+                    ->withSuccess('Vehicle Insurance is added successfully.');
+
+        
+    }
+    public function add_mutual_fund(User $user){
+        $data['user_id']=$user->id;
+        $data['mutual_fund_type'] = MutualFundType::get(["name", "id"]);
+        $data['title']='Members';
+        $data['content']='Create Mutual Fund';
+        return view('mutual_fund.create', $data);
+    }
+    public function store_mutual_fund(Request $request){
+        
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'mutual_fund_holder_name' => 'required',
+            'mutual_fund_type' => 'required',
+            'folio_number' => 'required|numeric',
+            'fund_name' => 'required',
+            'fund_type' => 'required',
+            'purchase_date' => 'required',
+            'amount' => 'required|numeric',
+            'yearly_amount' => 'required|numeric',
+            'nominee_name' => 'required',
+            'nominee_relation' => 'required',
+            'nominee_dob' => 'required'
+        ]);
+        
+        $input['user_id'] = $request->user_id;
+        $input['sr_no'] = $request->sr_no;
+        $input['mutual_fund_holder_name'] = $request->mutual_fund_holder_name;
+        $input['mutual_fund_type_id'] = $request->mutual_fund_type;
+        $input['folio_number'] = $request->folio_number;
+        $input['fund_name'] = $request->fund_name;
+        $input['fund_type'] = $request->fund_type;
+        $input['purchase_date'] = $request->purchase_date;
+        $input['amount'] = $request->amount;
+        $input['yearly_amount'] = $request->yearly_amount;
+        $input['nominee_name'] = $request->nominee_name;
+        $input['nominee_relation'] = $request->nominee_relation;
+        $input['nominee_dob'] = $request->nominee_dob;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->purchase_date));
+        if($request->mutual_fund_type=='1'){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0;
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = $request->amount;
+        }elseif($request->mutual_fund_type=='2'){
+            if($start_month==1){
+                $input['jan'] = $request->amount;
+            }elseif($start_month==2){
+                $input['feb'] = $request->amount;
+            }elseif($start_month==3){
+                $input['mar'] = $request->amount;
+            }elseif($start_month==4){
+                $input['apr'] = $request->amount; 
+            }elseif($start_month==5){
+                $input['may'] = $request->amount;
+            }elseif($start_month==6){
+                $input['jun'] = $request->amount;
+            }elseif($start_month==7){
+                $input['jul'] = $request->amount;
+            }elseif($start_month=='0008'){
+                $input['aug'] = $request->amount;
+            }elseif($start_month=='0009'){
+                $input['sep'] = $request->amount;
+            }elseif($start_month==10){
+                $input['oct'] = $request->amount;
+            }elseif($start_month==11){
+                $input['nov'] = $request->amount;
+            }elseif($start_month==12){
+                $input['dec'] = $request->amount;
+            }else{
+                $input['single'] = 0;
+            }
+        }
+        $user = Mutualfund::create($input);
+            return redirect()->route('members.index')
+                    ->withSuccess('Mutual Fund is added successfully.');
+    }
+    public function list_mediclaim(Request $request,User $user){
+        
+        if ($request->ajax()) {
+            $data =Mediclaim::with('company_name','policy_type','policy_mode')->where('user_id',$user->id)->get();            
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('sr_no', function($row){
+                        return $row['sr_no'];
+                    }) 
+                    ->addColumn('policy_holder_name', function($row){
+                        return $row['policy_holder_name'];
+                    }) 
+                    ->addColumn('birth_date', function($row){
+                        return $row['birth_date'];
+                    }) 
+                    ->addColumn('policy_start_date', function($row){
+                        return $row['policy_start_date'];
+                    }) 
+                    ->addColumn('company_name', function($row){
+                        return $row->company_name['name'];
+                    }) 
+                    ->addColumn('policy_number', function($row){
+                        return $row['policy_number'];
+                    }) 
+                    ->addColumn('policy_type', function($row){
+                        return $row->policy_type['name'];
+                    }) 
+                    ->addColumn('sum_assured', function($row){
+                        return $row['sum_assured'];
+                    }) 
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="javascript:void(0)" class="view_mediclaim btn btn-info btn-sm" id="view_mediclaim" onClick="view_mediclaim('.$row->id.')">View</a>&nbsp;&nbsp;';
+                        if(Auth::user()->can('edit-mediclaim')) {
+                            $btn.='<a href="javascript:void(0)" class="edit_mediclaim btn btn-primary btn-sm" id="edit_mediclaim"  onClick="edit_mediclaim('.$row->id.')">Edit</a>';
+                        }
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        return view('mediclaim.view', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Mediclaim'
+        ]);
+    }
+   
+    public function list_mutual_fund(Request $request,User $user){
+        if ($request->ajax()) {
+            $data =Mutualfund::with('mutual_fund_type')->where('user_id',$user->id)->get();            
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('sr_no', function($row){
+                        return $row['sr_no'];
+                    }) 
+                    ->addColumn('mutual_fund_holder_name', function($row){
+                        return $row['mutual_fund_holder_name'];
+                    }) 
+                    ->addColumn('mutual_fund_type_id', function($row){
+                        return $row->mutual_fund_type['name'];
+                    }) 
+                    ->addColumn('folio_number', function($row){
+                        return $row['folio_number'];
+                    }) 
+                    ->addColumn('fund_name', function($row){
+                        return $row['fund_name'];
+                    }) 
+                    ->addColumn('fund_type', function($row){
+                        return $row['fund_type'];
+                    }) 
+                    ->addColumn('purchase_date', function($row){
+                        return $row['purchase_date'];
+                    }) 
+                    ->addColumn('amount', function($row){
+                        return $row['amount'];
+                    }) 
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mutual_fund('.$row->id.')">View</a>&nbsp;&nbsp;';
+                        if(Auth::user()->can('edit-member')) {
+                            $btn.='<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edit" onClick="edit_mutual_fund('.$row->id.')">Edit</a>';
+                        }
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        return view('mutual_fund.view', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Mutual Fund'
+        ]);
+    }
+
+    
+    public function list_vehicle_insurance(Request $request,User $user){
+        
+        if ($request->ajax()) {
+            $data =VehicleInsurance::with('insurance_policy_type','vehicle_category')->where('user_id',$user->id)->get();    
+            
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('sr_no', function($row){
+                        return $row['sr_no'];
+                    }) 
+                    ->addColumn('vehicle_category_id', function($row){
+                        return $row->vehicle_category['name'];
+                    }) 
+                    ->addColumn('vehicle_number', function($row){
+                        return $row['vehicle_number'];
+                    }) 
+                    ->addColumn('vehicle_name', function($row){
+                        return $row['vehicle_name'];
+                    }) 
+                    ->addColumn('insurance_company_name', function($row){
+                        return $row['insurance_company_name'];
+                    }) 
+                    ->addColumn('policy_number', function($row){
+                        return $row['policy_number'];
+                    }) 
+                    ->addColumn('insurance_policy_type_id', function($row){
+                        return $row->insurance_policy_type['name'];
+                    }) 
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_vehicle_insurance('.$row->id.')">View</a>&nbsp;&nbsp;';
+                        if(Auth::user()->can('edit-member')) {
+                            $btn.='<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edit" onClick="edit_vehicle_insurance('.$row->id.')">Edit</a>';
+                        }
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        return view('vehicle_insurance.view', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Vehicle Insurance'
+        ]);
+    }
+    public function list_life_insurance(Request $request,User $user){
+        if ($request->ajax()) {
+            $data =Lifeinsurance::with('company_name','policy_mode','ppt')->where('user_id',$user->id)->get();    
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('sr_no', function($row){
+                        return $row['sr_no'];
+                    }) 
+                    ->addColumn('policy_holder_name', function($row){
+                        return $row['policy_holder_name'];
+                    }) 
+                    ->addColumn('birth_date', function($row){
+                        return $row['birth_date'];
+                    }) 
+                    ->addColumn('policy_start_date', function($row){
+                        return $row['policy_start_date'];
+                    }) 
+                    ->addColumn('company_name_id', function($row){
+                        return $row->company_name['name'];
+                    }) 
+                    ->addColumn('policy_number', function($row){
+                        return $row['policy_number'];
+                    }) 
+                    ->addColumn('plan_name', function($row){
+                        return $row['plan_name'];
+                    }) 
+                    ->addColumn('ppt_id', function($row){
+                        return $row->ppt['name'];
+                    }) 
+                    ->addColumn('premium_mode_id', function($row){
+                        return $row->policy_mode['name'];
+                    }) 
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_life_insurance('.$row->id.')">View</a>&nbsp;&nbsp;';
+                        if(Auth::user()->can('edit-member')) {
+                            $btn.='<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edit"onClick="edit_life_insurance('.$row->id.')">Edit</a>';
+                        }
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        return view('life_insurance.view', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Life Insurance'
+        ]);
+    }
+    public function show_mediclaim(Request $request,Mediclaim $mediclaim){
+        $mediclaims =Mediclaim::with('company_name','policy_type','policy_mode','user')->where('id',$mediclaim->id)->get();
+        return view('mediclaim.show', [
+            'mediclaim' => $mediclaims,
+            'title'=>'Member',
+            'content'=>'View Mediclaim'
+        ]);
+    }
+    public function show_vehicle_insurance(Request $request,VehicleInsurance $vehicle_insurance){
+        $vehicle_insurances =VehicleInsurance::with('vehicle_category','insurance_policy_type','user')->where('id',$vehicle_insurance->id)->get();
+        return view('vehicle_insurance.show', [
+            'vehicle_insurance' => $vehicle_insurances,
+            'title'=>'Member',
+            'content'=>'View Vehicle Insurance'
+        ]);
+    }
+    public function show_mutual_fund(Request $request,Mutualfund $mutual_fund){
+        $mutual_funds =Mutualfund::with('mutual_fund_type','user')->where('id',$mutual_fund->id)->get();
+        
+        return view('mutual_fund.show', [
+            'mutual_funds' => $mutual_funds,
+            'title'=>'Member',
+            'content'=>'View Mutual Fund'
+        ]);
+    }
+    public function show_life_insurance(Request $request,Lifeinsurance $life_insurance){
+        $life_insurances =Lifeinsurance::with('company_name','policy_mode','ppt','user')->where('id',$life_insurance->id)->get();
+        
+        return view('life_insurance.show', [
+            'life_insurance' => $life_insurances,
+            'title'=>'Member',
+            'content'=>'View Life Insurance'
+        ]);
+    }
+    public function edit_mediclaim(Mediclaim $mediclaim){
+        $data['mediclaim_id']=$mediclaim->id;
+        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['policy_type'] = PolicyType::get(["name", "id"]);
+        $data['policy_mode'] = PolicyMode::get(["name", "id"]);
+        $data['mediclaim']=$mediclaim;
+        $data['title']='Members';
+        $data['content']='Edit Mediclaim';
+        return view('mediclaim.edit', $data);
+    }
+    public function update_mediclaim(Request $request, Mediclaim $mediclaim)
+    {
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'policy_holder_name' => 'required',
+            'birth_date' => 'required',
+            'policy_start_date' => 'required',
+            'company_name' => 'required',
+            'policy_number' => 'required|numeric',
+            'policy_type' => 'required',
+            'sum_assured' => 'required|numeric',
+            'policy_name' => 'required',
+            'policy_mode' => 'required',
+            'premium_amount' => 'required|numeric',
+            'yearly_premium_amount' => 'required|numeric',
+        ]);
+        $input['sr_no'] = $request->sr_no;
+        $input['policy_holder_name'] = $request->policy_holder_name;
+        $input['birth_date'] = $request->birth_date;
+        $input['policy_start_date'] = $request->policy_start_date;
+        $input['company_name_id'] = $request->company_name;
+        $input['policy_number'] = $request->policy_number;
+        $input['policy_type_id'] = $request->policy_type;
+        $input['sum_assured'] = $request->sum_assured;
+        $input['policy_name'] = $request->policy_name;
+        $input['policy_mode_id'] = $request->policy_mode;
+        $input['premium_amount'] = $request->premium_amount;
+        $input['yearly_premium_amount'] = $request->yearly_premium_amount;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['branch_name'] = $request->branch_name;
+        $input['branch_address'] = $request->branch_address;
+        $input['branch_contact_no'] = $request->branch_contact_number;
+        $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->policy_start_date));
+        if($request->policy_mode=='1'){
+            $input['jan'] = $request->premium_amount;
+            $input['feb'] = $request->premium_amount;
+            $input['mar'] = $request->premium_amount;
+            $input['apr'] = $request->premium_amount;
+            $input['may'] = $request->premium_amount;
+            $input['jun'] = $request->premium_amount;
+            $input['jul'] = $request->premium_amount;
+            $input['aug'] = $request->premium_amount;
+            $input['sep'] = $request->premium_amount;
+            $input['oct'] = $request->premium_amount;
+            $input['nov'] = $request->premium_amount;
+            $input['dec'] = $request->premium_amount;
+            $input['single'] = 0;
+        }elseif($request->policy_mode=='2'){
+            if($start_month==01 || $start_month==04 || $start_month==07 || $start_month==10){
+                $input['jan'] = $request->premium_amount;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = $request->premium_amount;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = $request->premium_amount;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==02 || $start_month==05  || $start_month=="0008" || $start_month==11 ){
+                $input['jan'] = 0;
+                $input['feb'] = $request->premium_amount;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = $request->premium_amount;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] =$request->premium_amount;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = $request->premium_amount;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==03 ||$start_month==06 || $start_month=='0009' || $start_month==12){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = $request->premium_amount;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = $request->premium_amount;
+                $input['jul'] = 0;
+                $input['aug'] =0;
+                $input['sep'] = $request->premium_amount;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = $request->premium_amount;
+                $input['single'] = 0;
+            }
+        }elseif($request->policy_mode=='3'){
+            if($start_month==01 || $start_month==07){
+                $input['jan'] = $request->premium_amount;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==02 || $start_month=='0008'){
+                $input['jan'] = 0;
+                $input['feb'] = $request->premium_amount;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = $request->premium_amount;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==03 || $start_month=='0009'){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = $request->premium_amount;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = $request->premium_amount;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==04 || $start_month==10){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = $request->premium_amount;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = $request->premium_amount;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==05 || $start_month==11){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = $request->premium_amount;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = $request->premium_amount;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==06 || $start_month==12){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = $request->premium_amount;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = $request->premium_amount;
+                $input['single'] = 0;
+            }
+        }
+        elseif($request->policy_mode=='4'){
+            if($start_month==01){
+                $input['jan'] = $request->premium_amount;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==02){
+                $input['jan'] = 0;
+                $input['feb'] = $request->premium_amount;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==03){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = $request->premium_amount;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==04){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = $request->premium_amount;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==05){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = $request->premium_amount;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==06){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==07){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month=='0008'){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = $request->premium_amount;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month=='0009'){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = $request->premium_amount;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==10){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = $request->premium_amount;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==11){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = $request->premium_amount;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }else{
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = $request->premium_amount;
+                $input['single'] = 0;
+            }
+        }elseif($request->policy_mode=='5'){
+            $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = $request->premium_amount;
+        }
+        $mediclaim->update($input);
+        return redirect()->route('mediclaim.edit',$mediclaim->id)->withSuccess('Mediclaim is updated successfully.');
+    }
+    public function edit_mutual_fund(Mutualfund $mutual_fund){
+        $data['mutual_fund_id']=$mutual_fund->id;
+        $data['mutual_fund_type'] = MutualFundType::get(["name", "id"]);
+        $data['title']='Members';
+        $data['mutual_fund']= $mutual_fund;
+        $data['content']='Edit Mutual Fund';
+        return view('mutual_fund.edit', $data);
+    }
+    public function update_mutual_fund(Request $request, Mutualfund $mutual_fund)
+    {
+        
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'mutual_fund_holder_name' => 'required',
+            'mutual_fund_type' => 'required',
+            'folio_number' => 'required|numeric',
+            'fund_name' => 'required',
+            'fund_type' => 'required',
+            'purchase_date' => 'required',
+            'amount' => 'required|numeric',
+            'yearly_amount' => 'required|numeric',
+            'nominee_name' => 'required',
+            'nominee_relation' => 'required',
+            'nominee_dob' => 'required'
+        ]);
+        $input['sr_no'] = $request->sr_no;
+        $input['mutual_fund_holder_name'] = $request->mutual_fund_holder_name;
+        $input['mutual_fund_type_id'] = $request->mutual_fund_type;
+        $input['folio_number'] = $request->folio_number;
+        $input['fund_name'] = $request->fund_name;
+        $input['fund_type'] = $request->fund_type;
+        $input['purchase_date'] = $request->purchase_date;
+        $input['amount'] = $request->amount;
+        $input['yearly_amount'] = $request->yearly_amount;
+        $input['nominee_name'] = $request->nominee_name;
+        $input['nominee_relation'] = $request->nominee_relation;
+        $input['nominee_dob'] = $request->nominee_dob;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->purchase_date));
+        if($request->mutual_fund_type=='1'){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0;
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = $request->amount;
+        }elseif($request->mutual_fund_type=='2'){
+            if($start_month==1){
+                $input['jan'] = $request->amount;
+            }elseif($start_month==2){
+                $input['feb'] = $request->amount;
+            }elseif($start_month==3){
+                $input['mar'] = $request->amount;
+            }elseif($start_month==4){
+                $input['apr'] = $request->amount; 
+            }elseif($start_month==5){
+                $input['may'] = $request->amount;
+            }elseif($start_month==6){
+                $input['jun'] = $request->amount;
+            }elseif($start_month==7){
+                $input['jul'] = $request->amount;
+            }elseif($start_month=='0008'){
+                $input['aug'] = $request->amount;
+            }elseif($start_month=='0009'){
+                $input['sep'] = $request->amount;
+            }elseif($start_month==10){
+                $input['oct'] = $request->amount;
+            }elseif($start_month==11){
+                $input['nov'] = $request->amount;
+            }elseif($start_month==12){
+                $input['dec'] = $request->amount;
+            }else{
+                $input['single'] = 0;
+            }
+        }
+        $mutual_fund->update($input);
+        
+        return redirect()->route('mutual_fund.edit',$mutual_fund->id)->withSuccess('Mutual Fund is updated successfully.');
+    }
+    public function edit_vehicle_insurance(VehicleInsurance $vehicle_insurance){
+        $data['vehicle_insurance_id']=$vehicle_insurance->id;
+        $data['vehicle_category'] = VehicleCategory::get(["name", "id"]);
+        $data['policy_type'] = InsurancePolicyType::get(["name", "id"]);
+        $data['ppt'] = Ppt::get(["name", "id"]);
+        $data['title']='Members';
+        $data['vehicle_insurance']= $vehicle_insurance;
+        $data['content']='Edit Vehicle Insurance';
+        return view('vehicle_insurance.edit', $data);
+        
+    }
+    public function update_vehicle_insurance(Request $request, VehicleInsurance $vehicle_insurance)
+    {
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'vehicle_category' => 'required',
+            'vehicle_number' => 'required',
+            'vehicle_name' => 'required',
+            'insurance_company_name' => 'required',
+            'policy_number' => 'required',
+            'chasis_number' => 'required',
+            'policy_type' => 'required',
+            'policy_premium' => 'required|numeric',
+            'vehicle_owner_name' => 'required',
+            'policy_start_date' => 'required',
+            'policy_end_date' => 'required',
+        ]);
+
+        
+        $input['sr_no'] = $request->sr_no;
+        $input['vehicle_category_id'] = $request->vehicle_category;
+        $input['vehicle_number'] = $request->vehicle_number;
+        $input['vehicle_name'] = $request->vehicle_name;
+        $input['insurance_company_name'] = $request->insurance_company_name;
+        $input['policy_number'] = $request->policy_number;
+        $input['chasis_number'] = $request->chasis_number;
+        $input['insurance_policy_type_id'] = $request->policy_type;
+        $input['policy_premium'] = $request->policy_premium;
+        $input['vehicle_owner_name'] = $request->vehicle_owner_name;
+        $input['policy_start_date'] = $request->policy_start_date;
+        $input['policy_end_date'] = $request->policy_end_date;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['other_details'] = $request->other_details;
+        $vehicle_insurance->update($input);
+        
+        return redirect()->route('vehicle_insurance.edit',$vehicle_insurance->id)->withSuccess('Vehicle Insurance is updated successfully.');
+    }
+    public function edit_life_insurance(Lifeinsurance $life_insurance){
+        $data['life_insurance_id']=$life_insurance->id;
+        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['ppt'] = Ppt::get(["name", "id"]);
+        $data['policy_mode'] = PolicyMode::get(["name", "id"]);
+        $data['title']='Members';
+        $data['life_insurance']= $life_insurance;
+        $data['content']='Edit Life Insurance';
+        return view('life_insurance.edit', $data);
+    }
+    public function update_life_insurance(Request $request, Lifeinsurance $life_insurance)
+    {
+        $request->validate([
+            'sr_no' => 'required|numeric',
+            'policy_holder_name' => 'required',
+            'birth_date' => 'required',
+            'policy_start_date' => 'required',
+            'company_name' => 'required',
+            'policy_number' => 'required|numeric',
+            'sum_assured' => 'required|numeric',
+            'plan_name' => 'required',
+            'ppt' => 'required',
+            'policy_term' => 'required',
+            'premium_mode' => 'required',
+            'premium_amount' => 'required|numeric',
+            'yearly_premium_amount' => 'required|numeric',
+            'nominee_name' => 'required',
+            'nominee_relation' => 'required',
+            'nominee_dob' => 'required',
+        ]);
+        // $input['user_id'] = $request->user_id;
+
+        $input['sr_no'] = $request->sr_no;
+        $input['policy_holder_name'] = $request->policy_holder_name;
+        $input['birth_date'] = $request->birth_date;
+        $input['policy_start_date'] = $request->policy_start_date;
+        $input['company_name_id'] = $request->company_name;
+        $input['policy_number'] = $request->policy_number;
+        $input['sum_assured'] = $request->sum_assured;
+        $input['plan_name'] = $request->plan_name;
+        $input['ppt_id'] = $request->ppt;
+        $input['policy_term'] = $request->policy_term;
+        $input['policy_mode_id'] = $request->premium_mode;
+        $input['premium_amount'] = $request->premium_amount;
+        $input['yearly_premium_amount'] = $request->yearly_premium_amount;
+        $input['nominee_name'] = $request->nominee_name;
+        $input['nominee_relation'] = $request->nominee_relation;
+        $input['nominee_dob'] = $request->nominee_dob;
+        $input['agent_name'] = $request->agent_name;
+        $input['agent_mobile_number'] = $request->agent_mobile_number;
+        $input['branch_name'] = $request->branch_name;
+        $input['branch_address'] = $request->branch_address;
+        $input['branch_contact_no'] = $request->branch_contact_number;
+        $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->policy_start_date));
+        if($request->premium_mode=='1'){
+            $input['jan'] = $request->premium_amount;
+            $input['feb'] = $request->premium_amount;
+            $input['mar'] = $request->premium_amount;
+            $input['apr'] = $request->premium_amount;
+            $input['may'] = $request->premium_amount;
+            $input['jun'] = $request->premium_amount;
+            $input['jul'] = $request->premium_amount;
+            $input['aug'] = $request->premium_amount;
+            $input['sep'] = $request->premium_amount;
+            $input['oct'] = $request->premium_amount;
+            $input['nov'] = $request->premium_amount;
+            $input['dec'] = $request->premium_amount;
+            $input['single'] = 0;
+        }elseif($request->premium_mode=='2'){
+            if($start_month==01 || $start_month==04 || $start_month==07 || $start_month==10){
+                $input['jan'] = $request->premium_amount;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = $request->premium_amount;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = $request->premium_amount;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==02 || $start_month==05  || $start_month=="0008" || $start_month==11 ){
+                $input['jan'] = 0;
+                $input['feb'] = $request->premium_amount;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = $request->premium_amount;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] =$request->premium_amount;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = $request->premium_amount;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==03 ||$start_month==06 || $start_month=='0009' || $start_month==12){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = $request->premium_amount;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = $request->premium_amount;
+                $input['jul'] = 0;
+                $input['aug'] =0;
+                $input['sep'] = $request->premium_amount;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = $request->premium_amount;
+                $input['single'] = 0;
+            }
+        }elseif($request->premium_mode=='3'){
+            if($start_month==01 || $start_month==07){
+                $input['jan'] = $request->premium_amount;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==02 || $start_month=='0008'){
+                $input['jan'] = 0;
+                $input['feb'] = $request->premium_amount;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = $request->premium_amount;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==03 || $start_month=='0009'){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = $request->premium_amount;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = $request->premium_amount;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==04 || $start_month==10){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = $request->premium_amount;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = $request->premium_amount;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==05 || $start_month==11){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = $request->premium_amount;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = $request->premium_amount;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==06 || $start_month==12){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = $request->premium_amount;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = $request->premium_amount;
+                $input['single'] = 0;
+            }
+        }
+        elseif($request->premium_mode=='4'){
+            if($start_month==01){
+                $input['jan'] = $request->premium_amount;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==02){
+                $input['jan'] = 0;
+                $input['feb'] = $request->premium_amount;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==03){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = $request->premium_amount;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==04){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = $request->premium_amount;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==05){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = $request->premium_amount;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==06){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==07){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = $request->premium_amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month=='0008'){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = $request->premium_amount;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month=='0009'){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = $request->premium_amount;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==10){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = $request->premium_amount;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }elseif($start_month==11){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = $request->premium_amount;
+                $input['dec'] = 0;
+                $input['single'] = 0;
+            }else{
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = $request->premium_amount;
+                $input['single'] = 0;
+            }
+        }elseif($request->premium_mode=='5'){
+            $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = $request->premium_amount;
+        }
+        $life_insurance->update($input);
+        
+        return redirect()->route('life_insurance.edit',$life_insurance->id)->withSuccess('Life Insurance is updated successfully.');
+    }
+    public function view_insurance_report(Request $request,User $user){
+        
+        if ($request->ajax()) {
+            $d3=array();
+            $data = User::with('mediclaim','life_insurance','mutual_fund')->where('id',$user->id)->first()->toArray();
+            $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund']);
+            return Datatables::of($d3)
+                ->addIndexColumn()
+                ->addColumn('name', function($row){
+                    if(isset($row['policy_name'])){
+                        return $row['policy_name'];
+                    }elseif(isset($row['fund_name'])){
+                        return $row['fund_name'];
+                    }elseif(isset($row['plan_name'])){
+                        return $row['plan_name'];
+                    }
+                }) 
+                ->addColumn('jan', function($row){
+                    return $row['jan'];
+                }) 
+                ->addColumn('feb', function($row){
+                    return $row['feb'];
+                }) 
+                ->addColumn('mar', function($row){
+                    return $row['mar'];
+                }) 
+                ->addColumn('apr', function($row){
+                    return $row['apr'];
+                }) 
+                ->addColumn('may', function($row){
+                    return $row['may'];
+                }) 
+                ->addColumn('jun', function($row){
+                    return $row['jun'];
+                }) 
+                ->addColumn('jul', function($row){
+                    return $row['jul'];
+                }) 
+                ->addColumn('aug', function($row){
+                    return $row['aug'];
+                }) 
+                ->addColumn('sep', function($row){
+                    return $row['sep'];
+                }) 
+                ->addColumn('oct', function($row){
+                    return $row['oct'];
+                }) 
+                ->addColumn('nov', function($row){
+                    return $row['nov'];
+                }) 
+                ->addColumn('dec', function($row){
+                    return $row['dec'];
+                })
+                ->addColumn('single', function($row){
+                    return $row['single'];
+                }) 
+                ->make(true);
+        }
+        
+        return view('members.reports', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Report'
+        ]);
     }
 }
