@@ -100,7 +100,10 @@ Route::controller(MemberController::class)->group(function(){
     Route::get('members/{user}/reports', 'view_insurance_report')->name('members.reports');
     Route::put('members/{user}', 'update')->name('members.update');
     Route::get('members/{user}', 'show')->name('members.show');
-
+    Route::get('/members/{user}/member_export','member_export')->name('members.member_export');
+    Route::get('/members/{user}/generate_pdf','generate_pdf')->name('members.generate_pdf');
+    
+    
     Route::get('mediclaim/{user}/add', 'add_mediclaim')->name('mediclaim.add');
     Route::post('mediclaim', 'store_mediclaim')->name('mediclaim.store_mediclaim');
     Route::get('mediclaim/{user}/view', 'list_mediclaim')->name('mediclaim.view');
@@ -128,8 +131,9 @@ Route::controller(MemberController::class)->group(function(){
     Route::get('mutual_funds/{mutual_fund}', 'show_mutual_fund')->name('mutual_fund.show');
     Route::get('mutual_funds/{mutual_fund}/edit_mutual_fund', 'edit_mutual_fund')->name('mutual_fund.edit');
     Route::put('mutual_funds/{mutual_fund}', 'update_mutual_fund')->name('mutual_fund.update_mutual_fund');
-});
     
+});
+
 Route::controller(CommonController::class)->group(function(){
     Route::post('fetchState', 'fetchState')->name('fetchState');
     Route::post('fetchCity', 'fetchCity')->name('fetchCity');

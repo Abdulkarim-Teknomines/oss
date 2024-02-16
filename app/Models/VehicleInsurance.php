@@ -31,6 +31,19 @@ class VehicleInsurance extends Model
         'policy_end_date',
         'agent_name',
         'agent_mobile_number',
+        'jan',
+        'feb',
+        'mar',
+        'apr',
+        'may',
+        'jun',
+        'jul',
+        'aug',
+        'sep',
+        'oct',
+        'nov',
+        'dec',
+        'single'
     ];
     public function vehicle_category()
     {

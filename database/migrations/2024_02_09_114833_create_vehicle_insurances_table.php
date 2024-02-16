@@ -28,7 +28,20 @@ return new class extends Migration
             $table->date('policy_end_date');
             $table->string('agent_name')->nullable();
             $table->integer('agent_mobile_number')->nullable();  
-            $table->string('other_details')->nullable();       
+            $table->string('other_details')->nullable();      
+            $table->integer('jan')->default(0);
+            $table->integer('feb')->default(0);
+            $table->integer('mar')->default(0);
+            $table->integer('apr')->default(0);
+            $table->integer('may')->default(0);
+            $table->integer('jun')->default(0);
+            $table->integer('jul')->default(0);
+            $table->integer('aug')->default(0);
+            $table->integer('sep')->default(0);
+            $table->integer('oct')->default(0);
+            $table->integer('nov')->default(0);
+            $table->integer('dec')->default(0);
+            $table->integer('single')->default(0); 
             $table->timestamps();
         });
     }

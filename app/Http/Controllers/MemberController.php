@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\View\View;
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Country;
+use App\Models\User;
 use App\Models\Member;
 use App\Models\State;
 use App\Models\City;
@@ -28,14 +28,15 @@ use App\Models\MutualFundType;
 use App\Models\PolicyMode;
 use App\Models\Ppt;
 use App\Models\Bloodgroup;
-use PDF;
+// use PDF;
 use Auth;
 use App\Mail\DemoMail;
-use App\Exports\UsersExport;
+use App\Exports\MembersExport;
 use Illuminate\Support\Str;
-use App\Imports\UsersImport;
-use DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use DataTables;
+
 
 class MemberController extends Controller
 {
@@ -623,6 +624,34 @@ class MemberController extends Controller
         $input['agent_name'] = $request->agent_name;
         $input['agent_mobile_number'] = $request->agent_mobile_number;
         $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->policy_start_date));
+        if($start_month==1){
+            $input['jan'] = $request->policy_premium;
+        }elseif($start_month==2){
+            $input['feb'] = $request->policy_premium;
+        }elseif($start_month==3){
+            $input['mar'] = $request->policy_premium;
+        }elseif($start_month==4){
+            $input['apr'] = $request->policy_premium; 
+        }elseif($start_month==5){
+            $input['may'] = $request->policy_premium;
+        }elseif($start_month==6){
+            $input['jun'] = $request->policy_premium;
+        }elseif($start_month==7){
+            $input['jul'] = $request->policy_premium;
+        }elseif($start_month=='0008'){
+            $input['aug'] = $request->policy_premium;
+        }elseif($start_month=='0009'){
+            $input['sep'] = $request->policy_premium;
+        }elseif($start_month==10){
+            $input['oct'] = $request->policy_premium;
+        }elseif($start_month==11){
+            $input['nov'] = $request->policy_premium;
+        }elseif($start_month==12){
+            $input['dec'] = $request->policy_premium;
+        }else{
+            $input['single'] = 0;
+        }
         $user = VehicleInsurance::create($input);
             return redirect()->route('members.index')
                     ->withSuccess('Vehicle Insurance is added successfully.');
@@ -1379,29 +1408,172 @@ class MemberController extends Controller
         }elseif($request->mutual_fund_type=='2'){
             if($start_month==1){
                 $input['jan'] = $request->amount;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==2){
+                $input['jan'] = 0;
                 $input['feb'] = $request->amount;
+                $input['mar'] = 0;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==3){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
                 $input['mar'] = $request->amount;
+                $input['apr'] = 0;
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==4){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
                 $input['apr'] = $request->amount; 
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==5){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
                 $input['may'] = $request->amount;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==6){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
+                $input['may'] = 0;
                 $input['jun'] = $request->amount;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==7){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
+                $input['may'] = 0;
+                $input['jun'] = 0;
                 $input['jul'] = $request->amount;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month=='0008'){
+                
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
                 $input['aug'] = $request->amount;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month=='0009'){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
                 $input['sep'] = $request->amount;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==10){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
                 $input['oct'] = $request->amount;
+                $input['nov'] = 0;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==11){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
                 $input['nov'] = $request->amount;
+                $input['dec'] = 0;
+                $input['single'] = 0;
             }elseif($start_month==12){
+                $input['jan'] = 0;
+                $input['feb'] = 0;
+                $input['mar'] = 0;
+                $input['apr'] = 0; 
+                $input['may'] = 0;
+                $input['jun'] = 0;
+                $input['jul'] = 0;
+                $input['aug'] = 0;
+                $input['sep'] = 0;
+                $input['oct'] = 0;
+                $input['nov'] = 0;
                 $input['dec'] = $request->amount;
-            }else{
                 $input['single'] = 0;
             }
         }
@@ -1453,6 +1625,177 @@ class MemberController extends Controller
         $input['agent_name'] = $request->agent_name;
         $input['agent_mobile_number'] = $request->agent_mobile_number;
         $input['other_details'] = $request->other_details;
+        $start_month = date('m',strtotime($request->policy_start_date));
+        if($start_month==1){
+            $input['jan'] = $request->policy_premium;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0;
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==2){
+            $input['jan'] = 0;
+            $input['feb'] = $request->policy_premium;
+            $input['mar'] = 0;
+            $input['apr'] = 0;
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==3){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = $request->policy_premium;
+            $input['apr'] = 0;
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==4){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = $request->policy_premium; 
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==5){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = $request->policy_premium;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==6){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = 0;
+            $input['jun'] = $request->policy_premium;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==7){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = $request->policy_premium;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month=='0008'){
+            
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = $request->policy_premium;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month=='0009'){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = $request->policy_premium;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==10){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = $request->policy_premium;
+            $input['nov'] = 0;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==11){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = $request->policy_premium;
+            $input['dec'] = 0;
+            $input['single'] = 0;
+        }elseif($start_month==12){
+            $input['jan'] = 0;
+            $input['feb'] = 0;
+            $input['mar'] = 0;
+            $input['apr'] = 0; 
+            $input['may'] = 0;
+            $input['jun'] = 0;
+            $input['jul'] = 0;
+            $input['aug'] = 0;
+            $input['sep'] = 0;
+            $input['oct'] = 0;
+            $input['nov'] = 0;
+            $input['dec'] = $request->policy_premium;
+            $input['single'] = 0;
+        }
         $vehicle_insurance->update($input);
         
         return redirect()->route('vehicle_insurance.edit',$vehicle_insurance->id)->withSuccess('Vehicle Insurance is updated successfully.');
@@ -1828,7 +2171,7 @@ class MemberController extends Controller
                 $input['single'] = 0;
             }
         }elseif($request->premium_mode=='5'){
-            $input['jan'] = 0;
+                $input['jan'] = 0;
                 $input['feb'] = 0;
                 $input['mar'] = 0;
                 $input['apr'] = 0;
@@ -1843,7 +2186,6 @@ class MemberController extends Controller
                 $input['single'] = $request->premium_amount;
         }
         $life_insurance->update($input);
-        
         return redirect()->route('life_insurance.edit',$life_insurance->id)->withSuccess('Life Insurance is updated successfully.');
     }
     public function view_insurance_report(Request $request,User $user){
@@ -1851,7 +2193,9 @@ class MemberController extends Controller
         if ($request->ajax()) {
             $d3=array();
             $data = User::with('mediclaim','life_insurance','mutual_fund')->where('id',$user->id)->first()->toArray();
+            
             $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund']);
+            
             return Datatables::of($d3)
                 ->addIndexColumn()
                 ->addColumn('name', function($row){
@@ -1902,6 +2246,9 @@ class MemberController extends Controller
                 ->addColumn('single', function($row){
                     return $row['single'];
                 }) 
+                ->addColumn('total', function($row){
+                    return $row['jan']+$row['feb']+$row['mar']+$row['apr']+$row['may']+$row['jun']+$row['jul']+$row['aug']+$row['sep']+$row['oct']+$row['nov']+$row['dec']+$row['single'];
+                }) 
                 ->make(true);
         }
         
@@ -1910,5 +2257,20 @@ class MemberController extends Controller
             'title'=>'Member',
             'content'=>'Manage Report'
         ]);
+    }
+    public function member_export(Request $request,User $user) 
+    {
+        return Excel::download(new MembersExport($user->id), 'report.xlsx');
+    }
+    public function generate_pdf(Request $request,User $user)
+    {
+        $users = User::get();
+        $data = [
+            'title' => 'Welcome to Funda of Web IT - fundaofwebit.com',
+            'date' => date('m/d/Y'),
+            'users' => $users
+        ];
+        $pdf = PDF::loadView('members.member_reports', $data);
+        return $pdf->download('users-lists.pdf');
     }
 }
