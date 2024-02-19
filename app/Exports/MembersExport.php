@@ -32,11 +32,10 @@ class MembersExport implements FromCollection, WithHeadings
     }
     public function collection()
     {
-        // $user= User::select("id", "name", "email")->get();
         $datad = [];
         $export = [];
-        $data = User::with('mediclaim','life_insurance','mutual_fund')->where('id',$this->id)->first()->toArray();
-        $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund']);
+        $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',$this->id)->first()->toArray();
+        $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund'],$data['vehicle_insurance']);
         $i=0;
         $jan_sum =0;
         $feb_sum =0;
@@ -73,6 +72,8 @@ class MembersExport implements FromCollection, WithHeadings
                 $plan_name=$member['fund_name'];
             }elseif(isset($member['plan_name'])){
                 $plan_name=$member['plan_name'];
+            }elseif(isset($member['insurance_company_name'])){
+                $plan_name=$member['insurance_company_name'];
             }
             
             $datad[]=array(
@@ -91,10 +92,7 @@ class MembersExport implements FromCollection, WithHeadings
                 'dec'=>number_format($member['dec'],0),
                 'single'=>number_format($member['single'],0),
                 'total' => $member['jan']+$member['feb']+$member['mar']+$member['apr']+$member['may']+$member['jun']+$member['jul']+$member['aug']+$member['sep']+$member['oct']+$member['nov']+$member['dec']+$member['single'],
-                
-
             );
-            
         }
         $new_arr[]=array(
             'name'=>'Total',
@@ -114,7 +112,6 @@ class MembersExport implements FromCollection, WithHeadings
             'total' => $jan_sum+$feb_sum+$mar_sum+$apr_sum+$may_sum+$jun_sum+$jul_sum+$aug_sum+$oct_sum+$nov_sum+$dec_sum+$single_sum,
         );
         $ars = array_merge($datad,$new_arr);
-        
         return collect($ars);
     }
     

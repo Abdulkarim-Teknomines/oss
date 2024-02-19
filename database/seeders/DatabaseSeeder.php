@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             InsurancePolicyTypeSeeder::class,
             MutualFundTypeSeeder::class,
             PolicyModeSeeder::class,
+            DepartmentSeeder::class,
             PolicyTypeSeeder::class,
             PptSeeder::class,
             VehicleCategorySeeder::class,

@@ -51,6 +51,7 @@ class MemberController extends Controller
     }
     public function index(Request $request)
     {
+        
         if ($request->ajax()) {
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
             $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
@@ -2192,9 +2193,9 @@ class MemberController extends Controller
         
         if ($request->ajax()) {
             $d3=array();
-            $data = User::with('mediclaim','life_insurance','mutual_fund')->where('id',$user->id)->first()->toArray();
+            $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',$user->id)->first()->toArray();
             
-            $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund']);
+            $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund'],$data['vehicle_insurance']);
             
             return Datatables::of($d3)
                 ->addIndexColumn()
@@ -2205,6 +2206,8 @@ class MemberController extends Controller
                         return $row['fund_name'];
                     }elseif(isset($row['plan_name'])){
                         return $row['plan_name'];
+                    }elseif(isset($row['insurance_company_name'])){
+                        return $row['insurance_company_name'];
                     }
                 }) 
                 ->addColumn('jan', function($row){
@@ -2273,4 +2276,298 @@ class MemberController extends Controller
         $pdf = PDF::loadView('members.member_reports', $data);
         return $pdf->download('users-lists.pdf');
     }
+    public function all_mediclaim(Request $request)
+    {
+        
+        if ($request->ajax()) {
+            $data =Mediclaim::with('company_name','policy_type','policy_mode')->get();
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+            //     $query->where('name','member');
+            // })->get();
+          
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+                    ->addColumn('sr_no', function($row){
+                        return $row->sr_no;
+                    }) 
+                    ->addColumn('policy_holder_name', function($row){
+                        return $row->policy_holder_name;
+                    }) 
+                    ->addColumn('birth_date', function($row){
+                        return $row->birth_date;
+                    }) 
+                    ->addColumn('policy_start_date', function($row){
+                        return $row->policy_start_date;
+                    }) 
+                    ->addColumn('company_name', function($row){
+                        return $row->company_name->name;
+                    }) 
+                    ->addColumn('policy_number', function($row){
+                        return $row->policy_number;
+                    }) 
+                    ->addColumn('policy_type', function($row){
+                        return $row->policy_type->name;
+                    }) 
+                    ->addColumn('sum_assured', function($row){
+                        return $row->sum_assured;
+                    }) 
+                    ->addColumn('policy_name', function($row){
+                        return $row->policy_name;
+                    }) 
+                    ->addColumn('policy_mode', function($row){
+                        return $row->policy_mode->name;
+                    })
+                    ->addColumn('premium_amount', function($row){
+                        return $row->premium_amount;
+                    }) 
+                    ->addColumn('yearly_premium_amount', function($row){
+                        return $row->yearly_premium_amount;
+                    }) 
+                    ->addColumn('agent_name', function($row){
+                        return $row->agent_name;
+                    }) 
+                    ->addColumn('agent_mobile_number', function($row){
+                        return $row->agent_mobile_number;
+                    }) 
+                    ->addColumn('branch_name', function($row){
+                        return $row->branch_name;
+                    }) 
+                    ->addColumn('branch_address', function($row){
+                        return $row->branch_address;
+                    }) 
+                    ->addColumn('branch_contact_no', function($row){
+                        return $row->branch_contact_no;
+                    }) 
+                    ->addColumn('other_details', function($row){
+                        return $row->other_details;
+                    }) 
+                    
+                    ->make(true);
+        }
+        
+        return view('members.all_mediclaims', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Mediclaim'
+        ]);
+    } 
+    public function all_vehicle_insurance(Request $request)
+    {
+        if ($request->ajax()) {
+            $data =VehicleInsurance::with('user','vehicle_category','insurance_policy_type')->get();
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+            //     $query->where('name','member');
+            // })->get();
+            
+
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+                    ->addColumn('sr_no', function($row){
+                        return $row->sr_no;
+                    }) 
+                    ->addColumn('vehicle_category_id', function($row){
+                        return $row->vehicle_category->name;
+                    }) 
+                    ->addColumn('vehicle_number', function($row){
+                        return $row->vehicle_number;
+                    }) 
+                    ->addColumn('vehicle_name', function($row){
+                        return $row->vehicle_name;
+                    }) 
+                    ->addColumn('chasis_number', function($row){
+                        return $row->chasis_number;
+                    }) 
+                    ->addColumn('insurance_company_name', function($row){
+                        return $row->insurance_company_name;
+                    }) 
+                    ->addColumn('policy_number', function($row){
+                        return $row->policy_number;
+                    }) 
+                    ->addColumn('insurance_policy_type_id', function($row){
+                        return $row->insurance_policy_type->name;
+                    }) 
+                    ->addColumn('policy_premium', function($row){
+                        return $row->policy_premium;
+                    }) 
+                    ->addColumn('vehicle_owner_name', function($row){
+                        return $row->vehicle_owner_name;
+                    })
+                    ->addColumn('policy_start_date', function($row){
+                        return $row->policy_start_date;
+                    }) 
+                    ->addColumn('policy_end_date', function($row){
+                        return $row->policy_end_date;
+                    }) 
+                    ->addColumn('agent_name', function($row){
+                        return $row->agent_name;
+                    }) 
+                    ->addColumn('agent_mobile_number', function($row){
+                        return $row->agent_mobile_number;
+                    }) 
+                    ->addColumn('other_details', function($row){
+                        return $row->other_details;
+                    }) 
+                    
+                    ->make(true);
+        }
+        
+        return view('members.all_vehicle_insurance', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Vehicle Insurance'
+        ]);
+    } 
+    public function all_life_insurance(Request $request)
+    {
+            if ($request->ajax()) {
+            $data =Lifeinsurance::with('company_name','ppt','policy_mode')->get();
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+            //     $query->where('name','member');
+            // })->get();
+            
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+                    ->addColumn('sr_no', function($row){
+                        return $row->sr_no;
+                    }) 
+                    ->addColumn('policy_holder_name', function($row){
+                        return $row->policy_holder_name;
+                    }) 
+                    ->addColumn('birth_date', function($row){
+                        return $row->birth_date;
+                    }) 
+                    ->addColumn('policy_start_date', function($row){
+                        return $row->policy_start_date;
+                    }) 
+                    ->addColumn('company_name_id', function($row){
+                        return $row->company_name_id->name;
+                    }) 
+                    ->addColumn('policy_number', function($row){
+                        return $row->policy_number;
+                    }) 
+                    ->addColumn('sum_assured', function($row){
+                        return $row->sum_assured;
+                    }) 
+                    ->addColumn('plan_name', function($row){
+                        return $row->plan_name;
+                    }) 
+                    ->addColumn('ppt_id', function($row){
+                        return $row->ppt_id_>name;
+                    }) 
+                    ->addColumn('policy_term', function($row){
+                        return $row->policy_term;
+                    }) 
+                    ->addColumn('policy_mode_id', function($row){
+                        return $row->policy_mode_id->name;
+                    }) 
+                    ->addColumn('premium_amount', function($row){
+                        return $row->premium_amount;
+                    })
+                    ->addColumn('yearly_premium_amount', function($row){
+                        return $row->yearly_premium_amount;
+                    }) 
+                    ->addColumn('nominee_name', function($row){
+                        return $row->nominee_name;
+                    }) 
+                    ->addColumn('nominee_relation', function($row){
+                        return $row->nominee_relation;
+                    }) 
+                    ->addColumn('nominee_dob', function($row){
+                        return $row->nominee_dob;
+                    }) 
+                    ->addColumn('agent_name', function($row){
+                        return $row->agent_name;
+                    }) 
+                    ->addColumn('agent_mobile_number', function($row){
+                        return $row->agent_mobile_number;
+                    }) 
+                    ->addColumn('branch_name', function($row){
+                        return $row->branch_name;
+                    }) 
+                    ->addColumn('branch_address', function($row){
+                        return $row->branch_address;
+                    }) 
+                    ->addColumn('branch_contact_no', function($row){
+                        return $row->branch_contact_no;
+                    }) 
+                    ->addColumn('other_details', function($row){
+                        return $row->other_details;
+                    }) 
+                    
+                    ->make(true);
+        }
+        
+        return view('members.all_life_insurances', [
+            // 'users' => $data,
+            'title'=>'Member',
+            'content'=>'Manage Life Insurance'
+        ]);
+    } 
+    public function all_mutual_fund(Request $request)
+    {
+        if ($request->ajax()) {
+            $data =Mutualfund::with('mutual_fund_type')->get();
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+            //     $query->where('name','member');
+            // })->get();
+            
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('sr_no', function($row){
+                    return $row->sr_no;
+                }) 
+                ->addColumn('mutual_fund_holder_name', function($row){
+                    return $row->mutual_fund_holder_name;
+                }) 
+                ->addColumn('mutual_fund_type_id', function($row){
+                    return $row->mutual_fund_type_id;
+                }) 
+                ->addColumn('folio_number', function($row){
+                    return $row->folio_number;
+                }) 
+                ->addColumn('fund_name', function($row){
+                    return $row->fund_name;
+                }) 
+                ->addColumn('fund_type', function($row){
+                    return $row->fund_type;
+                }) 
+                ->addColumn('purchase_date', function($row){
+                    return $row->purchase_date;
+                }) 
+                ->addColumn('amount', function($row){
+                    return $row->amount;
+                }) 
+                ->addColumn('yearly_amount', function($row){
+                    return $row->yearly_amount;
+                }) 
+                ->addColumn('nominee_name', function($row){
+                    return $row->nominee_name->name;
+                }) 
+                ->addColumn('nominee_relation', function($row){
+                    return $row->nominee_relation;
+                })
+                ->addColumn('nominee_dob', function($row){
+                    return $row->nominee_dob;
+                }) 
+                ->addColumn('agent_name', function($row){
+                    return $row->agent_name;
+                }) 
+                ->addColumn('agent_mobile_number', function($row){
+                    return $row->agent_mobile_number;
+                }) 
+                ->addColumn('other_details', function($row){
+                    return $row->other_details;
+                }) 
+                ->make(true);
+        }
+        
+        return view('members.all_mutual_funds', [
+            'title'=>'Member',
+            'content'=>'Manage Mututal Fund'
+        ]);
+    } 
 }

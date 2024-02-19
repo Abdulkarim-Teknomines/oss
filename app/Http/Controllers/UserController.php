@@ -55,7 +55,7 @@ class UserController extends Controller
                     ->addIndexColumn()
                     ->addColumn('id', function($row){
                         foreach($row->getRoleNames() as $role){
-                            if($role=='Agent'){
+                            if($role=='Member'){
                                 return $row['user_id'];
                             }else{
                                 return '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edits" onClick="view('.$row->id.')">'.$row['user_id'].'</a>';
@@ -103,7 +103,7 @@ class UserController extends Controller
                     ->addColumn('id', function($row){
                         // return $row['user_id'];
                         foreach($row->getRoleNames() as $role){
-                            if($role=='Agent'){
+                            if($role=='Member'){
                                 return $row['user_id'];
                             }else{
                                 return '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edits" onClick="view('.$row->id.')">'.$row['user_id'].'</a>';

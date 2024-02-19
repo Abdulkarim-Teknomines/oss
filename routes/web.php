@@ -132,7 +132,12 @@ Route::controller(MemberController::class)->group(function(){
     Route::get('mutual_funds/{mutual_fund}/edit_mutual_fund', 'edit_mutual_fund')->name('mutual_fund.edit');
     Route::put('mutual_funds/{mutual_fund}', 'update_mutual_fund')->name('mutual_fund.update_mutual_fund');
     
+    Route::get('mediclaim', 'all_mediclaim')->name('mediclaim.all_mediclaim');
+    Route::get('vehicle_insurance', 'all_vehicle_insurance')->name('vehicle_insurance.all_vehicle_insurance');
+    Route::get('life_insurance', 'all_life_insurance')->name('life_insurance.all_life_insurance');
+    Route::get('mutual_fund', 'all_mutual_fund')->name('mutual_fund.all_mutual_fund');
 });
+
 
 Route::controller(CommonController::class)->group(function(){
     Route::post('fetchState', 'fetchState')->name('fetchState');
