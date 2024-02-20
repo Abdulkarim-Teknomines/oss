@@ -16,6 +16,7 @@ class VehicleInsurance extends Model
     use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
     protected $fillable = [
+        'parent_id',
         'user_id',
         'sr_no',
         'vehicle_category_id',

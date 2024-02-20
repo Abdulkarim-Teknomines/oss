@@ -271,7 +271,7 @@ class MemberController extends Controller
             'premium_amount' => 'required|numeric',
             'yearly_premium_amount' => 'required|numeric',
         ]);
-        
+        $input['parent_id'] = auth()->user()->id;
         $input['user_id'] = $request->user_id;
         $input['sr_no'] = $request->sr_no;
         $input['policy_holder_name'] = $request->policy_holder_name;
@@ -410,6 +410,7 @@ class MemberController extends Controller
             'nominee_relation' => 'required',
             'nominee_dob' => 'required',
         ]);
+        $input['parent_id'] = auth()->user()->id;
         $input['user_id'] = $request->user_id;
         $input['sr_no'] = $request->sr_no;
         $input['policy_holder_name'] = $request->policy_holder_name;
@@ -608,7 +609,7 @@ class MemberController extends Controller
             'policy_start_date' => 'required',
             'policy_end_date' => 'required',
         ]);
-
+        $input['parent_id'] = auth()->user()->id;
         $input['user_id'] = $request->user_id;
         $input['sr_no'] = $request->sr_no;
         $input['vehicle_category_id'] = $request->vehicle_category;
@@ -682,7 +683,7 @@ class MemberController extends Controller
             'nominee_relation' => 'required',
             'nominee_dob' => 'required'
         ]);
-        
+        $input['parent_id'] = auth()->user()->id;
         $input['user_id'] = $request->user_id;
         $input['sr_no'] = $request->sr_no;
         $input['mutual_fund_holder_name'] = $request->mutual_fund_holder_name;
@@ -999,6 +1000,7 @@ class MemberController extends Controller
             'premium_amount' => 'required|numeric',
             'yearly_premium_amount' => 'required|numeric',
         ]);
+        $input['parent_id'] = auth()->user()->id;
         $input['sr_no'] = $request->sr_no;
         $input['policy_holder_name'] = $request->policy_holder_name;
         $input['birth_date'] = $request->birth_date;
@@ -1376,6 +1378,7 @@ class MemberController extends Controller
             'nominee_relation' => 'required',
             'nominee_dob' => 'required'
         ]);
+        $input['parent_id'] = auth()->user()->id;
         $input['sr_no'] = $request->sr_no;
         $input['mutual_fund_holder_name'] = $request->mutual_fund_holder_name;
         $input['mutual_fund_type_id'] = $request->mutual_fund_type;
@@ -1610,7 +1613,7 @@ class MemberController extends Controller
             'policy_end_date' => 'required',
         ]);
 
-        
+        $input['parent_id'] = auth()->user()->id;
         $input['sr_no'] = $request->sr_no;
         $input['vehicle_category_id'] = $request->vehicle_category;
         $input['vehicle_number'] = $request->vehicle_number;
@@ -1832,7 +1835,7 @@ class MemberController extends Controller
             'nominee_dob' => 'required',
         ]);
         // $input['user_id'] = $request->user_id;
-
+        $input['parent_id'] = auth()->user()->id;
         $input['sr_no'] = $request->sr_no;
         $input['policy_holder_name'] = $request->policy_holder_name;
         $input['birth_date'] = $request->birth_date;
@@ -2354,8 +2357,8 @@ class MemberController extends Controller
     } 
     public function all_vehicle_insurance(Request $request)
     {
+        $data =VehicleInsurance::with('user','vehicle_category','insurance_policy_type')->where('parent_id',auth()->user()->id)->get();
         if ($request->ajax()) {
-            $data =VehicleInsurance::with('user','vehicle_category','insurance_policy_type')->get();
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
             //     $query->where('name','member');
             // })->get();

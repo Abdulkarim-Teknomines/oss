@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('mediclaims', function (Blueprint $table) {
             $table->id();
+            $table->integer('parent_id');
             $table->integer('user_id');
             $table->integer('sr_no');
             $table->string('policy_holder_name');

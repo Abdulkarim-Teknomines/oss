@@ -46,7 +46,10 @@
           @canany(['create-member', 'edit-member', 'delete-member'])
           <li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Member</p></a></li>          
           @endcanany
-          
+          <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -70,10 +73,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li>
+          
           <li class="nav-item">
             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
               document.getElementById('logout-form').submit();" class="nav-link"><i class="far fa-circle nav-icon"></i> {{ __('Logout') }}

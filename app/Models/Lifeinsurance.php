@@ -19,6 +19,7 @@ class Lifeinsurance extends Model
     use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
     protected $fillable = [
+        'parent_id',
         'sr_no',
         'policy_holder_name',
         'birth_date',
