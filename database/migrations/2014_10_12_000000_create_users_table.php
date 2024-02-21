@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('adharcard_number')->nullable();
             $table->string('name');
             $table->string('blood_group_id')->nullable();
+            $table->string('department_id')->nullable();
             $table->integer('country_id');
             $table->integer('state_id');
             $table->integer('city_id');

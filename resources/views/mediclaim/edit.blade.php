@@ -209,7 +209,7 @@
                     <div class="mb-3 row">
                         <label for="other_details" class="col-md-3 col-form-label text-md-end text-start">Other Details </label>
                         <div class="col-md-4">
-                            <textarea class="form-control select2 select2-hidden-accessible state " name="other_details" placeholder="Other Details">{{ old('other_details') ? old('other_details') : '' }}</textarea>
+                            <textarea class="form-control select2 select2-hidden-accessible state " name="other_details" placeholder="Other Details">{{ old('other_details') ? old('other_details') : $mediclaim->other_details }}</textarea>
                         </div>
                     </div>
                     <div class="mb-3 row">

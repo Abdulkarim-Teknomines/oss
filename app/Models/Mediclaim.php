@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CompanyName;
+use App\Models\MediclaimCompany;
 use App\Models\PolicyType;
 use App\Models\User;
 use App\Models\PolicyMode;
@@ -36,6 +36,7 @@ class Mediclaim extends Model
         'branch_name',
         'branch_address',
         'branch_contact_no',
+        'other_details',
         'jan',
         'feb',
         'mar',
@@ -52,7 +53,7 @@ class Mediclaim extends Model
     ];
     public function company_name()
     {
-        return $this->belongsTo(CompanyName::class);
+        return $this->belongsTo(MediclaimCompany::class);
     }
     public function policy_type()
     {

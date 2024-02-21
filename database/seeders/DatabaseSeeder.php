@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             BloodGroupSeeder::class,
-            CompanyNameSeeder::class,
             InsurancePolicyTypeSeeder::class,
             MutualFundTypeSeeder::class,
             PolicyModeSeeder::class,

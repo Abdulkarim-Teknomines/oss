@@ -69,13 +69,32 @@
                             @endif
                         </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label for="insurance_company_name" class="col-md-3 col-form-label text-md-end text-start">Insurance Company Name <span style="color:red">*</span></label>
+                    <!-- <div class="mb-3 row">
+                        <label for="company_name_id" class="col-md-3 col-form-label text-md-end text-start">Insurance Company Name <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                        <input type="text" class="form-control @error('insurance_company_name') is-invalid @enderror" id="insurance_company_name" name="insurance_company_name" value="{{ old('insurance_company_name',$vehicle_insurance->insurance_company_name) }}" placeholder="Insurance Company Name" autocomplete="off">
-                            @if ($errors->has('insurance_company_name'))
-                                <span class="error invalid-feedback">{{ $errors->first('insurance_company_name') }}</span>
+                        <input type="text" class="form-control @error('company_name_id') is-invalid @enderror" id="company_name_id" name="company_name_id" value="{{ old('company_name_id',$vehicle_insurance->company_name->name) }}" placeholder="Insurance Company Name" autocomplete="off">
+                            @if ($errors->has('company_name_id'))
+                                <span class="error invalid-feedback">{{ $errors->first('company_name_id') }}</span>
                             @endif
+                        </div>
+                    </div> -->
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label text-md-end text-start">Insurance Company Name<span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <select id="company_name_id" class="form-control @error('company_name_id') is-invalid @enderror company_name_id" name="company_name_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                <option value="">-- Select Company --</option>
+                                @foreach ($company_name as $data)
+                                @if (old('company_name_id',$vehicle_insurance->company_name->id) == $data->id)
+                                    <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
+                                @else
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @endif
+                                
+                                @endforeach
+                            </select>
+                            @if ($errors->has('company_name_id'))
+                                    <span class="error invalid-feedback">{{ $errors->first('company_name_id') }}</span>
+                                @endif
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -182,7 +201,7 @@
                     <div class="mb-3 row">
                         <label for="other_details" class="col-md-3 col-form-label text-md-end text-start">Other Details </label>
                         <div class="col-md-4">
-                            <textarea class="form-control select2 select2-hidden-accessible state " name="other_details" placeholder="Branch Address">{{ old('other_details') ? old('other_details') : '' }}</textarea>
+                            <textarea class="form-control select2 select2-hidden-accessible state " name="other_details" placeholder="Branch Address">{{ old('other_details') ? old('other_details') : $vehicle_insurance->other_details }}</textarea>
                         </div>
                     </div>
                     <div class="mb-3 row">

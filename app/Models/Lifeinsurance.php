@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CompanyName;
+use App\Models\LifeInsuranceCompany;
 use App\Models\Ppt;
 use App\Models\User;
 use App\Models\PolicyMode;
@@ -28,6 +28,7 @@ class Lifeinsurance extends Model
         'policy_number',
         'sum_assured',
         'user_id',
+        'policy_mode_id',
         'plan_name',
         'ppt_id',
         'policy_term',
@@ -42,6 +43,7 @@ class Lifeinsurance extends Model
         'branch_name',
         'branch_address',
         'branch_contact_no',
+        'other_details',
         'jan',
         'feb',
         'mar',
@@ -58,7 +60,7 @@ class Lifeinsurance extends Model
     ];
     public function company_name()
     {
-        return $this->belongsTo(CompanyName::class);
+        return $this->belongsTo(LifeInsuranceCompany::class);
     }
     public function policy_mode()
     {

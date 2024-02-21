@@ -24,18 +24,7 @@
                 <th scope="col">Plan Name</th>
                 <th scope="col">PPT</th>
                 <th scope="col">Policy Term</th>
-                <th scope="col">Policy Mode</th>
-                <th scope="col">Premium Amount</th>
-                <th scope="col">Yearly Premium Amount</th>
-                <th scope="col">Nominee Name</th>
-                <th scope="col">Nominee Relation</th>
-                <th scope="col">Nominee DOB</th>
-                <th scope="col">Agent Name</th>
-                <th scope="col">Agent Mobile Number</th>
-                <th scope="col">Branch Name</th>
-                <th scope="col">Branch Address</th>
-                <th scope="col">Branch Contact No</th>
-                <th scope="col">Other Details</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -66,18 +55,7 @@
             {data: 'plan_name', name: 'plan_name'},
             {data: 'ppt_id', name: 'ppt_id'},
             {data: 'policy_term', name: 'policy_term'},
-            {data: 'policy_mode_id', name: 'policy_mode_id'},
-            {data: 'premium_amount', name: 'premium_amount'},
-            {data: 'yearly_premium_amount', name: 'yearly_premium_amount'},
-            {data: 'nominee_name', name: 'nominee_name'},
-            {data: 'nominee_relation', name: 'nominee_relation'},
-            {data: 'nominee_dob', name: 'nominee_dob'},
-            {data: 'agent_name', name: 'agent_name'},
-            {data: 'agent_mobile_number', name: 'agent_mobile_number'},
-            {data: 'branch_name', name: 'branch_name'},
-            {data: 'branch_address', name: 'branch_address'},
-            {data: 'branch_contact_no', name: 'branch_contact_no'},
-            {data: 'other_details', name: 'other_details'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 

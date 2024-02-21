@@ -15,11 +15,14 @@ use App\Models\User;
 use App\Models\Member;
 use App\Models\State;
 use App\Models\City;
+use App\Models\MediclaimCompany;
+use App\Models\LifeInsuranceCompany;
+use App\Models\VehicleInsuranceCompany;
 use App\Models\PolicyType;
 use App\Models\VehicleCategory;
 use App\Models\VehicleInsurance;
 use App\Models\Children;
-use App\Models\CompanyName;
+
 use App\Models\InsurancePolicyType;
 use App\Models\Lifeinsurance;
 use App\Models\Mediclaim;
@@ -154,7 +157,7 @@ class MemberController extends Controller
         $input['isActive'] = 0;
         $user = User::create($input);
         if($user){
-            $user_id = 'USR'.str_pad($user->id, 5, '0', STR_PAD_LEFT);
+            $user_id = 'MEM'.str_pad($user->id, 5, '0', STR_PAD_LEFT);
             User::whereId($user->id)->update([
                 'user_id' => $user_id,
             ]);
@@ -245,7 +248,7 @@ class MemberController extends Controller
     }
     public function add_mediclaim(User $user){
         $data['user_id']=$user->id;
-        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['company_name'] = MediclaimCompany::get(["name", "id"]);
         $data['policy_type'] = PolicyType::get(["name", "id"]);
         $data['policy_mode'] = PolicyMode::get(["name", "id"]);
         
@@ -382,7 +385,7 @@ class MemberController extends Controller
     }
     public function add_life_insurance(User $user){
         $data['user_id']=$user->id;
-        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['company_name'] = LifeInsuranceCompany::get(["name", "id"]);
         $data['ppt'] = Ppt::get(["name", "id"]);
         $data['policy_mode'] = PolicyMode::get(["name", "id"]);
         
@@ -588,6 +591,8 @@ class MemberController extends Controller
         $data['user_id']=$user->id;
         $data['vehicle_category'] = VehicleCategory::get(["name", "id"]);
         $data['policy_type'] = InsurancePolicyType::get(["name", "id"]);
+        $data['company'] = VehicleInsuranceCompany::get(["name", "id"]);
+        
         $data['ppt'] = Ppt::get(["name", "id"]);
         $data['title']='Members';
         $data['content']='Create Vehicle Insurance';
@@ -600,7 +605,7 @@ class MemberController extends Controller
             'vehicle_category' => 'required',
             'vehicle_number' => 'required',
             'vehicle_name' => 'required',
-            'insurance_company_name' => 'required',
+            'company_name_id' => 'required',
             'policy_number' => 'required',
             'chasis_number' => 'required',
             'policy_type' => 'required',
@@ -609,13 +614,14 @@ class MemberController extends Controller
             'policy_start_date' => 'required',
             'policy_end_date' => 'required',
         ]);
+        
         $input['parent_id'] = auth()->user()->id;
         $input['user_id'] = $request->user_id;
         $input['sr_no'] = $request->sr_no;
         $input['vehicle_category_id'] = $request->vehicle_category;
         $input['vehicle_number'] = $request->vehicle_number;
         $input['vehicle_name'] = $request->vehicle_name;
-        $input['insurance_company_name'] = $request->insurance_company_name;
+        $input['company_name_id'] = $request->company_name_id;
         $input['policy_number'] = $request->policy_number;
         $input['chasis_number'] = $request->chasis_number;
         $input['insurance_policy_type_id'] = $request->policy_type;
@@ -848,8 +854,9 @@ class MemberController extends Controller
     
     public function list_vehicle_insurance(Request $request,User $user){
         
+        
         if ($request->ajax()) {
-            $data =VehicleInsurance::with('insurance_policy_type','vehicle_category')->where('user_id',$user->id)->get();    
+            $data =VehicleInsurance::with('company_name','insurance_policy_type','vehicle_category')->where('user_id',$user->id)->get();    
             
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -865,8 +872,8 @@ class MemberController extends Controller
                     ->addColumn('vehicle_name', function($row){
                         return $row['vehicle_name'];
                     }) 
-                    ->addColumn('insurance_company_name', function($row){
-                        return $row['insurance_company_name'];
+                    ->addColumn('company_name_id', function($row){
+                        return $row->company_name['name'];
                     }) 
                     ->addColumn('policy_number', function($row){
                         return $row['policy_number'];
@@ -949,7 +956,7 @@ class MemberController extends Controller
         ]);
     }
     public function show_vehicle_insurance(Request $request,VehicleInsurance $vehicle_insurance){
-        $vehicle_insurances =VehicleInsurance::with('vehicle_category','insurance_policy_type','user')->where('id',$vehicle_insurance->id)->get();
+        $vehicle_insurances =VehicleInsurance::with('company_name','vehicle_category','insurance_policy_type','user')->where('id',$vehicle_insurance->id)->get();
         return view('vehicle_insurance.show', [
             'vehicle_insurance' => $vehicle_insurances,
             'title'=>'Member',
@@ -976,7 +983,7 @@ class MemberController extends Controller
     }
     public function edit_mediclaim(Mediclaim $mediclaim){
         $data['mediclaim_id']=$mediclaim->id;
-        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['company_name'] = MediclaimCompany::get(["name", "id"]);
         $data['policy_type'] = PolicyType::get(["name", "id"]);
         $data['policy_mode'] = PolicyMode::get(["name", "id"]);
         $data['mediclaim']=$mediclaim;
@@ -1363,7 +1370,6 @@ class MemberController extends Controller
     }
     public function update_mutual_fund(Request $request, Mutualfund $mutual_fund)
     {
-        
         $request->validate([
             'sr_no' => 'required|numeric',
             'mutual_fund_holder_name' => 'required',
@@ -1589,6 +1595,7 @@ class MemberController extends Controller
         $data['vehicle_insurance_id']=$vehicle_insurance->id;
         $data['vehicle_category'] = VehicleCategory::get(["name", "id"]);
         $data['policy_type'] = InsurancePolicyType::get(["name", "id"]);
+        $data['company_name'] = VehicleInsuranceCompany::get(["name", "id"]);
         $data['ppt'] = Ppt::get(["name", "id"]);
         $data['title']='Members';
         $data['vehicle_insurance']= $vehicle_insurance;
@@ -1603,7 +1610,7 @@ class MemberController extends Controller
             'vehicle_category' => 'required',
             'vehicle_number' => 'required',
             'vehicle_name' => 'required',
-            'insurance_company_name' => 'required',
+            'company_name_id' => 'required',
             'policy_number' => 'required',
             'chasis_number' => 'required',
             'policy_type' => 'required',
@@ -1618,7 +1625,7 @@ class MemberController extends Controller
         $input['vehicle_category_id'] = $request->vehicle_category;
         $input['vehicle_number'] = $request->vehicle_number;
         $input['vehicle_name'] = $request->vehicle_name;
-        $input['insurance_company_name'] = $request->insurance_company_name;
+        $input['company_name_id'] = $request->company_name_id;
         $input['policy_number'] = $request->policy_number;
         $input['chasis_number'] = $request->chasis_number;
         $input['insurance_policy_type_id'] = $request->policy_type;
@@ -1801,12 +1808,11 @@ class MemberController extends Controller
             $input['single'] = 0;
         }
         $vehicle_insurance->update($input);
-        
         return redirect()->route('vehicle_insurance.edit',$vehicle_insurance->id)->withSuccess('Vehicle Insurance is updated successfully.');
     }
     public function edit_life_insurance(Lifeinsurance $life_insurance){
         $data['life_insurance_id']=$life_insurance->id;
-        $data['company_name'] = CompanyName::get(["name", "id"]);
+        $data['company_name'] = LifeInsuranceCompany::get(["name", "id"]);
         $data['ppt'] = Ppt::get(["name", "id"]);
         $data['policy_mode'] = PolicyMode::get(["name", "id"]);
         $data['title']='Members';
@@ -1834,7 +1840,6 @@ class MemberController extends Controller
             'nominee_relation' => 'required',
             'nominee_dob' => 'required',
         ]);
-        // $input['user_id'] = $request->user_id;
         $input['parent_id'] = auth()->user()->id;
         $input['sr_no'] = $request->sr_no;
         $input['policy_holder_name'] = $request->policy_holder_name;
@@ -2209,8 +2214,8 @@ class MemberController extends Controller
                         return $row['fund_name'];
                     }elseif(isset($row['plan_name'])){
                         return $row['plan_name'];
-                    }elseif(isset($row['insurance_company_name'])){
-                        return $row['insurance_company_name'];
+                    }elseif(isset($row['company_name_id'])){
+                        return $row['company_name_id'];
                     }
                 }) 
                 ->addColumn('jan', function($row){
@@ -2321,30 +2326,12 @@ class MemberController extends Controller
                     ->addColumn('policy_mode', function($row){
                         return $row->policy_mode->name;
                     })
-                    ->addColumn('premium_amount', function($row){
-                        return $row->premium_amount;
-                    }) 
-                    ->addColumn('yearly_premium_amount', function($row){
-                        return $row->yearly_premium_amount;
-                    }) 
-                    ->addColumn('agent_name', function($row){
-                        return $row->agent_name;
-                    }) 
-                    ->addColumn('agent_mobile_number', function($row){
-                        return $row->agent_mobile_number;
-                    }) 
-                    ->addColumn('branch_name', function($row){
-                        return $row->branch_name;
-                    }) 
-                    ->addColumn('branch_address', function($row){
-                        return $row->branch_address;
-                    }) 
-                    ->addColumn('branch_contact_no', function($row){
-                        return $row->branch_contact_no;
-                    }) 
-                    ->addColumn('other_details', function($row){
-                        return $row->other_details;
-                    }) 
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="all_mediclaim/'.$row['id'].'/view" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
                     
                     ->make(true);
         }
@@ -2357,7 +2344,7 @@ class MemberController extends Controller
     } 
     public function all_vehicle_insurance(Request $request)
     {
-        $data =VehicleInsurance::with('user','vehicle_category','insurance_policy_type')->where('parent_id',auth()->user()->id)->get();
+        $data =VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->where('parent_id',auth()->user()->id)->get();
         if ($request->ajax()) {
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
             //     $query->where('name','member');
@@ -2382,8 +2369,8 @@ class MemberController extends Controller
                     ->addColumn('chasis_number', function($row){
                         return $row->chasis_number;
                     }) 
-                    ->addColumn('insurance_company_name', function($row){
-                        return $row->insurance_company_name;
+                    ->addColumn('company_name_id', function($row){
+                        return $row->company_name->name;
                     }) 
                     ->addColumn('policy_number', function($row){
                         return $row->policy_number;
@@ -2397,21 +2384,13 @@ class MemberController extends Controller
                     ->addColumn('vehicle_owner_name', function($row){
                         return $row->vehicle_owner_name;
                     })
-                    ->addColumn('policy_start_date', function($row){
-                        return $row->policy_start_date;
-                    }) 
-                    ->addColumn('policy_end_date', function($row){
-                        return $row->policy_end_date;
-                    }) 
-                    ->addColumn('agent_name', function($row){
-                        return $row->agent_name;
-                    }) 
-                    ->addColumn('agent_mobile_number', function($row){
-                        return $row->agent_mobile_number;
-                    }) 
-                    ->addColumn('other_details', function($row){
-                        return $row->other_details;
-                    }) 
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="all_vehicle_insurance/'.$row['id'].'/view" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    
                     
                     ->make(true);
         }
@@ -2425,7 +2404,7 @@ class MemberController extends Controller
     public function all_life_insurance(Request $request)
     {
             if ($request->ajax()) {
-            $data =Lifeinsurance::with('company_name','ppt','policy_mode')->get();
+            $data = Lifeinsurance::with('company_name','ppt','policy_mode')->get();
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
             //     $query->where('name','member');
             // })->get();
@@ -2446,7 +2425,7 @@ class MemberController extends Controller
                         return $row->policy_start_date;
                     }) 
                     ->addColumn('company_name_id', function($row){
-                        return $row->company_name_id->name;
+                        return $row->company_name->name;
                     }) 
                     ->addColumn('policy_number', function($row){
                         return $row->policy_number;
@@ -2458,48 +2437,17 @@ class MemberController extends Controller
                         return $row->plan_name;
                     }) 
                     ->addColumn('ppt_id', function($row){
-                        return $row->ppt_id_>name;
+                        return $row->ppt->name;
                     }) 
                     ->addColumn('policy_term', function($row){
                         return $row->policy_term;
                     }) 
-                    ->addColumn('policy_mode_id', function($row){
-                        return $row->policy_mode_id->name;
-                    }) 
-                    ->addColumn('premium_amount', function($row){
-                        return $row->premium_amount;
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="all_life_insurance/'.$row['id'].'/view" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        return $btn;
                     })
-                    ->addColumn('yearly_premium_amount', function($row){
-                        return $row->yearly_premium_amount;
-                    }) 
-                    ->addColumn('nominee_name', function($row){
-                        return $row->nominee_name;
-                    }) 
-                    ->addColumn('nominee_relation', function($row){
-                        return $row->nominee_relation;
-                    }) 
-                    ->addColumn('nominee_dob', function($row){
-                        return $row->nominee_dob;
-                    }) 
-                    ->addColumn('agent_name', function($row){
-                        return $row->agent_name;
-                    }) 
-                    ->addColumn('agent_mobile_number', function($row){
-                        return $row->agent_mobile_number;
-                    }) 
-                    ->addColumn('branch_name', function($row){
-                        return $row->branch_name;
-                    }) 
-                    ->addColumn('branch_address', function($row){
-                        return $row->branch_address;
-                    }) 
-                    ->addColumn('branch_contact_no', function($row){
-                        return $row->branch_contact_no;
-                    }) 
-                    ->addColumn('other_details', function($row){
-                        return $row->other_details;
-                    }) 
-                    
+                    ->rawColumns(['action'])
                     ->make(true);
         }
         
@@ -2527,7 +2475,7 @@ class MemberController extends Controller
                     return $row->mutual_fund_holder_name;
                 }) 
                 ->addColumn('mutual_fund_type_id', function($row){
-                    return $row->mutual_fund_type_id;
+                    return $row->mutual_fund_type->name;
                 }) 
                 ->addColumn('folio_number', function($row){
                     return $row->folio_number;
@@ -2541,30 +2489,21 @@ class MemberController extends Controller
                 ->addColumn('purchase_date', function($row){
                     return $row->purchase_date;
                 }) 
-                ->addColumn('amount', function($row){
-                    return $row->amount;
-                }) 
-                ->addColumn('yearly_amount', function($row){
-                    return $row->yearly_amount;
-                }) 
+                 ->addColumn('amount', function($row){
+                     return $row->amount;
+                 }) 
+                 ->addColumn('yearly_amount', function($row){
+                     return $row->yearly_amount;
+                 }) 
                 ->addColumn('nominee_name', function($row){
-                    return $row->nominee_name->name;
+                    return $row->nominee_name;
                 }) 
-                ->addColumn('nominee_relation', function($row){
-                    return $row->nominee_relation;
+                ->addColumn('action', function ($row){
+                    $btn='';
+                    $btn .= '<a href="all_mutual_fund/'.$row['id'].'/view" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                    return $btn;
                 })
-                ->addColumn('nominee_dob', function($row){
-                    return $row->nominee_dob;
-                }) 
-                ->addColumn('agent_name', function($row){
-                    return $row->agent_name;
-                }) 
-                ->addColumn('agent_mobile_number', function($row){
-                    return $row->agent_mobile_number;
-                }) 
-                ->addColumn('other_details', function($row){
-                    return $row->other_details;
-                }) 
+                ->rawColumns(['action'])
                 ->make(true);
         }
         
@@ -2573,4 +2512,235 @@ class MemberController extends Controller
             'content'=>'Manage Mututal Fund'
         ]);
     } 
+    public function list_mediclaim_company(Request $request){
+        if ($request->ajax()) {
+            $data =MediclaimCompany::get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('name', function($row){
+                    return $row->name;
+                }) 
+                ->addColumn('action', function ($row){
+                    $btn='';
+                    $btn .= '<a href="mediclaims/'.$row['id'].'/view" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                    $btn.='<a href="mediclaims/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        
+        return view('mediclaim.list_mediclaim_company', [
+            'title'=>'Mediclaim',
+            'content'=>'Mediclaim Company'
+        ]);
+    }
+    public function list_life_insurance_company(Request $request){
+        if ($request->ajax()) {
+            $data =LifeInsuranceCompany::get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('name', function($row){
+                    return $row->name;
+                }) 
+                ->addColumn('action', function ($row){
+                    $btn='';
+                    $btn .= '<a href="life_insurance_company/'.$row['id'].'/view" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                    $btn.='<a href="life_insurance_company/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        
+        return view('life_insurance.list_life_insurance_company', [
+            'title'=>'Life Insurance',
+            'content'=>'Life Insurance Company'
+        ]);
+    }
+    public function list_vehicle_insurance_company(Request $request){
+        
+        if ($request->ajax()) {
+            $data =VehicleInsuranceCompany::get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('name', function($row){
+                    return $row->name;
+                }) 
+                ->addColumn('action', function ($row){
+                    $btn='';
+                    $btn .= '<a href="vehicle_insurance_company/'.$row['id'].'/view" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                    $btn.='<a href="vehicle_insurance_company/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        
+        return view('vehicle_insurance.list_vehicle_insurance_company', [
+            'title'=>'Vehicle Insurance',
+            'content'=>'Vehicle Insurance Company'
+        ]);
+    }
+    public function create_mediclaim_company(){
+        $data['title']='Mediclaim';
+        $data['content']='Create Mediclaim Company';
+        return view('mediclaim.create_mediclaim_company', $data);
+    }
+    public function store_mediclaim_company(Request $request){
+        
+        $request->validate([
+            'company_name' => 'required',
+        ]); 
+        $input['name'] = $request->company_name;
+        
+        $user = MediclaimCompany::create($input);
+        return redirect()->route('list_mediclaim_company')
+                    ->withSuccess('Company Name is added successfully.');
+    }
+    public function create_life_insurance_company(){
+        $data['title']='Life Insurance';
+        $data['content']='Create Life Insurance Company';
+        return view('life_insurance.create_life_insurance_company', $data);
+    }
+    public function store_life_insurance_company(Request $request){
+        
+        $request->validate([
+            'company_name' => 'required',
+        ]); 
+        $input['name'] = $request->company_name;
+        
+        $user = LifeInsuranceCompany::create($input);
+        return redirect()->route('list_life_insurance_company')
+                    ->withSuccess('Company Name is added successfully.');
+    }
+    public function view_life_insurance_company(Request $request,LifeInsuranceCompany $company){
+        $company =$company::get();
+        return view('life_insurance.view_life_insurance_company', [
+            'company' => $company,
+            'title'=>'Life Insurance',
+            'content'=>'View Company'
+        ]);
+    }
+    public function view_vehicle_insurance_company(Request $request,VehicleInsuranceCompany $company){
+        $company =$company::get();
+        return view('vehicle_insurance.view_vehicle_insurance_company', [
+            'company' => $company,
+            'title'=>'Vehcile Insurance',
+            'content'=>'View Company'
+        ]);
+    }
+    public function view_mediclaim_company(Request $request,MediclaimCompany $company){
+        $company =$company::get();
+        return view('mediclaim.view_mediclaim_company', [
+            'company' => $company,
+            'title'=>'Mediclaim',
+            'content'=>'View Company'
+        ]);
+    }
+    public function edit_life_insurance_company(Request $request,LifeInsuranceCompany $company){
+        $company =$company::get();
+        
+        return view('life_insurance.edit_life_insurance_company', [
+            'company' => $company,
+            'title'=>'Life Insurance',
+            'content'=>'View Company'
+        ]);
+    }
+    public function edit_vehicle_insurance_company(Request $request,VehicleInsuranceCompany $company){
+        $company =$company::get();
+        
+        return view('vehicle_insurance.edit_vehicle_insurance_company', [
+            'company' => $company,
+            'title'=>'Vehicle Insurance',
+            'content'=>'View Company'
+        ]);
+    }
+    public function edit_mediclaim_company(Request $request,MediclaimCompany $company){
+        $company =$company::get();
+        
+        return view('mediclaim.edit_mediclaim_company', [
+            'company' => $company,
+            'title'=>'Mediclaim',
+            'content'=>'View Company'
+        ]);
+    }
+    public function update_life_insurance_company(Request $request,LifeInsuranceCompany $company){
+        $request->validate([
+            'company_name' => 'required',
+        ]); 
+        $input['name'] = $request->company_name;
+        $company->update($input);
+        return redirect()->route('list_life_insurance_company')
+                    ->withSuccess('Company Name is Updated successfully.');
+    }
+    public function update_vehicle_insurance_company(Request $request,VehicleInsuranceCompany $company){
+        $request->validate([
+            'company_name' => 'required',
+        ]); 
+        $input['name'] = $request->company_name;
+        $company->update($input);
+        return redirect()->route('list_vehicle_insurance_company')
+                    ->withSuccess('Company Name is Updated successfully.');
+    }
+    public function update_mediclaim_company(Request $request,MediclaimCompany $company){
+        $request->validate([
+            'company_name' => 'required',
+        ]); 
+        $input['name'] = $request->company_name;
+        $company->update($input);
+        return redirect()->route('list_mediclaim_company')
+                    ->withSuccess('Company Name is Updated successfully.');
+    }
+
+    public function view_all_mediclaim(Request $request,Mediclaim $mediclaim){
+        $mediclaim =Mediclaim::with('company_name','policy_type','policy_mode')->where('id',$mediclaim->id)->get();
+        return view('mediclaim.view_all_mediclaim', [
+            'mediclaim' => $mediclaim,
+            'title'=>'Mediclaim',
+            'content'=>'View Mediclaim'
+        ]);
+    }
+    public function view_all_life_insurance(Request $request,LifeInsurance $life_insurance){
+        $life_insurance =Lifeinsurance::with('company_name','ppt','policy_mode')->where('id',$life_insurance->id)->get();
+        return view('life_insurance.view_all_life_insurance', [
+            'life_insurance' => $life_insurance,
+            'title'=>'Life Insurance',
+            'content'=>'View Life Insurance'
+        ]);
+    }
+    public function view_all_vehicle_insurance(Request $request,VehicleInsurance $vehicle_insurance){
+        $vehicle_insurance =VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->where('id',$vehicle_insurance->id)->get();
+        return view('vehicle_insurance.view_all_vehicle_insurance', [
+            'vehicle_insurance' => $vehicle_insurance,
+            'title'=>'Vehicle Insurance',
+            'content'=>'View Vehicle Insurance'
+        ]);
+
+    }
+    public function view_all_mutual_fund(Request $request,VehicleInsurance $mutual_fund){
+        $mutual_fund =Mutualfund::with('mutual_fund_type')->where('id',$mutual_fund->id)->get();
+        return view('mutual_fund.view_all_mutual_fund', [
+            'mutual_fund' => $mutual_fund,
+            'title'=>'Mutual Fund',
+            'content'=>'View Mutual Fund'
+        ]);
+
+    }
+    public function create_vehicle_insurance_company(){
+        $data['title']='Vehicle Insurance';
+        $data['content']='Create Vehicle Insurance Company';
+        return view('vehicle_insurance.create_vehicle_insurance_company', $data);
+    }
+    public function store_vehicle_insurance_company(Request $request){
+        
+        $request->validate([
+            'company_name' => 'required',
+        ]); 
+        $input['name'] = $request->company_name;
+        
+        $user = VehicleInsuranceCompany::create($input);
+        return redirect()->route('list_vehicle_insurance_company')
+                    ->withSuccess('Company Name is added successfully.');
+    }
 }

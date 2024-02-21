@@ -131,11 +131,36 @@ Route::controller(MemberController::class)->group(function(){
     Route::get('mutual_funds/{mutual_fund}', 'show_mutual_fund')->name('mutual_fund.show');
     Route::get('mutual_funds/{mutual_fund}/edit_mutual_fund', 'edit_mutual_fund')->name('mutual_fund.edit');
     Route::put('mutual_funds/{mutual_fund}', 'update_mutual_fund')->name('mutual_fund.update_mutual_fund');
-    
+     
     Route::get('mediclaim', 'all_mediclaim')->name('mediclaim.all_mediclaim');
     Route::get('vehicle_insurance', 'all_vehicle_insurance')->name('vehicle_insurance.all_vehicle_insurance');
     Route::get('life_insurance', 'all_life_insurance')->name('life_insurance.all_life_insurance');
     Route::get('mutual_fund', 'all_mutual_fund')->name('mutual_fund.all_mutual_fund');
+    Route::get('all_mediclaim/{mediclaim}/view', 'view_all_mediclaim')->name('view_all_mediclaim');
+    Route::get('all_life_insurance/{life_insurance}/view', 'view_all_life_insurance')->name('view_all_life_insurance');
+    Route::get('all_vehicle_insurance/{vehicle_insurance}/view', 'view_all_vehicle_insurance')->name('view_all_vehicle_insurance');
+    Route::get('all_mutual_fund/{mutual_fund}/view', 'view_all_mutual_fund')->name('view_all_mutual_fund');
+
+    Route::get('create_mediclaim_company', 'create_mediclaim_company')->name('create_mediclaim_company');
+    Route::post('store_mediclaim_company', 'store_mediclaim_company')->name('store_mediclaim_company');
+    Route::get('list_mediclaim_company', 'list_mediclaim_company')->name('list_mediclaim_company');
+    Route::get('mediclaims/{company}/view', 'view_mediclaim_company')->name('view_mediclaim_company');
+    Route::get('mediclaims/{company}/edit', 'edit_mediclaim_company')->name('edit_mediclaim_company');
+    Route::put('update_mediclaim_company/{company}', 'update_mediclaim_company')->name('update_mediclaim_company');
+
+    Route::get('create_life_insurance_company', 'create_life_insurance_company')->name('create_life_insurance_company');
+    Route::get('list_life_insurance_company', 'list_life_insurance_company')->name('list_life_insurance_company');
+    Route::post('store_life_insurance_company', 'store_life_insurance_company')->name('store_life_insurance_company');
+    Route::get('life_insurance_company/{company}/view', 'view_life_insurance_company')->name('view_life_insurance_company');
+    Route::get('life_insurance_company/{company}/edit', 'edit_life_insurance_company')->name('edit_life_insurance_company');
+    Route::put('update_life_insurance_company/{company}', 'update_life_insurance_company')->name('update_life_insurance_company');
+    
+    Route::get('create_vehicle_insurance_company', 'create_vehicle_insurance_company')->name('create_vehicle_insurance_company');
+    Route::get('list_vehicle_insurance_company', 'list_vehicle_insurance_company')->name('list_vehicle_insurance_company');
+    Route::post('store_vehicle_insurance_company', 'store_vehicle_insurance_company')->name('store_vehicle_insurance_company');
+    Route::get('vehicle_insurance_company/{company}/view', 'view_vehicle_insurance_company')->name('view_vehicle_insurance_company');
+    Route::get('vehicle_insurance_company/{company}/edit', 'edit_vehicle_insurance_company')->name('edit_vehicle_insurance_company');
+    Route::put('update_vehicle_insurance_company/{company}', 'update_vehicle_insurance_company')->name('update_vehicle_insurance_company');
 });
 
 

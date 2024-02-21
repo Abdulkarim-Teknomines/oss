@@ -24,11 +24,7 @@
                 <th scope="col">Insurance Policy Type</th>
                 <th scope="col">Policy Premium</th>
                 <th scope="col">Vehicle Owner Name</th>
-                <th scope="col">Policy Start Date</th>
-                <th scope="col">Policy End Date</th>
-                <th scope="col">Agent Name</th>
-                <th scope="col">Agent Mobile Number</th>
-                <th scope="col">Other Details</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -51,16 +47,12 @@
             {data: 'vehicle_number', name: 'vehicle_number'},
             {data: 'vehicle_name', name: 'vehicle_name'},
             {data: 'chasis_number', name: 'chasis_number'},
-            {data: 'insurance_company_name', name: 'insurance_company_name'},
+            {data: 'company_name_id', name: 'company_name_id'},
             {data: 'policy_number', name: 'policy_number'},
             {data: 'insurance_policy_type_id', name: 'insurance_policy_type_id'},
             {data: 'policy_premium', name: 'policy_premium'},
             {data: 'vehicle_owner_name', name: 'vehicle_owner_name'},
-            {data: 'policy_start_date', name: 'policy_start_date'},
-            {data: 'policy_end_date', name: 'policy_end_date'},
-            {data: 'agent_name', name: 'agent_name'},
-            {data: 'agent_mobile_number', name: 'agent_mobile_number'},
-            {data: 'other_details', name: 'other_details'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 

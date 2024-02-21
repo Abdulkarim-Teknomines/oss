@@ -54,6 +54,35 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
+                Settings
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('list_mediclaim_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mediclaim Company</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('list_life_insurance_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Life Insurance Company</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('list_vehicle_insurance_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Vehicle Insurance Company</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
                 Profile Settings
                 <i class="fas fa-angle-left right"></i>
               </p>

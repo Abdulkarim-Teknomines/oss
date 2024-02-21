@@ -10,6 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\VehicleCategory;
 use App\Models\InsurancePolicyType;
+use App\Models\VehicleInsuranceCompany;
 
 class VehicleInsurance extends Model
 {
@@ -22,7 +23,7 @@ class VehicleInsurance extends Model
         'vehicle_category_id',
         'vehicle_number',
         'vehicle_name',
-        'insurance_company_name',
+        'company_name_id',
         'policy_number',
         'chasis_number',
         'insurance_policy_type_id',
@@ -32,6 +33,7 @@ class VehicleInsurance extends Model
         'policy_end_date',
         'agent_name',
         'agent_mobile_number',
+        'other_details',
         'jan',
         'feb',
         'mar',
@@ -58,4 +60,8 @@ class VehicleInsurance extends Model
     {
         return $this->belongsTo(User::class);
     }   
+    public function company_name()
+    {
+        return $this->belongsTo(VehicleInsuranceCompany::class);
+    }
 }

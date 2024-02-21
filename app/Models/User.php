@@ -32,6 +32,7 @@ class User extends Authenticatable
         'address',
         'parent_id',
         'blood_group_id',
+        'department_id',
         'country_id',
         'state_id',
         'city_id',

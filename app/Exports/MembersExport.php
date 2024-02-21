@@ -72,8 +72,8 @@ class MembersExport implements FromCollection, WithHeadings
                 $plan_name=$member['fund_name'];
             }elseif(isset($member['plan_name'])){
                 $plan_name=$member['plan_name'];
-            }elseif(isset($member['insurance_company_name'])){
-                $plan_name=$member['insurance_company_name'];
+            }elseif(isset($member['company_name'])){
+                $plan_name=$member['company_name'];
             }
             
             $datad[]=array(

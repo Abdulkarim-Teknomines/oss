@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
+use App\Models\Department;
 use App\Models\Bloodgroup;
 use PDF;
 use Auth;
@@ -45,7 +46,11 @@ class UserController extends Controller
     {
         
         if ($request->ajax()) {
-            $data =User::where('parent_id',auth()->user()->id)->get();
+            $data =User::where('parent_id',auth()->user()->id)->with('roles')->whereHas('roles', function($query) {
+                    $query->where('name','Admin');
+                    $query->orWhere('name','Manager');
+                    $query->orWhere('name','Agent');
+                })->get();
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
             //     $query->where('name','Admin');
             //     $query->orWhere('name','Manager');
@@ -152,6 +157,7 @@ class UserController extends Controller
         $data['blood_group'] = Bloodgroup::get(["name", "id"]);
         // dd($data['countries']);
         $data['title']='Users';
+        $data['departments'] = Department::get(['name','id']);
         $data['content']='Create User';
         return view('users.create', $data);
     }
@@ -218,6 +224,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => Role::pluck('name')->all(),
             'userRoles' => $user->roles->pluck('name')->all(),
+            'departments' => Department::get(['name','id']),
             'title'=>'Users',
             'content'=>'Edit User',
             'countries'=>Country::get(["name", "id"]),

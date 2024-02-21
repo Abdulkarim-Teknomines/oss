@@ -25,14 +25,9 @@
                 <th scope="col">Sum Assured</th>
                 <th scope="col">Policy Name</th>
                 <th scope="col">Policy Mode</th>
-                <th scope="col">Premium Amount</th>
-                <th scope="col">Yearly Premium Amount</th>
-                <th scope="col">Agent Name</th>
-                <th scope="col">Agent Mobile Number</th>
-                <th scope="col">Branch_Name</th>
-                <th scope="col">Branch Address</th>
-                <th scope="col">Branch Contact No</th>
-                <th scope="col">Other Details</th>
+                <th scope="col">Action</th>
+                
+                
                 
             </tr>
         </thead>
@@ -64,14 +59,7 @@
             {data: 'sum_assured', name: 'sum_assured'},
             {data: 'policy_name', name: 'policy_name'},
             {data: 'policy_mode', name: 'policy_mode'},
-            {data: 'premium_amount', name: 'premium_amount'},
-            {data: 'yearly_premium_amount', name: 'yearly_premium_amount'},
-            {data: 'agent_name', name: 'agent_name'},
-            {data: 'agent_mobile_number', name: 'agent_mobile_number'},
-            {data: 'branch_name', name: 'branch_name'},
-            {data: 'branch_address', name: 'branch_address'},
-            {data: 'branch_contact_no', name: 'branch_contact_no'},
-            {data: 'other_details', name: 'other_details'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 

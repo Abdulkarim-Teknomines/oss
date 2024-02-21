@@ -169,6 +169,27 @@
                             @endif
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label class="col-md-3 col-form-label text-md-end text-start">Department <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <select id="department" name="department_id" class="form-control select2 select2-hidden-accessible state @error('department_id') is-invalid @enderror department_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                <option value="">-- Select Department --</option>
+                                @foreach ($departments as $data)
+                                @if (old('department_id') == $data->id)
+                                    <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
+                                @else
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @endif
+                                <!-- <option value="{{$data->id}}" {{ old('blood_group_id') ?? $data->id ? 'selected' : '' }}>
+                                    {{$data->name}}
+                                </option> -->
+                                @endforeach
+                            </select>
+                            @if ($errors->has('department_id'))
+                                <span class="error invalid-feedback">{{ $errors->first('department_id') }}</span>
+                            @endif
+                        </div>
+                    </div>
                     <div class="mb-3 row">
                         <label for="email" class="col-md-3 col-form-label text-md-end text-start">Email Address <span style="color:red">*</span></label>
                         <div class="col-md-4">

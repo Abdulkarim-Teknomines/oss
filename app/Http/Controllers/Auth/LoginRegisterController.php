@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon; 
+use App\Models\Mediclaim;
+use App\Models\Lifeinsurance;
+use App\Models\VehicleInsurance;
+use App\Models\Mutualfund;
 use Mail; 
 use DB; 
 use Illuminate\Support\Str;
@@ -110,6 +114,11 @@ class LoginRegisterController extends Controller
         $data['admin'] = User::role('admin')->count();
         $data['manager'] = User::role('manager')->count();
         $data['agent'] = User::role('agent')->count();
+        $data['mediclaim']= Mediclaim::with('company_name','policy_type','policy_mode')->latest()->take(10)->get();
+        $data['life_insurance']=Lifeinsurance::with('company_name','ppt','policy_mode')->latest()->take(10)->get();
+        $data['vehicle_insurance']=VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->latest()->take(10)->get();
+        
+        $data['mutual_fund']=Mutualfund::with('mutual_fund_type')->latest()->take(10)->get();
         $data['title']='Dashboard';
         $data['content']='Dashboard';
         if(Auth::check())

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('sr_no');
             $table->integer('vehicle_category_id');
-            $table->string('vehicle_number');     //[dropdown provided by team]
+            $table->string('vehicle_number');     
             $table->string('vehicle_name');
             $table->string('chasis_number');
-            $table->string('insurance_company_name');
+            $table->integer('company_name_id');
             $table->integer('policy_number');
             $table->integer('insurance_policy_type_id');
             $table->integer('policy_premium');

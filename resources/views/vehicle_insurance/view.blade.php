@@ -44,7 +44,7 @@
             {data: 'vehicle_category_id', name: 'vehicle_category_id'},
             {data: 'vehicle_number', name: 'vehicle_number'},
             {data: 'vehicle_name', name: 'vehicle_name'},
-            {data: 'insurance_company_name', name: 'insurance_company_name'},
+            {data: 'company_name_id', name: 'company_name_id'},
             {data: 'policy_number', name: 'policy_number'},
             {data: 'insurance_policy_type_id', name: 'insurance_policy_type_id'},
             

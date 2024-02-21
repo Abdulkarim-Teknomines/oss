@@ -25,12 +25,7 @@
                 <th scope="col">Amount</th>
                 <th scope="col">Yearly Amount</th>
                 <th scope="col">Nominee Name</th>
-                <th scope="col">Nominee Relation</th>
-                <th scope="col">Nominee Dob</th>
-                <th scope="col">Agent Name</th>
-                <th scope="col">Agent Mobile Number</th>
-                <th scope="col">Other Details</th>
-                
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -58,14 +53,10 @@
             {data: 'fund_name', name: 'fund_name'},
             {data: 'fund_type', name: 'fund_type'},
             {data: 'purchase_date', name: 'purchase_date'},
-            {data: 'amount', name: 'amount'},
-            {data: 'yearly_amount', name: 'yearly_amount'},
+             {data: 'amount', name: 'amount'},
+             {data: 'yearly_amount', name: 'yearly_amount'},
             {data: 'nominee_name', name: 'nominee_name'},
-            {data: 'nominee_relation', name: 'nominee_relation'},
-            {data: 'nominee_dob', name: 'nominee_dob'},
-            {data: 'agent_name', name: 'agent_name'},
-            {data: 'agent_mobile_number', name: 'agent_mobile_number'},
-            {data: 'other_details', name: 'other_details'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 

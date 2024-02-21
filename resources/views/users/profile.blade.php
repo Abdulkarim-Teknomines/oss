@@ -89,7 +89,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="emergency_contact_number" class="col-md-3 col-form-label text-md-end text-start">Emergency Contact Number <span style="color:red">*</span></label>
+                        <label for="emergency_contact_number" class="col-md-2 col-form-label text-md-end text-start">Emergency Contact Number <span style="color:red">*</span></label>
                         <div class="col-md-5">
                           <input type="text" class="form-control @error('emergency_contact_number') is-invalid @enderror" id="emergency_contact_number" name="emergency_contact_number" value="{{old('emergency_contact_number') ? old('emergency_contact_number') : $user->emergency_contact_number}}">
                           @if ($errors->has('emergency_contact_number'))
