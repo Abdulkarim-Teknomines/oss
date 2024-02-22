@@ -114,11 +114,20 @@ class LoginRegisterController extends Controller
         $data['admin'] = User::role('admin')->count();
         $data['manager'] = User::role('manager')->count();
         $data['agent'] = User::role('agent')->count();
+        $data['mediclaim_count'] = Mediclaim::count();
+        $data['life_insurance_count'] = Lifeinsurance::count();
+        $data['vehicle_insurance_count'] = VehicleInsurance::count();
+
+        $data['members'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
+            $query->where('name','member');
+        })->latest()->take(10)->get();
+        $data['mutual_fund_count'] = Mutualfund::count();
+
         $data['mediclaim']= Mediclaim::with('company_name','policy_type','policy_mode')->latest()->take(10)->get();
         $data['life_insurance']=Lifeinsurance::with('company_name','ppt','policy_mode')->latest()->take(10)->get();
         $data['vehicle_insurance']=VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->latest()->take(10)->get();
-        
         $data['mutual_fund']=Mutualfund::with('mutual_fund_type')->latest()->take(10)->get();
+
         $data['title']='Dashboard';
         $data['content']='Dashboard';
         if(Auth::check())

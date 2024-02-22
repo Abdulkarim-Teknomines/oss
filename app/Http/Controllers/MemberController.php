@@ -2725,7 +2725,7 @@ class MemberController extends Controller
             'title'=>'Mutual Fund',
             'content'=>'View Mutual Fund'
         ]);
-
+        
     }
     public function create_vehicle_insurance_company(){
         $data['title']='Vehicle Insurance';
@@ -2733,12 +2733,10 @@ class MemberController extends Controller
         return view('vehicle_insurance.create_vehicle_insurance_company', $data);
     }
     public function store_vehicle_insurance_company(Request $request){
-        
         $request->validate([
             'company_name' => 'required',
         ]); 
         $input['name'] = $request->company_name;
-        
         $user = VehicleInsuranceCompany::create($input);
         return redirect()->route('list_vehicle_insurance_company')
                     ->withSuccess('Company Name is added successfully.');
