@@ -7,7 +7,7 @@
     <div class="card-body">
         
     <table class="table table-bordered dts1" id="dts1">
-        <thead>
+        <thead class="bg-primary">
             <tr  style="color:#007bff">
                 
                 <th scope="col">Name</th>

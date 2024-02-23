@@ -17,7 +17,7 @@
     </div>
     <div class="card-body">
     <table class="table table-bordered dts">
-        <thead>
+        <thead class="bg-primary">
             <tr>
                 <th scope="col">Company Name</th>
                 <th scope="col">Action</th>

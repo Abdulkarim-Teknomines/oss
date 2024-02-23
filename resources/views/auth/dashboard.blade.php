@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-gray">
               <div class="inner">
                 <h3>{{$users}}</h3>
                 <p>Users</p>
@@ -22,7 +22,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-orange">
               <div class="inner">
                 <h3>{{$admin}}</h3>
                 <p>Admin</p>
@@ -64,7 +64,7 @@
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-purple">
               <div class="inner">
                 <h3>{{$mediclaim_count}}</h3>
                 <p>Mediclaim</p>
@@ -92,7 +92,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-pink">
               <div class="inner">
                 <h3>{{$vehicle_insurance_count}}</h3>
                 <p>Vehicle Insurance</p>
@@ -106,7 +106,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-primary">
               <div class="inner">
                 <h3>{{$mutual_fund_count}}</h3>
                 <p>Mutual Fund</p>
@@ -122,7 +122,7 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="card">
-              <div class="card-header border-transparent">
+              <div class="card-header border-transparent bg-purple">
                 <h3 class="card-title">Mediclaims</h3>
 
                 <div class="card-tools">
@@ -144,11 +144,11 @@
                       <th>Birth Date</th>
                       <th>Start Date</th>
                       <th>Company Name</th>
-                      <th>Policy Number</th>
+                      <!-- <th>Policy Number</th>
                       <th>Policy Type</th>  
                       <th>Policy Name</th>  
                       <th>Premium Amount</th>
-                      <th>Yearly Premium Amount</th>
+                      <th>Yearly Premium Amount</th> -->
                     </tr>
                     </thead>
                     <tbody>
@@ -159,11 +159,11 @@
                       <td>{{$med->birth_date}}</td>
                       <td><span class="badge badge-success">{{$med->policy_start_date}}</span></td>
                       <td>{{$med->company_name->name}}</td>
-                      <td>{{$med->policy_number}}</td>
-                      <td>{{$med->policy_type->name}}</td>
-                      <td>{{$med->policy_name}}</td>
-                      <td>{{$med->premium_amount}}</td>
-                      <td>{{$med->yearly_premium_amount}}</td>
+                        <!-- <td>{{$med->policy_number}}</td>
+                        <td>{{$med->policy_type->name}}</td>
+                        <td>{{$med->policy_name}}</td>
+                        <td>{{$med->premium_amount}}</td>
+                        <td>{{$med->yearly_premium_amount}}</td> -->
                     </tr>
                     @empty
                       <tr><td>No Record Found</td></tr>
@@ -184,7 +184,7 @@
           </div>
           <div class="col-sm-6">
             <div class="card">
-              <div class="card-header border-transparent">
+              <div class="card-header border-transparent bg-green">
                 <h3 class="card-title">Life Insurances</h3>
 
                 <div class="card-tools">
@@ -206,11 +206,11 @@
                       <th>Birth Date</th>
                       <th>Start Date</th>
                       <th>Company Name</th>
-                      <th>Policy Number</th>
+                      <!-- <th>Policy Number</th>
                       <th>Sum Assured</th>  
                       <th>Plan Name</th>  
                       <th>PPT</th>
-                      <th>Policy Term</th>
+                      <th>Policy Term</th> -->
                     </tr>
                     </thead>
                     <tbody>
@@ -221,11 +221,11 @@
                       <td>{{$med->birth_date}}</td>
                       <td><span class="badge badge-success">{{$med->policy_start_date}}</span></td>
                       <td>{{$med->company_name->name}}</td>
-                      <td>{{$med->policy_number}}</td>
+                      <!-- <td>{{$med->policy_number}}</td>
                       <td>{{$med->sum_assured}}</td>
                       <td>{{$med->plan_name}}</td>
                       <td>{{$med->ppt->name}}</td>
-                      <td>{{$med->policy_term}}</td>
+                      <td>{{$med->policy_term}}</td> -->
                     </tr>
                     @empty
                       <tr><td>No Record Found</td></tr>
@@ -246,7 +246,7 @@
           </div>
           <div class="col-sm-6">
           <div class="card">
-              <div class="card-header border-transparent">
+              <div class="card-header border-transparent bg-pink">
                 <h3 class="card-title">Vehicle Insurances</h3>
 
                 <div class="card-tools">
@@ -268,11 +268,11 @@
                       <th>Vehicle Number</th>
                       <th>Vehicle Name</th>
                       <th>Chasis Number</th>
-                      <th>Company Name</th>
+                      <!-- <th>Company Name</th>
                       <th>Policy Number</th>  
                       <th>Policy Type</th>  
                       <th>Policy Premium</th>
-                      <th>Owner Name</th>
+                      <th>Owner Name</th> -->
                     </tr>
                     </thead>
                     <tbody>
@@ -283,11 +283,11 @@
                       <td>{{$med->vehicle_number}}</td>
                       <td>{{$med->vehicle_name}}</span></td>
                       <td>{{$med->chasis_number}}</td>
-                      <td>{{$med->company_name->name}}</td>
+                      <!-- <td>{{$med->company_name->name}}</td>
                       <td>{{$med->policy_number}}</td>
                       <td>{{$med->insurance_policy_type->name}}</td>
                       <td>{{$med->policy_premium}}</td>
-                      <td>{{$med->vehicle_owner_name}}</td>
+                      <td>{{$med->vehicle_owner_name}}</td> -->
                     </tr>
                     @empty
                       <tr><td>No Record Found</td></tr>
@@ -307,7 +307,7 @@
           </div>
         <div class="col-sm-6">
           <div class="card">
-              <div class="card-header border-transparent">
+              <div class="card-header border-transparent bg-primary">
                 <h3 class="card-title">Mutual Funds</h3>
 
                 <div class="card-tools">
@@ -329,11 +329,11 @@
                       <th>Type</th>
                       <th>Folio Number</th>
                       <th>Fund Name</th>
-                      <th>Fund Type</th>
+                      <!-- <th>Fund Type</th>
                       <th>Purchase Date</th>  
                       <th>Amount</th>  
                       <th>Yearly Amount</th>
-                      <th>Nominee Name</th>
+                      <th>Nominee Name</th> -->
                     </tr>
                     </thead>
                     <tbody>
@@ -344,11 +344,11 @@
                       <td>{{$med->mutual_fund_type->name}}</td>
                       <td>{{$med->folio_number}}</span></td>
                       <td>{{$med->fund_name}}</td>
-                      <td>{{$med->fund_type}}</td>
+                      <!-- <td>{{$med->fund_type}}</td>
                       <td>{{$med->purchase_date}}</td>
                       <td>{{$med->amount}}</td>
                       <td>{{$med->yearly_amount}}</td>
-                      <td>{{$med->nominee_name}}</td>
+                      <td>{{$med->nominee_name}}</td> -->
                     </tr>
                       @empty
                       <tr><td>No Record Found</td></tr>
@@ -372,7 +372,7 @@
           <div class="row">
             <div class="col-sm-12">
             <div class="card">
-              <div class="card-header border-transparent">
+              <div class="card-header border-transparent bg-red">
                 <h3 class="card-title">Members</h3>
 
                 <div class="card-tools">

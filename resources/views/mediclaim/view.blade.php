@@ -10,7 +10,7 @@
     </div>
     <div class="card-body ">
         <table class="table table-bordered dts1 table-responsive " id="dts1">
-            <thead>
+            <thead class="bg-primary">
                 <tr>
                     <th scope="col">Sr No.</th>
                     <th scope="col">Policy Holder Name</th>

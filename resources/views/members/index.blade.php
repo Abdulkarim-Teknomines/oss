@@ -17,7 +17,7 @@
     <div class="card-body">
         
     <table class="table table-bordered dts1" id="dts1">
-        <thead>
+        <thead class="bg-primary">
             <tr>
                 <th scope="col">S#</th>
                 <th scope="col">Name</th>

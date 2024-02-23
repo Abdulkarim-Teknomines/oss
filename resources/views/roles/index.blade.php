@@ -8,7 +8,7 @@
             <a href="{{ route('roles.create') }}" class="btn btn-success btn-sm my-2"><i class="bi bi-plus-circle"></i> Add New Role</a>
         @endcan -->
         <table class="table table-striped jambo_table bulk_action rolesTable">
-            <thead>
+            <thead class="bg-primary">
                 <tr>
                 <th scope="col">S#</th>
                 <th scope="col">Name</th>

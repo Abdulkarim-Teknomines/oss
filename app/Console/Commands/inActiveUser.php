@@ -31,5 +31,6 @@ class inActiveUser extends Command
         $data = User::with('life_insurance','vehicle_insurance','mutual_fund','mediclaim','roles')->whereHas('roles', function($query) {
             $query->where('name','member');
         })->get();
+        
     }
 }

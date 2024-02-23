@@ -12,7 +12,7 @@
     <br/>
 
     <table class="table table-bordered" style="width:100%">
-        <thead>
+        <thead class="bg-primary">
             <tr>
                 <th>ID</th>
                 <th>Name</th>

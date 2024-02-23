@@ -16,7 +16,7 @@
         @endcan</div>
     <div class="card-body">
     <table class="table table-bordered dts">
-        <thead>
+        <thead class="bg-primary">
             <tr>
                 <th scope="col">S#</th>
                 <th scope="col">Name</th>
