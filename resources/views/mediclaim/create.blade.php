@@ -161,7 +161,7 @@
                     <div class="mb-3 row">
                         <label for="yearly_premium_amount" class="col-md-3 col-form-label text-md-end text-start">Yearly Premium Amount <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                          <input type="number" class="form-control @error('yearly_premium_amount') is-invalid @enderror" id="yearly_premium_amount" name="yearly_premium_amount" value="{{ old('yearly_premium_amount') }}" placeholder="Yearly Premium Amount" autocomplete="off" readonly>
+                          <input type="number" class="form-control @error('yearly_premium_amount') is-invalid @enderror" id="yearly_premium_amount" name="yearly_premium_amount" value="{{ old('yearly_premium_amount') }}" placeholder="Yearly Premium Amount" autocomplete="off" disabled>
                             @if ($errors->has('yearly_premium_amount'))
                                 <span class="error invalid-feedback">{{ $errors->first('yearly_premium_amount') }}</span>
                             @endif

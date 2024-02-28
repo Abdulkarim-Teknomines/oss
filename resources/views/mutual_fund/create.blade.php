@@ -108,7 +108,7 @@
                     <div class="mb-3 row">
                         <label for="yearly_amount" class="col-md-3 col-form-label text-md-end text-start">Yearly Amount <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                          <input type="number" class="form-control @error('yearly_amount') is-invalid @enderror" id="yearly_amount" name="yearly_amount" value="{{ old('yearly_amount') }}" placeholder="Yearly Amount" autocomplete="off">
+                          <input type="number" class="form-control @error('yearly_amount') is-invalid @enderror" id="yearly_amount" name="yearly_amount" value="{{ old('yearly_amount') }}" placeholder="Yearly Amount" autocomplete="off" >
                             @if ($errors->has('yearly_amount'))
                                 <span class="error invalid-feedback">{{ $errors->first('yearly_amount') }}</span>
                             @endif

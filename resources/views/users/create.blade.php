@@ -236,5 +236,49 @@
             </div>
         </div>
     </div>
-</div>    
+</div>
+<script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+        var country_id = "{{old('country_id')}}";
+        var state_id = "{{old('state_id')}}";
+        var city_id = "{{old('city_id')}}";
+        $.ajax({
+            url: "{{route('fetchState')}}",
+            type: "POST",
+            data: {
+                    country_id: country_id,
+                    _token: '{{csrf_token()}}'
+                },
+                dataType: 'json',
+                success: function (result) {
+                    // console.log(result.states);
+                    $('#state').html('<option value="">-- Select State --</option>');
+                    $.each(result.states, function (key, value) {
+                        $("#state").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                    $('#city').html('<option value="">-- Select City --</option>');
+                    $("#state option[value='"+state_id+"']").prop('selected', true);
+                }
+            });
+            $.ajax({
+                url: "{{route('fetchCity')}}",
+                type: "POST",
+                data: {
+                    state_id: state_id,
+                    _token: '{{csrf_token()}}'
+                },
+                dataType: 'json',
+                success: function (res) {
+                    $('#city').html('<option value="">-- Select City --</option>');
+                    $.each(res.cities, function (key, value) {
+                        $("#city").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                    $("#city option[value='"+city_id+"']").prop('selected', true);
+                }
+            });
+    });
+</script> 
 @endsection

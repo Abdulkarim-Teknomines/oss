@@ -137,10 +137,10 @@
                                 <option value="">-- Select Policy Term --</option>
                                 @for($i=1;$i<=100;$i++)
                                     @if (old('policy_term',$life_insurance->policy_term) == $i)
-                                        <option value="{{ $i }}" selected>{{ $i }}</option>
-                                @else
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endif
+                                        <option value="{{ $i }}" selected>{{ $i.' Year' }}</option>
+                                    @else
+                                        <option value="{{ $i }}">{{ $i.' Year' }}</option>
+                                    @endif
                                 @endfor
                             </select>
                             @if ($errors->has('policy_term'))

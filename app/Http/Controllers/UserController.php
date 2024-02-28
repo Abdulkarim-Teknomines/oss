@@ -235,8 +235,25 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(Request $request, User $user): RedirectResponse
     {
+        $request->validate([
+            'name' => 'required|string|max:250',
+            'middle_name' => 'required|string|max:250',
+            'surname' => 'required|string|max:250',
+            'mobile_number' => 'required|numeric|digits:10',
+            'emergency_contact_number' => 'required|numeric|digits:10',
+            'pancard_number' => 'required|string|max:10|min:10|unique:users,pancard_number,'.$user->id,
+            'adharcard_number' => 'required|string|max:12|min:12|unique:users,adharcard_number,'.$user->id,
+            'country_id'=>'required',
+            'state_id'=>'required',
+            'city_id'=>'required',
+            'address'=>'required|string|max:250',
+            'birth_date'=>'required',
+            'blood_group_id'=>'required',
+            'department_id'=>'required',
+            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email,'.$user->id,
+        ]); 
         $input = $request->all();
         if($request->isActive=="0"){
             $input['isActive']=0;

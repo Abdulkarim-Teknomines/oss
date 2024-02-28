@@ -203,6 +203,21 @@ class MemberController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        
+        $request->validate([
+            'name' => 'required',
+            'middle_name' => 'required',
+            'surname' => 'required',
+            'mobile_number' => 'required|numeric',
+            'birth_date' => 'required',
+            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email,'.$user->id,
+            'father_name' => 'required',
+            'mother_name' => 'required',
+            'country_id' => 'required',
+            'state_id' => 'required',
+            'city_id' => 'required',
+            'address' => 'required',
+        ]); 
         // dd($user);
         // $input = $regit quest->all();
         $input['name'] = $request->name;
@@ -222,6 +237,7 @@ class MemberController extends Controller
         }else{
             $input['isActive']=1;
         }
+        
         $users = User::where('id', $user->id)->update($input);
         // echo $this->db->last_query();die;
         if($users){
@@ -784,6 +800,9 @@ class MemberController extends Controller
                     }) 
                     ->addColumn('sum_assured', function($row){
                         return $row['sum_assured'];
+                    }) 
+                    ->addColumn('policy_name', function($row){
+                        return $row['policy_name'];
                     }) 
                     ->addColumn('action', function ($row){
                         $btn='';

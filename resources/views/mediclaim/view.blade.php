@@ -20,6 +20,7 @@
                     <th scope="col">Policy Number</th>
                     <th scope="col">Policy Type</th>
                     <th scope="col">Sum Assured</th>
+                    <th scope="col">Policy Name</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -48,6 +49,7 @@
             {data: 'policy_number', name: 'policy_number'},
             {data: 'policy_type', name: 'policy_type'},
             {data: 'sum_assured', name: 'sum_assured'},
+            {data: 'policy_name', name: 'policy_name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
