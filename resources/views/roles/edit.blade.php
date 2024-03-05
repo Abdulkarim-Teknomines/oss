@@ -10,8 +10,11 @@
                 <div class="float-left">
                     Edit Role
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('roles.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">

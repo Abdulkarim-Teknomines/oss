@@ -185,7 +185,7 @@ $(document).ready(function(){
             
         },
       processing: true,
-      serverSide: true,
+      serverSide: false,
       paginate:false,
       ajax: "{{ route('members.reports',[Request::segment(2)]) }}",
       columns: [

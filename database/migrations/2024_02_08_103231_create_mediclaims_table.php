@@ -15,37 +15,38 @@ return new class extends Migration
             $table->id();
             $table->integer('parent_id');
             $table->integer('user_id');
-            $table->integer('sr_no');
+            $table->bigInteger('sr_no');
             $table->string('policy_holder_name');
             $table->date('birth_date');
             $table->date('policy_start_date');
+            $table->date('policy_end_date');
             $table->integer('company_name_id');     //[dropdown provided by team]
-            $table->integer('policy_number');
+            $table->string('policy_number');
             $table->integer('policy_type_id');      //[dropdown][family/individual/other]
-            $table->integer('sum_assured');
+            $table->bigInteger('sum_assured');
             $table->string('policy_name');
             $table->integer('policy_mode_id');         //[dropdown]	[monthly/quarterly/hlaf yearly/yearly/single]
-            $table->integer('premium_amount');
-            $table->integer('yearly_premium_amount');
+            $table->bigInteger('premium_amount');
+            $table->bigInteger('yearly_premium_amount');
             $table->string('agent_name')->nullable();
-            $table->string('agent_mobile_number')->nullable();
+            $table->bigInteger('agent_mobile_number')->nullable();
             $table->string('branch_name')->nullable();
             $table->string('branch_address')->nullable();
-            $table->string('branch_contact_no')->nullable();
+            $table->bigInteger('branch_contact_no')->nullable();
             $table->string('other_details')->nullable();
-            $table->integer('jan')->default(0);
-            $table->integer('feb')->default(0);
-            $table->integer('mar')->default(0);
-            $table->integer('apr')->default(0);
-            $table->integer('may')->default(0);
-            $table->integer('jun')->default(0);
-            $table->integer('jul')->default(0);
-            $table->integer('aug')->default(0);
-            $table->integer('sep')->default(0);
-            $table->integer('oct')->default(0);
-            $table->integer('nov')->default(0);
-            $table->integer('dec')->default(0);
-            $table->integer('single')->default(0);
+            $table->bigInteger('jan')->default(0);
+            $table->bigInteger('feb')->default(0);
+            $table->bigInteger('mar')->default(0);
+            $table->bigInteger('apr')->default(0);
+            $table->bigInteger('may')->default(0);
+            $table->bigInteger('jun')->default(0);
+            $table->bigInteger('jul')->default(0);
+            $table->bigInteger('aug')->default(0);
+            $table->bigInteger('sep')->default(0);
+            $table->bigInteger('oct')->default(0);
+            $table->bigInteger('nov')->default(0);
+            $table->bigInteger('dec')->default(0);
+            $table->bigInteger('single')->default(0);
             $table->timestamps();
         });
     }

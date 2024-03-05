@@ -9,8 +9,11 @@
                 <div class="float-left pt-1">
                     Edit Company
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('list_life_insurance_company') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             

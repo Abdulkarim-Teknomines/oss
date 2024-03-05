@@ -9,8 +9,11 @@
                 <div class="float-left pt-1">
                     Add New User
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('members.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">
@@ -35,7 +38,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="surname" class="col-md-3 col-form-label text-md-end text-start">Surame <span style="color:red">*</span></label>
+                        <label for="surname" class="col-md-3 col-form-label text-md-end text-start">Surname <span style="color:red">*</span></label>
                         <div class="col-md-4">
                         <input type="text" class="form-control @error('surname') is-invalid @enderror" id="surname" name="surname" value="{{ old('surname') }}" placeholder="Surname" autocomplete="off">
                             @if ($errors->has('surname'))
@@ -58,7 +61,7 @@
                         <label for="birth_date" class="col-md-3 col-form-label text-md-end text-start">Birth Date <span style="color:red">*</span></label>
                         <div class="col-md-4">
                             <div class="input-group birth_date" id="birth_date" data-target-input="nearest">
-                                <input type="text" name="birth_date" class="form-control select2 select2-hidden-accessible state @error('birth_date') is-invalid @enderror  datetimepicker-input" data-target="#birth_date" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('birth_date') ? old('birth_date') : '' }}"/>
+                                <input type="text" name="birth_date" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state @error('birth_date') is-invalid @enderror  datetimepicker-input" data-target="#birth_date" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('birth_date') ? old('birth_date') : '' }}" />
                                 <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -106,7 +109,7 @@
                         <label for="spouse_dob" class="col-md-3 col-form-label text-md-end text-start">Spouse DOB </label>
                         <div class="col-md-4">
                             <div class="input-group spouse_dob" id="spouse_dob" data-target-input="nearest">
-                                <input type="text" name="spouse_dob" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#spouse_dob" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('spouse_dob') ? old('spouse_dob') : '' }}"/>
+                                <input type="text" name="spouse_dob" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#spouse_dob" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('spouse_dob') ? old('spouse_dob') : '' }}"/>
                                 <div class="input-group-append" data-target="#spouse_dob" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -117,7 +120,7 @@
                         <label for="anniversary_date" class="col-md-3 col-form-label text-md-end text-start">Anniversary Date</label>
                         <div class="col-md-4">
                             <div class="input-group anniversary_date" id="anniversary_date" data-target-input="nearest">
-                                <input type="text" name="anniversary_date" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#anniversary_date" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('anniversary_date') ? old('anniversary_date') : '' }}"/>
+                                <input type="text" name="anniversary_date" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#anniversary_date" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('anniversary_date') ? old('anniversary_date') : '' }}"/>
                                 <div class="input-group-append" data-target="#anniversary_date" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -189,10 +192,11 @@
                                 
                         </div>
                     </div>
-                    <div class="row mb-3"><label for="child" class="col-md-3 col-form-label text-md-end text-start">Children</label><div class="col-md-3"><button id="rowAdder" type="button" class="btn btn-dark">
-                        <span class="bi bi-plus-square-dotted">
-                        </span> ADD
-                    </button></div></div>
+                    <div class="row mb-3"><label for="child" class="col-md-3 col-form-label text-md-end text-start">Children</label><div class="col-md-3">
+                        <button id="rowAdder" type="button" class="btn btn-dark">
+                        <span class="bi bi-plus-square-dotted"></span> ADD</button>
+                    </div>
+                </div>
                     <div id="newinput"></div>
                     
                     <div class="mb-3 row">
@@ -207,8 +211,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $("#rowAdder").click(function () {
-            newRowAdd =
-                '<div id="row" class="row mb-3"> <label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label><div class="col-md-3"><input type="text" class="form-control m-input child_name" name="child_name[]"> </div><label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label><div class="col-md-3"><div class="input-group child_dob" id="child_dob" data-target-input="nearest"><input type="text" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#child_dob" placeholder="YYYY-MM-DD" readonly="true" name="child_dob[]"/><div class="input-group-append" data-target="#child_dob" data-toggle="datetimepicker"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div></div></div><div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
+            newRowAdd ='<div id="row" class="row mb-3"> <label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label><div class="col-md-3"><input type="text" class="form-control m-input child_name" name="child_name[]"> </div><label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label><div class="col-md-3"><div class="input-group child_dob" id="child_dob" data-target-input="nearest"><input type="text" class="form-control select2 select2-hidden-accessible state datetimepicker-input" placeholder="YYYY-MM-DD" readonly="true" name="child_dob[]"/><div class="input-group-append" data-target="#child_dob" data-toggle="datetimepicker"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div></div></div><div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
             $('#newinput').append(newRowAdd);
         });
         $("body").on("click", "#DeleteRow", function () {
@@ -227,7 +230,6 @@
                 },
                 dataType: 'json',
                 success: function (result) {
-                    // console.log(result.states);
                     $('#state').html('<option value="">-- Select State --</option>');
                     $.each(result.states, function (key, value) {
                         $("#state").append('<option value="' + value.id + '">' + value.name + '</option>');

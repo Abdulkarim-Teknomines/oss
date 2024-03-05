@@ -18,7 +18,7 @@
                 <th scope="col">Vehicle Category</th>
                 <th scope="col">Vehicle Number</th>
                 <th scope="col">Vehicle Name</th>
-                <th scope="col">Chasis Number</th>
+                <th scope="col">Chassis Number</th>
                 <th scope="col">Insurance Company Name</th>
                 <th scope="col">Policy Number</th>
                 <th scope="col">Insurance Policy Type</th>
@@ -39,7 +39,7 @@
 <script>
     var table = $('.dts').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('vehicle_insurance.all_vehicle_insurance') }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},

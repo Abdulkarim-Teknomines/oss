@@ -9,8 +9,11 @@
                 <div class="float-left pt-1">
                     Edit Member
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('members.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             
@@ -37,7 +40,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="surname" class="col-md-3 col-form-label text-md-end text-start">Surame <span style="color:red">*</span></label>
+                        <label for="surname" class="col-md-3 col-form-label text-md-end text-start">Surname <span style="color:red">*</span></label>
                         <div class="col-md-4">
                         <input type="text" class="form-control @error('surname') is-invalid @enderror" id="surname" name="surname" value="{{ old('surname',$user[0]->surname) }}" placeholder="Surname" autocomplete="off">
                             @if ($errors->has('surname'))

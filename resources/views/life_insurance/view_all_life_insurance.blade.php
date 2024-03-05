@@ -8,8 +8,11 @@
                 <div class="float-left pt-1">
                     Life Insurance Information
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('members.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">

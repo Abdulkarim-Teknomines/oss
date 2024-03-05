@@ -7,6 +7,9 @@
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
         @endif
+        <div class="float-right">
+            <a href="javascript:history.back()" class="btn btn-primary btn-sm my-2">← Back</a>
+        </div>
     </div>
     
         
@@ -39,7 +42,7 @@
 <script>
     var table = $('.dts1').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       
       ajax: "{{ route('life_insurance.view',[Request::segment(2)]) }}",
         columns: [

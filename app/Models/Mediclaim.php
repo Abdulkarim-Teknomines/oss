@@ -22,6 +22,7 @@ class Mediclaim extends Model
         'policy_holder_name',
         'birth_date',
         'policy_start_date',
+        'policy_end_date',
         'company_name_id',
         'user_id',
         'policy_number',

@@ -7,6 +7,9 @@
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
         @endif
+        <div class="float-right">
+                <a href="javascript:history.back()" class="btn btn-primary btn-sm my-2">← Back</a>
+        </div>
     </div>
     <div class="card-body ">
         <table class="table table-bordered dts2 " id="dts2">
@@ -35,7 +38,7 @@
 <script>
     var table = $('#dts2').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       
       ajax: "{{ route('mutual_fund.view',[Request::segment(2)]) }}",
         columns: [

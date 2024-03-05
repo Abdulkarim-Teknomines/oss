@@ -33,7 +33,10 @@
         <tbody>
         </tbody>
     </table>
-    
+        <div class="float-right">
+            <a href="javascript:history.back()" class="btn btn-primary btn-sm my-2">Back</a>
+        </div>
+        
     </div>
 </div>
 <script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
@@ -44,7 +47,7 @@
 <script>
     var table = $('.dts').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('users.view',[Request::segment(2)]) }}",
         columns: [
             {data: 'id', name: 'id'},

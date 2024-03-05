@@ -44,7 +44,7 @@
     var table = $('.dts').DataTable({
       processing: true,
       serverSide: false,
-      ajax: "{{ route('users.index') }}",
+      ajax: "{{ route('agent_users.agent_list') }}",
         columns: [
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},

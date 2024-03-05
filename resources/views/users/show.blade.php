@@ -8,8 +8,11 @@
                 <div class="float-left pt-1">
                     User Information
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('users.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">
@@ -57,7 +60,7 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="birth_date" class="col-md-3 col-form-label text-md-end text-start"><strong>Emergency Contact Number:</strong></label>
+                    <label for="birth_date" class="col-md-3 col-form-label text-md-end text-start"><strong>Birth Date:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
                         {{ $user->birth_date }}
                     </div>

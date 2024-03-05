@@ -32,5 +32,10 @@
       </li>
     </ul> -->
          <p style="margin: 0 auto;font-weight:bold;font-size:24px;color:#007bff;">One Stop Solution</p>   
+         <div class="float-right">
+         <li class="nav-item d-none d-sm-inline-block">
+        <span class="nav-link" style="color:#007bff;">Hello {{Auth::user()->name}}</span>
+      </li>
+          </div>
   </nav>
   

@@ -43,7 +43,7 @@
 <script>
     var table = $('.dts').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('mutual_fund.all_mutual_fund') }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},

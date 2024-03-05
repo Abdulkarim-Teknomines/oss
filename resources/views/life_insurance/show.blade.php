@@ -8,8 +8,11 @@
                 <div class="float-left pt-1">
                     Life Insurance Information
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('members.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">
@@ -80,13 +83,13 @@
                 <div class="mb-3 row">
                     <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>PPT:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
-                        {{ $life_insurance[0]->ppt->name }}
+                        {{ $life_insurance[0]->ppt }}
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>Policy Term:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
-                        {{ $life_insurance[0]->policy_term }}
+                        {{ $life_insurance[0]->ppt }}
                     </div>
                 </div>
                 <div class="mb-3 row">

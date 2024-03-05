@@ -14,8 +14,11 @@
                 <div class="float-left pt-1">
                     Add Member Life Insurance
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('members.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">
@@ -26,7 +29,7 @@
                     <div class="row mb-3">
                         <label for="sr_no" class="col-md-3 col-form-label text-md-end text-start">Sr No <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                        <input type="number" class="form-control @error('sr_no') is-invalid @enderror" id="sr_no" name="sr_no" value="{{ old('sr_no',$mutual_fund->sr_no) }}" placeholder="Sr No." autocomplete="off">
+                        <input type="number" min="0" class="form-control @error('sr_no') is-invalid @enderror" id="sr_no" name="sr_no" value="{{ old('sr_no',$mutual_fund->sr_no) }}" placeholder="Sr No." autocomplete="off">
                             @if ($errors->has('sr_no'))
                                 <span class="error invalid-feedback">{{ $errors->first('sr_no') }}</span>
                             @endif
@@ -63,7 +66,7 @@
                     <div class="mb-3 row">
                         <label for="folio_number" class="col-md-3 col-form-label text-md-end text-start">Folio Number <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                        <input type="number" class="form-control @error('folio_number') is-invalid @enderror" id="folio_number" name="folio_number" value="{{ old('folio_number',$mutual_fund->folio_number) }}" placeholder="Folio Number" autocomplete="off">
+                        <input type="number" min="0" class="form-control @error('folio_number') is-invalid @enderror" id="folio_number" name="folio_number" value="{{ old('folio_number',$mutual_fund->folio_number) }}" placeholder="Folio Number" autocomplete="off">
                             @if ($errors->has('folio_number'))
                                 <span class="error invalid-feedback">{{ $errors->first('folio_number') }}</span>
                             @endif
@@ -92,7 +95,7 @@
                         <label for="purchase_date" class="col-md-3 col-form-label text-md-end text-start">Purchase Date <span style="color:red">*</span></label>
                         <div class="col-md-4">
                             <div class="input-group purchase_date" id="purchase_date" data-target-input="nearest">
-                                <input type="text" name="purchase_date" class="form-control select2 select2-hidden-accessible state @error('purchase_date') is-invalid @enderror  datetimepicker-input" data-target="#purchase_date" placeholder="YYYY-MM-DD" value="{{ old('purchase_date') ? old('purchase_date') : $mutual_fund->purchase_date }}"/>
+                                <input type="text" name="purchase_date" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state @error('purchase_date') is-invalid @enderror  datetimepicker-input" data-target="#purchase_date" placeholder="YYYY-MM-DD" value="{{ old('purchase_date') ? old('purchase_date') : $mutual_fund->purchase_date }}"/>
                                 <div class="input-group-append" data-target="#purchase_date" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -105,7 +108,7 @@
                     <div class="mb-3 row">
                         <label for="amount" class="col-md-3 col-form-label text-md-end text-start">Amount <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                          <input type="number" class="form-control @error('amount') is-invalid @enderror" id="amount" name="amount" value="{{ old('amount',$mutual_fund->amount) }}" placeholder="Amount" autocomplete="off">
+                          <input type="number" min="0" class="form-control @error('amount') is-invalid @enderror" id="amount" name="amount" value="{{ old('amount',$mutual_fund->amount) }}" placeholder="Amount" autocomplete="off">
                             @if ($errors->has('amount'))
                                 <span class="error invalid-feedback">{{ $errors->first('amount') }}</span>
                             @endif
@@ -114,7 +117,7 @@
                     <div class="mb-3 row">
                         <label for="yearly_amount" class="col-md-3 col-form-label text-md-end text-start">Yearly Amount <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                          <input type="number" class="form-control @error('yearly_amount') is-invalid @enderror" id="yearly_amount" name="yearly_amount" value="{{ old('yearly_amount',$mutual_fund->yearly_amount) }}" placeholder="Yearly Amount" autocomplete="off">
+                          <input type="number" min="0" class="form-control @error('yearly_amount') is-invalid @enderror" id="yearly_amount" name="yearly_amount" value="{{ old('yearly_amount',$mutual_fund->yearly_amount) }}" placeholder="Yearly Amount" autocomplete="off" readonly>
                             @if ($errors->has('yearly_amount'))
                                 <span class="error invalid-feedback">{{ $errors->first('yearly_amount') }}</span>
                             @endif
@@ -142,7 +145,7 @@
                         <label for="nominee_dob" class="col-md-3 col-form-label text-md-end text-start">Nominee DOB <span style="color:red">*</span></label>
                         <div class="col-md-4">
                             <div class="input-group nominee_dob" id="nominee_dob" data-target-input="nearest">
-                                <input type="text" name="nominee_dob" class="form-control select2 select2-hidden-accessible state @error('nominee_dob') is-invalid @enderror  datetimepicker-input" data-target="#nominee_dob" placeholder="YYYY-MM-DD" value="{{ old('nominee_dob') ? old('nominee_dob') : $mutual_fund->nominee_dob }}"/>
+                                <input type="text" name="nominee_dob" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state @error('nominee_dob') is-invalid @enderror  datetimepicker-input" data-target="#nominee_dob" placeholder="YYYY-MM-DD" value="{{ old('nominee_dob') ? old('nominee_dob') : $mutual_fund->nominee_dob }}"/>
                                 <div class="input-group-append" data-target="#nominee_dob" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -161,7 +164,7 @@
                     <div class="mb-3 row">
                         <label for="agent_mobile_number" class="col-md-3 col-form-label text-md-end text-start">Agent Mobile Number</label>
                         <div class="col-md-4">
-                        <input type="number" class="form-control" id="agent_mobile_number" name="agent_mobile_number" value="{{ old('agent_mobile_number',$mutual_fund->agent_mobile_number) }}" placeholder="Agent Mobile Number" autocomplete="off">
+                        <input type="number" min="0" class="form-control" id="agent_mobile_number" name="agent_mobile_number" value="{{ old('agent_mobile_number',$mutual_fund->agent_mobile_number) }}" placeholder="Agent Mobile Number" autocomplete="off">
                         </div>
                     </div>
                     <div class="mb-3 row">

@@ -7,6 +7,10 @@
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
         @endif
+        <div class="float-right">
+                <a href="javascript:history.back()" class="btn btn-primary btn-sm my-2">&larr; Back</a>
+        </div>
+    </div> 
     </div>
     <div class="card-body ">
         <table class="table table-bordered dts1 table-responsive " id="dts1">
@@ -37,7 +41,7 @@
 <script>
     var table = $('.dts1').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       
       ajax: "{{ route('mediclaim.view',[Request::segment(2)]) }}",
         columns: [

@@ -9,8 +9,11 @@
                 <div class="float-left pt-1">
                     Add New User
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('users.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">
@@ -137,7 +140,7 @@
                         <label for="birth_date" class="col-md-3 col-form-label text-md-end text-start">Birth Date <span style="color:red">*</span></label>
                         <div class="col-md-4">
                             <div class="input-group birth_date" id="birth_date" data-target-input="nearest">
-                                <input type="text" name="birth_date" class="form-control select2 select2-hidden-accessible state @error('birth_date') is-invalid @enderror  datetimepicker-input" data-target="#birth_date" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('birth_date') ? old('birth_date') : '' }}"/>
+                                <input type="text" name="birth_date" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state @error('birth_date') is-invalid @enderror  datetimepicker-input" data-target="#birth_date" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('birth_date') ? old('birth_date') : '' }}"/>
                                 <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -262,7 +265,7 @@
                     $('#city').html('<option value="">-- Select City --</option>');
                     $("#state option[value='"+state_id+"']").prop('selected', true);
                 }
-            });
+        });
             $.ajax({
                 url: "{{route('fetchCity')}}",
                 type: "POST",

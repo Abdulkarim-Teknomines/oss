@@ -8,8 +8,11 @@
                 <div class="float-left pt-1">
                     Vehicle Insurance Information
                 </div>
-                <div class="float-right">
+                <!-- <div class="float-right">
                     <a href="{{ route('members.index') }}" class="btn btn-primary">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">
@@ -45,7 +48,7 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="pancard_number" class="col-md-3 col-form-label text-md-end text-start"><strong>Chasis Number:</strong></label>
+                    <label for="pancard_number" class="col-md-3 col-form-label text-md-end text-start"><strong>Chassis Number:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
                         {{ $vehicle_insurance[0]->chasis_number }}
                     </div>

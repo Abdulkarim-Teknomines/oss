@@ -9,7 +9,33 @@
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
         @endif
-        
+    @php $dates = Date('M');@endphp
+        <div class="mb-3 row">
+            <label class="col-md-1 offset-md-4 col-form-label text-md-end text-start">Month <span style="color:red">*</span></label>
+            <div class="col-md-3">
+                <select id="month" class="form-control" name="month" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                    <option value="">-- Select Month --</option>
+                    <option value="jan" @if(Date('M')=='Jan') selected="true" @endif >January</option>
+                    <option value="feb" @if(Date('M')=='Feb') selected="true" @endif>February</option>
+                    <option value="mar" @if(Date('M')=='Mar') selected="true" @endif>March</option>
+                    <option value="apr">April</option>
+                    <option value="may">May</option>
+                    <option value="jun">June</option>
+                    <option value="jul">July</option>
+                    <option value="aug">August</option>
+                    <option value="sep">September</option>
+                    <option value="oct">October</option>
+                    <option value="nov">November</option>
+                    <option value="dec">December</option>
+                </select>
+            </div>
+        </div>
+        <div class="float-left">
+
+            
+
+        </div>
+</div>
     <div class="card-body">
     <table class="table table-bordered dts">
         <thead class="bg-primary">
@@ -40,9 +66,16 @@
 
                 
 <script>
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    var date = $("#month").val();
+
     var table = $('.dts').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('life_insurance.all_life_insurance') }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},
@@ -59,5 +92,21 @@
         ]
     });
 
+$(document).on('change','#month',function(){
+    var val = $(this).val();
+    $.ajax({
+        url: "{{ route('life_insurance.all_life_insurance') }}",
+        type: 'GET',
+        dataType: "json",
+        data: {
+            date: val,
+        },
+        success: function(data) {
+            // log response into console
+            
+            dataTable.ajax.reload(null, false);
+        }
+    });
+});
 </script>
 @endsection

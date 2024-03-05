@@ -110,10 +110,23 @@ class LoginRegisterController extends Controller
     public function dashboard()
     {
         // echo str_pad(1, 7, '0', STR_PAD_LEFT);die;
-        $data['users'] = User::count();
-        $data['admin'] = User::role('admin')->count();
-        $data['manager'] = User::role('manager')->count();
-        $data['agent'] = User::role('agent')->count();
+        $data['users'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
+            $query->where('name','admin');
+            $query->orWhere('name','agent');
+            $query->orWhere('name','manager');
+        })->count();
+        $data['admin'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
+            $query->where('name','admin');
+        })->count();
+        $data['member_count'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
+            $query->where('name','member');
+        })->count();
+        $data['manager'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
+            $query->where('name','manager');
+        })->count();
+        $data['agent'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
+            $query->where('name','agent');
+        })->count();
         $data['mediclaim_count'] = Mediclaim::count();
         $data['life_insurance_count'] = Lifeinsurance::count();
         $data['vehicle_insurance_count'] = VehicleInsurance::count();

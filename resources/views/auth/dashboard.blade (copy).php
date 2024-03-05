@@ -61,38 +61,9 @@
               </div>
               <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-
           </div>
-          
-          <div class="col-lg-6 col-6">
-            <!-- small box -->
-            <div class="small-box bg-purple">
-              <div class="inner">
-                <h3>{{$member_count}}</h3>
-                <p>Member</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="{{route('members.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-lg-6 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>{{$mediclaim_count+$life_insurance_count+$vehicle_insurance_count+$mutual_fund_count}}</h3>
-                <p>Total Policy</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-
-          </div>
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
+          <!-- <div class="col-lg-3 col-6">
+            small box
             <div class="small-box bg-purple">
               <div class="inner">
                 <h3>{{$mediclaim_count}}</h3>
@@ -103,12 +74,10 @@
               </div>
               <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div>
-         
-
+          </div> -->
           <!-- ./col -->
-           <div class="col-lg-3 col-6">
-            <!-- small box  -->
+          <!-- <div class="col-lg-3 col-6">
+            <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
                 <h3>{{$life_insurance_count}}</h3>
@@ -119,7 +88,7 @@
               </div>
               <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div> 
+          </div> -->
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -252,7 +221,11 @@
                       <td>{{$med->birth_date}}</td>
                       <td><span class="badge badge-success">{{$med->policy_start_date}}</span></td>
                       <td>{{$med->company_name->name}}</td>
-                      
+                      <!-- <td>{{$med->policy_number}}</td>
+                      <td>{{$med->sum_assured}}</td>
+                      <td>{{$med->plan_name}}</td>
+                      <td>{{$med->ppt->name}}</td>
+                      <td>{{$med->policy_term}}</td> -->
                     </tr>
                     @empty
                       <tr><td>No Record Found</td></tr>

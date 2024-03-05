@@ -6,7 +6,11 @@
             <div class="float-left">
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
+            
         @endif
+        <div class="float-right">
+                <a href="javascript:history.back()" class="btn btn-primary btn-sm my-2">← Back</a>
+        </div>
     </div>
     
     <div class="card-body ">
@@ -20,7 +24,7 @@
                     <th scope="col">Insurance Company Name</th>
                     <th scope="col">Policy Number</th>
                     <th scope="col">Insurance Policy Type</th>
-                    
+                    <th scope="col">Policy Premium</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -33,11 +37,10 @@
 <script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-
 <script>
     var table = $('.dts1').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('vehicle_insurance.view',[Request::segment(2)]) }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},
@@ -47,7 +50,7 @@
             {data: 'company_name_id', name: 'company_name_id'},
             {data: 'policy_number', name: 'policy_number'},
             {data: 'insurance_policy_type_id', name: 'insurance_policy_type_id'},
-            
+            {data: 'policy_premium', name: 'policy_premium'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

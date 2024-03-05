@@ -37,19 +37,45 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="nav-icon fa fa-home"></i><p>Dashboard</p></a></li>
-          @canany(['create-role', 'edit-role', 'delete-role'])
+          @canany(['create-role', 'edit-role'])
               <li class="nav-item"><a class="nav-link" href="{{ route('roles.index') }}"><i class="nav-icon fa fa-edit"></i><p>Manage Roles</p></a></li>
           @endcanany
-          @canany(['create-user', 'edit-user', 'delete-user'])
+          @canany(['create-user', 'edit-user'])
               <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Users</p></a></li>
           @endcanany
-          @canany(['create-member', 'edit-member', 'delete-member'])
+          @canany(['create-member', 'edit-member'])
           <li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Member</p></a></li>          
           @endcanany
-          <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
+          @if(Auth::User()->hasRole('Super Admin'))
+            <li class="nav-item">
+              <a href="{{ route('admin_users.admin_list') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Admin</p>
+              </a>
+            </li>
+          @endif
+          @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin'))
+            <li class="nav-item">
+              <a href="{{ route('manager_users.manager_list') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Manager</p>
+              </a>
+            </li>
+          @endif
+          @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin') || Auth::User()->hasRole('Manager'))
+            <li class="nav-item">
+              <a href="{{ route('agent_users.agent_list') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Agent</p>
+              </a>
+            </li>
+          @endif
+          <!-- <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li> -->
+          @canany(['create-company', 'edit-company'])
+          @if(Auth::User()->hasRole('Super Admin'))
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -79,6 +105,9 @@
               </li>
             </ul>
           </li>
+          @endif
+          @endcanany
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>

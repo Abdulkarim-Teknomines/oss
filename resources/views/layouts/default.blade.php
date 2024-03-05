@@ -237,9 +237,13 @@
     $('#policy_start_date').datetimepicker({
         format: 'yyyy-MM-DD',
     });
+    $('#ppt_end_date').datetimepicker({
+        format: 'yyyy-MM-DD',
+    });
     $('#policy_end_date').datetimepicker({
         format: 'yyyy-MM-DD',
     });
+    
     $('#spouse_dob').datetimepicker({
         format: 'yyyy-MM-DD',
     });

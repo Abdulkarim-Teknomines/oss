@@ -46,7 +46,7 @@
 <script>
     var table = $('.dts').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('mediclaim.all_mediclaim') }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},

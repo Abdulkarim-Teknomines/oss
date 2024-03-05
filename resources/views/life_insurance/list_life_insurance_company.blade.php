@@ -38,7 +38,7 @@
 <script>
     var table = $('.dts').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('list_life_insurance_company') }}",
         columns: [
             {data: 'name', name: 'name'},

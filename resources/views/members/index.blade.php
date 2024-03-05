@@ -45,7 +45,7 @@
     
     $('#dts1').DataTable({
       processing: true,
-      serverSide: true,
+      serverSide: false,
       ajax: "{{ route('members.index') }}",
       columns: [
           {data: 'id', name: 'id'},

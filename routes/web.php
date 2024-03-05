@@ -68,6 +68,9 @@ Route::controller(ProductController::class)->group(function(){
 });
 Route::controller(UserController::class)->group(function(){
     Route::get('users', 'index')->name('users.index');
+    Route::get('admin_users', 'admin_list')->name('admin_users.admin_list');
+    Route::get('manager_users', 'manager_list')->name('manager_users.manager_list');
+    Route::get('agent_users', 'agent_list')->name('agent_users.agent_list');
     Route::get('users/{user}/view', 'view')->name('users.view');
     Route::post('users', 'store')->name('users.store');
     Route::get('users/create', 'create')->name('users.create');
@@ -124,7 +127,7 @@ Route::controller(MemberController::class)->group(function(){
     Route::get('vehicle_insurances/{vehicle_insurance}', 'show_vehicle_insurance')->name('vehicle_insurance.show');
     Route::get('vehicle_insurances/{vehicle_insurance}/edit_vehicle_insurance', 'edit_vehicle_insurance')->name('vehicle_insurance.edit');
     Route::put('vehicle_insurances/{vehicle_insurance}', 'update_vehicle_insurance')->name('vehicle_insurance.update_vehicle_insurance');
-
+ 
     Route::get('mutual_fund/{user}/add', 'add_mutual_fund')->name('mutual_fund.add');
     Route::post('mutual_fund', 'store_mutual_fund')->name('mutual_fund.store_mutual_fund');
     Route::get('mutual_fund/{user}/view', 'list_mutual_fund')->name('mutual_fund.view');
@@ -165,6 +168,14 @@ Route::controller(MemberController::class)->group(function(){
 
 
 Route::controller(CommonController::class)->group(function(){
+    Route::post('fetchPolicyUser', 'fetchPolicyUser')->name('fetchPolicyUser');
+    Route::post('fetchLifeInsurancePolicy', 'fetchLifeInsurancePolicy')->name('fetchLifeInsurancePolicy');
+    Route::post('fetchVehicleInsurancePolicy', 'fetchVehicleInsurancePolicy')->name('fetchVehicleInsurancePolicy');
+    
+    Route::post('fetchPolicyUsers', 'fetchPolicyUsers')->name('fetchPolicyUsers');
+    Route::post('fetchLifeInsurancePolicys', 'fetchLifeInsurancePolicys')->name('fetchLifeInsurancePolicys');
+    Route::post('fetchVehicleInsurancePolicys', 'fetchVehicleInsurancePolicys')->name('fetchVehicleInsurancePolicys');
+
     Route::post('fetchState', 'fetchState')->name('fetchState');
     Route::post('fetchCity', 'fetchCity')->name('fetchCity');
 });

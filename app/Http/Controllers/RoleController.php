@@ -50,7 +50,6 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request): RedirectResponse
     {
         $role = Role::create(['name' => $request->name]);
-
         $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
         
         $role->syncPermissions($permissions);

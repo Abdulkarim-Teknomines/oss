@@ -9,8 +9,11 @@
                 <div class="float-start">
                     Add New Role
                 </div>
-                <div class="float-end">
+                <!-- <div class="float-end">
                     <a href="{{ route('roles.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
+                </div> -->
+                <div class="float-right">
+                    <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
             <div class="card-body">
