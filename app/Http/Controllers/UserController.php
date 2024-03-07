@@ -15,6 +15,7 @@ use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
 use App\Models\Department;
+use App\Models\Member;
 use App\Models\Bloodgroup;
 use PDF;
 use Auth;
@@ -471,10 +472,11 @@ class UserController extends Controller
         ]; 
         $pdf = PDF::loadView('users.pdf', $data);
         return $pdf->download('listUsers.pdf');
-    }
+    } 
     public function profile(){
-        $data['user'] = Auth::user();
-        // dd($data['user']);
+        // $data['user'] = Auth::user('member');
+        $data['user'] = User::with('member')->find(Auth::id());
+        
         $data['title']='Users';
         $data['content']='Update Profile';
         return view('users.profile',$data);
@@ -485,14 +487,20 @@ class UserController extends Controller
             'name' => 'required',
             'middle_name' => 'required',
             'surname' => 'required',
-            'email' => 'required|email',
-            'pancard_number' => 'required',
-            'adharcard_number' => 'required',
-            'mobile_number' => 'required',
-            'emergency_contact_number' => 'required',
         ]);
-        $input = request()->except(['_token']);
-        User::whereId(Auth::user()->id)->update($input);
+        $inp['name']= $request->name;
+        $inp['middle_name'] = $request->middle_name;
+        $inp['surname'] = $request->surname;
+        $inp['pancard_number'] = $request->pancard_number;
+        $inp['adharcard_number'] = $request->adharcard_number;
+        $inp['mobile_number'] = $request->mobile_number;
+        $inp['emergency_contact_number'] = $request->emergency_contact_number;
+        $upd = User::whereId(Auth::user()->id)->update($inp);
+        if(Auth::User()->hasRole('Member')){
+            $input['mother_name'] = $request->mother_name;
+            $input['father_name'] = $request->father_name;
+            Member::whereUserId(Auth::user()->id)->update($input);
+        }
         return redirect()->back()
                 ->withSuccess('User is updated successfully.');
     }

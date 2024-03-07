@@ -32,6 +32,7 @@ class Mutualfund extends Model
         'nominee_dob',
         'agent_name',
         'agent_mobile_number',
+        'category',
         'jan',
         'feb',
         'mar',

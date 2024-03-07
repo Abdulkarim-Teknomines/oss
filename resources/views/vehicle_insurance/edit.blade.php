@@ -38,7 +38,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Vehicle Category<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="vehicle_category" class="form-control @error('vehicle_category') is-invalid @enderror vehicle_category" name="vehicle_category" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="vehicle_category" class="form-control @error('vehicle_category') is-invalid @enderror vehicle_category" name="vehicle_category" style="width: 100%;" data-select2-id="1"  aria-hidden="true">
                                 <option value="">-- Select Vehicle Category --</option>
                                 @foreach ($vehicle_category as $data)
                                 @if (old('vehicle_category',$vehicle_insurance->vehicle_category_id) == $data->id)
@@ -84,7 +84,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Insurance Company Name<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="company_name_id" class="form-control @error('company_name_id') is-invalid @enderror company_name_id" name="company_name_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="company_name_id" class="form-control @error('company_name_id') is-invalid @enderror company_name_id" name="company_name_id" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Company --</option>
                                 @foreach ($company_name as $data)
                                 @if (old('company_name_id',$vehicle_insurance->company_name->id) == $data->id)
@@ -121,7 +121,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Policy Type<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="policy_type" class="form-control @error('policy_type') is-invalid @enderror policy_type" name="policy_type" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="policy_type" class="form-control @error('policy_type') is-invalid @enderror policy_type" name="policy_type" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Policy Type --</option>
                                 @foreach ($policy_type as $data)
                                 @if (old('policy_type',$vehicle_insurance->insurance_policy_type_id) == $data->id)

@@ -45,6 +45,7 @@ class Lifeinsurance extends Model
         'branch_address',
         'branch_contact_no',
         'other_details',
+        'category',
         'jan',
         'feb',
         'mar',

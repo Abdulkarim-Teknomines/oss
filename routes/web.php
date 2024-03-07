@@ -101,6 +101,7 @@ Route::controller(MemberController::class)->group(function(){
     Route::post('members', 'store')->name('members.store');
     Route::get('members/{user}/edit', 'edit')->name('members.edit');
     Route::get('members/{user}/reports', 'view_insurance_report')->name('members.reports');
+    
     Route::put('members/{user}', 'update')->name('members.update');
     Route::get('members/{user}', 'show')->name('members.show');
     Route::get('/members/{user}/member_export','member_export')->name('members.member_export');

@@ -273,9 +273,6 @@ class MemberController extends Controller
         return view('mediclaim.create', $data);
     }
     public function store_mediclaim(Request $request){
-
-        
-        
         $request->validate([
             'sr_no' => 'required|numeric',
             'policy_holder_name' => 'required',
@@ -312,6 +309,7 @@ class MemberController extends Controller
         $input['branch_address'] = $request->branch_address;
         $input['branch_contact_no'] = $request->branch_contact_number;
         $input['other_details'] = $request->other_details;
+        $input['category'] = 'Mediclaim';
         $start_month = date('m',strtotime($request->policy_start_date));
         if($request->policy_mode=='1'){
             $input['jan'] = $request->premium_amount;
@@ -458,6 +456,7 @@ class MemberController extends Controller
         $input['branch_address'] = $request->branch_address;
         $input['branch_contact_no'] = $request->branch_contact_number;
         $input['other_details'] = $request->other_details;
+        $input['category'] = 'Life Insurance';
         $start_month = date('m',strtotime($request->policy_start_date));
         if($request->premium_mode=='1'){
             $input['jan'] = $request->premium_amount;
@@ -653,6 +652,7 @@ class MemberController extends Controller
         $input['agent_name'] = $request->agent_name;
         $input['agent_mobile_number'] = $request->agent_mobile_number;
         $input['other_details'] = $request->other_details;
+        $input['category']='Vehicle Insurance';
         $start_month = date('m',strtotime($request->policy_start_date));
         if($start_month==1){
             $input['jan'] = $request->policy_premium;
@@ -727,6 +727,7 @@ class MemberController extends Controller
         $input['agent_name'] = $request->agent_name;
         $input['agent_mobile_number'] = $request->agent_mobile_number;
         $input['other_details'] = $request->other_details;
+        $input['category'] = 'Mutual Fund';
         $start_month = date('m',strtotime($request->purchase_date));
         if($request->mutual_fund_type=='1'){
             $input['jan'] = 0;
@@ -794,6 +795,9 @@ class MemberController extends Controller
                     ->addColumn('policy_start_date', function($row){
                         return $row['policy_start_date'];
                     }) 
+                    ->addColumn('end_date', function($row){
+                        return $row['end_date'];
+                    }) 
                     ->addColumn('company_name', function($row){
                         return $row->company_name['name'];
                     }) 
@@ -805,9 +809,6 @@ class MemberController extends Controller
                     }) 
                     ->addColumn('sum_assured', function($row){
                         return $row['sum_assured'];
-                    }) 
-                    ->addColumn('policy_name', function($row){
-                        return $row['policy_name'];
                     }) 
                     ->addColumn('action', function ($row){
                         $btn='';
@@ -1053,6 +1054,7 @@ class MemberController extends Controller
         $input['branch_address'] = $request->branch_address;
         $input['branch_contact_no'] = $request->branch_contact_number;
         $input['other_details'] = $request->other_details;
+        $input['category']= 'Mediclaim';
         $start_month = date('m',strtotime($request->policy_start_date));
         if($request->policy_mode=='1'){
             $input['jan'] = $request->premium_amount;
@@ -1427,6 +1429,7 @@ class MemberController extends Controller
         $input['agent_name'] = $request->agent_name;
         $input['agent_mobile_number'] = $request->agent_mobile_number;
         $input['other_details'] = $request->other_details;
+        $input['category']='Mutual Fund';
         $start_month = date('m',strtotime($request->purchase_date));
         if($request->mutual_fund_type=='1'){
             $input['jan'] = 0;
@@ -1663,6 +1666,7 @@ class MemberController extends Controller
         $input['agent_name'] = $request->agent_name;
         $input['agent_mobile_number'] = $request->agent_mobile_number;
         $input['other_details'] = $request->other_details;
+        $input['category']= 'Vehicle Insurance';
         $start_month = date('m',strtotime($request->policy_start_date));
         if($start_month==1){
             $input['jan'] = $request->policy_premium;
@@ -1895,6 +1899,7 @@ class MemberController extends Controller
         $input['branch_address'] = $request->branch_address;
         $input['branch_contact_no'] = $request->branch_contact_number;
         $input['other_details'] = $request->other_details;
+        $input['category'] = 'Life Insurance';
         $start_month = date('m',strtotime($request->policy_start_date));
 
        
@@ -2252,6 +2257,9 @@ class MemberController extends Controller
                         return $row['company_name_id'];
                     }
                 }) 
+                ->addColumn('category', function($row){
+                    return $row['category'];
+                }) 
                 ->addColumn('jan', function($row){
                     return $row['jan'];
                 }) 
@@ -2320,9 +2328,13 @@ class MemberController extends Controller
     }
     public function all_mediclaim(Request $request)
     {
-        
         if ($request->ajax()) {
-            $data =Mediclaim::with('company_name','policy_type','policy_mode')->get();
+            if(Auth::User()->hasRole('Member')){
+                $data =Mediclaim::with('company_name','policy_type','policy_mode')->where('user_id',Auth::User()->id)->get();
+            }else{
+                $data =Mediclaim::with('company_name','policy_type','policy_mode')->get();
+            }
+            
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
             //     $query->where('name','member');
             // })->get();
@@ -2378,14 +2390,13 @@ class MemberController extends Controller
     } 
     public function all_vehicle_insurance(Request $request)
     {
-        $data =VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->where('parent_id',auth()->user()->id)->get();
         if ($request->ajax()) {
-            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
-            //     $query->where('name','member');
-            // })->get();
             
-
-            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
+            if(Auth::User()->hasRole('Member')){
+                $data =VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->where('user_id',Auth::User()->id)->get();
+            }else{
+                $data =VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->get();
+            }
             return Datatables::of($data)
             ->addIndexColumn()
                     ->addColumn('sr_no', function($row){
@@ -2438,12 +2449,10 @@ class MemberController extends Controller
     public function all_life_insurance(Request $request)
     { 
             if ($request->ajax()) {
-                $date = date('M');
-                if($date=='Mar'){
-                    $data = Lifeinsurance::with('company_name','ppt','policy_mode')->where('mar', '!=','0')->get();
-                }
-                if($date=='Mar'){
-                    $data = Lifeinsurance::with('company_name','ppt','policy_mode')->where('mar', '!=','0')->get();
+                if(Auth::User()->hasRole('Member')){
+                    $data =Lifeinsurance::with('company_name','ppt','policy_mode')->where('user_id',Auth::User()->id)->get();
+                }else{
+                    $data =Lifeinsurance::with('company_name','ppt','policy_mode')->get();
                 }
                 return Datatables::of($data)
                 ->addIndexColumn()
@@ -2497,6 +2506,11 @@ class MemberController extends Controller
     {
         if ($request->ajax()) {
             $data =Mutualfund::with('mutual_fund_type')->get();
+            if(Auth::User()->hasRole('Member')){
+                $data =Mutualfund::with('mutual_fund_type')->where('user_id',Auth::User()->id)->get();
+            }else{
+                $data =Mutualfund::with('mutual_fund_type')->get();
+            }
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
             //     $query->where('name','member');
             // })->get();

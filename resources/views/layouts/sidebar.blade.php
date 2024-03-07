@@ -70,10 +70,114 @@
               </a>
             </li>
           @endif
-          <!-- <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li> -->
+         @if(Auth::User()->hasRole('Member')) 
+         <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
+         <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
+         <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
+         <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li>
+         <li class="nav-item">
+             <a href="{{ route('members.reports',Auth::User()->id) }}" class="nav-link">
+               <i class="fa fa-book nav-icon"></i>
+               <p>Annual Report</p>
+             </a>
+         </li>
+          @endif
+          <!-- <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Mediclaim
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('list_mediclaim_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('list_life_insurance_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Life Insurance
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('list_mediclaim_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('list_life_insurance_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Vehicle Insurance
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('list_mediclaim_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('list_life_insurance_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Mutual Fund
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('list_mediclaim_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('list_life_insurance_company') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li> -->
           @canany(['create-company', 'edit-company'])
           @if(Auth::User()->hasRole('Super Admin'))
           <li class="nav-item">

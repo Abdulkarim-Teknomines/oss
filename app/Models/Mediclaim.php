@@ -38,6 +38,7 @@ class Mediclaim extends Model
         'branch_address',
         'branch_contact_no',
         'other_details',
+        'category',
         'jan',
         'feb',
         'mar',

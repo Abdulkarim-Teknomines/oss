@@ -130,7 +130,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Country <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="country" class="form-control @error('country_id') is-invalid @enderror country_id" name="country_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="country" class="form-control @error('country_id') is-invalid @enderror country_id" name="country_id" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Country --</option>
                                 @foreach ($countries as $data)
                                 @if (old('country_id') == $data->id)
@@ -149,7 +149,7 @@
                     <div class="row mb-3">
                         <label class="col-md-3 col-form-label text-md-end text-start">State <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="state" name="state_id" class="form-control select2 select2-hidden-accessible state_id @error('state_id') is-invalid @enderror state_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="state" name="state_id" class="form-control select2 select2-hidden-accessible state_id @error('state_id') is-invalid @enderror state_id" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select State --</option>
                             </select>
                             @if ($errors->has('state_id'))
@@ -160,7 +160,7 @@
                     <div class="row mb-3">
                         <label class="col-md-3 col-form-label text-md-end text-start">City <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="city" name="city_id" class="form-control select2 select2-hidden-accessible city_id @error('city_id') is-invalid @enderror city_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="city" name="city_id" class="form-control select2 select2-hidden-accessible city_id @error('city_id') is-invalid @enderror city_id" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select City --</option>
                             </select>
                             @if ($errors->has('city_id'))

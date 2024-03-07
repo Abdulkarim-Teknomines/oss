@@ -83,7 +83,7 @@
                 <div class="mb-3 row">
                     <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>PPT:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
-                        {{ $life_insurance[0]->ppt->name }}
+                        {{ $life_insurance[0]->ppt }}
                     </div>
                 </div>
                 <div class="mb-3 row">

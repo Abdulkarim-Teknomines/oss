@@ -8,9 +8,10 @@
         
     <table class="table table-bordered dts1" id="dts1">
         <thead class="bg-primary">
-            <tr  style="color:#007bff">
+            <tr  style="color:#fff">
                 
                 <th scope="col">Name</th>
+                <th scope="col">Category</th>
                 <th scope="col">Jan</th>
                 <th scope="col">Feb</th>
                 <th scope="col">Mar</th>
@@ -24,7 +25,7 @@
                 <th scope="col">Nov</th>
                 <th scope="col">Dec</th>
                 <th scope="col">Single</th>
-                <th scope="col" style="color:#007bff">Total</th>
+                <th scope="col" >Total</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
         </tbody>
         <tfoot>
             <tr style="color:#007bff">
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -79,109 +81,110 @@ $(document).ready(function(){
  
             // computing column Total of the complete result 
             var janTotal = api
-                .column( 1 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-				
-	        var febTotal = api
                 .column( 2 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
 				
-            var marTotal = api
+	        var febTotal = api
                 .column( 3 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
 				
-	        var aprTotal = api
+            var marTotal = api
                 .column( 4 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
 				
-	        var mayTotal = api
+	        var aprTotal = api
                 .column( 5 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
-            var junTotal = api
+				
+	        var mayTotal = api
                 .column( 6 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
-               }, 0 );
-               var julTotal = api
+                }, 0 );
+            var junTotal = api
                 .column( 7 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-               var augTotal = api
+               var julTotal = api
                 .column( 8 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-               var sepTotal = api
+               var augTotal = api
                 .column( 9 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-               var octTotal = api
+               var sepTotal = api
                 .column( 10 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-               var novTotal = api
+               var octTotal = api
                 .column( 11 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-               var decTotal = api
+               var novTotal = api
                 .column( 12 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-               var singleTotal = api
+               var decTotal = api
                 .column( 13 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-               var subTotal = api
+               var singleTotal = api
                 .column( 14 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+               }, 0 );
+               var subTotal = api
+                .column( 15 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
             // Update footer by showing the total with the reference of the column index 
 	        $( api.column( 0 ).footer() ).html('Total');
-            $( api.column( 1 ).footer() ).html(janTotal);
-            $( api.column( 2 ).footer() ).html(febTotal);
-            $( api.column( 3 ).footer() ).html(marTotal);
-            $( api.column( 4 ).footer() ).html(aprTotal);
-            $( api.column( 5 ).footer() ).html(mayTotal);
-            $( api.column( 6 ).footer() ).html(junTotal);
-            $( api.column( 7 ).footer() ).html(julTotal);
-            $( api.column( 8 ).footer() ).html(augTotal);
-            $( api.column( 9 ).footer() ).html(sepTotal);
-            $( api.column( 10 ).footer() ).html(octTotal);
-            $( api.column( 11 ).footer() ).html(novTotal);
-            $( api.column( 12 ).footer() ).html(decTotal);
-            $( api.column( 13 ).footer() ).html(singleTotal);
-            $( api.column( 14 ).footer() ).html(subTotal);
+            $( api.column( 1 ).footer() ).html('');
+            $( api.column( 2 ).footer() ).html(janTotal);
+            $( api.column( 3 ).footer() ).html(febTotal);
+            $( api.column( 4 ).footer() ).html(marTotal);
+            $( api.column( 5 ).footer() ).html(aprTotal);
+            $( api.column( 6 ).footer() ).html(mayTotal);
+            $( api.column( 7 ).footer() ).html(junTotal);
+            $( api.column( 8 ).footer() ).html(julTotal);
+            $( api.column( 9 ).footer() ).html(augTotal);
+            $( api.column( 10 ).footer() ).html(sepTotal);
+            $( api.column( 11 ).footer() ).html(octTotal);
+            $( api.column( 12 ).footer() ).html(novTotal);
+            $( api.column( 13 ).footer() ).html(decTotal);
+            $( api.column( 14 ).footer() ).html(singleTotal);
+            $( api.column( 15 ).footer() ).html(subTotal);
             
         },
       processing: true,
@@ -190,6 +193,7 @@ $(document).ready(function(){
       ajax: "{{ route('members.reports',[Request::segment(2)]) }}",
       columns: [
           {data: 'name', name: 'name'},
+          {data: 'category', name: 'category'},
           {data: 'jan', name: 'jan'},
           {data: 'feb', name: 'feb'},
           {data: 'mar', name: 'mar'},

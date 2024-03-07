@@ -29,7 +29,8 @@ return new class extends Migration
             $table->date('policy_end_date');
             $table->string('agent_name')->nullable();
             $table->bigInteger('agent_mobile_number')->nullable();  
-            $table->string('other_details')->nullable();      
+            $table->string('other_details')->nullable();
+            $table->string('category')->nullable();      
             $table->bigInteger('jan')->default(0);
             $table->bigInteger('feb')->default(0);
             $table->bigInteger('mar')->default(0);

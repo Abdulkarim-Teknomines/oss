@@ -9,8 +9,8 @@
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
         @endif
-    @php $dates = Date('M');@endphp
-        <div class="mb-3 row">
+    <!-- @php $dates = Date('M');@endphp -->
+        <!-- <div class="mb-3 row">
             <label class="col-md-1 offset-md-4 col-form-label text-md-end text-start">Month <span style="color:red">*</span></label>
             <div class="col-md-3">
                 <select id="month" class="form-control" name="month" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
@@ -29,7 +29,7 @@
                     <option value="dec">December</option>
                 </select>
             </div>
-        </div>
+        </div> -->
         <div class="float-left">
 
             

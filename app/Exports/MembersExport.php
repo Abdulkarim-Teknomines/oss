@@ -15,7 +15,7 @@ use App\Models\InsurancePolicyType;
 use App\Models\Lifeinsurance;
 use App\Models\Mediclaim;
 use App\Models\Mutualfund;
-
+use Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -34,7 +34,7 @@ class MembersExport implements FromCollection, WithHeadings
     {
         $datad = [];
         $export = [];
-        $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',$this->id)->first()->toArray();
+        $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',Auth::User()->id)->first()->toArray();
         $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund'],$data['vehicle_insurance']);
         $i=0;
         $jan_sum =0;
@@ -75,9 +75,12 @@ class MembersExport implements FromCollection, WithHeadings
             }elseif(isset($member['company_name'])){
                 $plan_name=$member['company_name'];
             }
-            
+            if(isset($member['category'])){
+                $category = $member['category'];
+            }
             $datad[]=array(
                 'name'=>$plan_name,
+                'category'=>$category,
                 'jan'=>number_format($member['jan'],0),
                 'feb'=>number_format($member['feb'],0),
                 'mar'=>number_format($member['mar'],0),
@@ -96,6 +99,7 @@ class MembersExport implements FromCollection, WithHeadings
         }
         $new_arr[]=array(
             'name'=>'Total',
+            'category'=>'',
             'jan'=>number_format($jan_sum,0),
             'feb'=>number_format($feb_sum,0),
             'mar'=>number_format($mar_sum,0),
@@ -109,7 +113,7 @@ class MembersExport implements FromCollection, WithHeadings
             'nov'=>number_format($nov_sum,0),
             'dec'=>number_format($dec_sum,0),
             'single'=>number_format($single_sum,0),
-            'total' => $jan_sum+$feb_sum+$mar_sum+$apr_sum+$may_sum+$jun_sum+$jul_sum+$aug_sum+$oct_sum+$nov_sum+$dec_sum+$single_sum,
+            'total' => $jan_sum+$feb_sum+$mar_sum+$apr_sum+$may_sum+$jun_sum+$jul_sum+$aug_sum+$sep_sum+$oct_sum+$nov_sum+$dec_sum+$single_sum,
         );
         $ars = array_merge($datad,$new_arr);
         return collect($ars);
@@ -117,6 +121,6 @@ class MembersExport implements FromCollection, WithHeadings
     
     public function headings(): array
     {
-        return ["Name", "Jan", "Feb","Mar","Apr", "May", "Jun","Jul", "Aug", "Sep","Oct","Nov", "Dec", "Single","Total"];
+        return ["Name","Category", "Jan", "Feb","Mar","Apr", "May", "Jun","Jul", "Aug", "Sep","Oct","Nov", "Dec", "Single","Total"];
     }
 }

@@ -70,7 +70,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Company Name<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="company_name" class="form-control @error('company_name') is-invalid @enderror company_name" name="company_name" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="company_name" class="form-control @error('company_name') is-invalid @enderror company_name" name="company_name" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Company Name --</option>
                                 @foreach ($company_name as $data)
                                 @if (old('company_name',$life_insurance->company_name_id) == $data->id)
@@ -116,7 +116,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Plan Type<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="plan_type_id" class="form-control @error('plan_type_id') is-invalid @enderror plan_type_id" name="plan_type_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="plan_type_id" class="form-control @error('plan_type_id') is-invalid @enderror plan_type_id" name="plan_type_id" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Plan Type --</option>
                                 @foreach ($ppt as $data)
                                 @if (old('plan_type_id',$life_insurance->plan_type_id) == $data->id)
@@ -136,7 +136,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">PPT<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="ppt" class="form-control @error('ppt') is-invalid @enderror ppt" name="ppt" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="ppt" class="form-control @error('ppt') is-invalid @enderror ppt" name="ppt" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select PPT --</option>
                                 @for($i=1;$i<=100;$i++)
                                     @if (old('ppt',$life_insurance->ppt) == $i)
@@ -169,7 +169,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Premium Mode<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="premium_mode" class="form-control @error('premium_mode') is-invalid @enderror premium_mode" name="premium_mode" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="premium_mode" class="form-control @error('premium_mode') is-invalid @enderror premium_mode" name="premium_mode" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Premium Mode --</option>
                                 @foreach ($policy_mode as $data)
                                 @if (old('premium_mode',$life_insurance->policy_mode_id) == $data->id)

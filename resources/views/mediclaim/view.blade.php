@@ -20,11 +20,11 @@
                     <th scope="col">Policy Holder Name</th>
                     <th scope="col">Birth Date</th>
                     <th scope="col">Policy Start Date</th>
+                    <th scope="col">Policy End Date</th>
                     <th scope="col">Company Name</th>
                     <th scope="col">Policy Number</th>
                     <th scope="col">Policy Type</th>
                     <th scope="col">Sum Assured</th>
-                    <th scope="col">Policy Name</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -49,11 +49,11 @@
             {data: 'policy_holder_name', name: 'policy_holder_name'},
             {data: 'birth_date', name: 'birth_date'},
             {data: 'policy_start_date', name: 'policy_start_date'},
+            {data: 'policy_end_date', name: 'policy_end_date'},
             {data: 'company_name', name: 'company_name'},
             {data: 'policy_number', name: 'policy_number'},
             {data: 'policy_type', name: 'policy_type'},
             {data: 'sum_assured', name: 'sum_assured'},
-            {data: 'policy_name', name: 'policy_name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

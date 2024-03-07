@@ -47,7 +47,7 @@
     var table = $('.dts').DataTable({
       processing: true,
       serverSide: false,
-      ajax: "{{ route('mediclaim.all_mediclaim') }}",
+      ajax: "{{ route('mediclaim.all_mediclaim',Auth::User()->id) }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},
             {data: 'policy_holder_name', name: 'policy_holder_name'},

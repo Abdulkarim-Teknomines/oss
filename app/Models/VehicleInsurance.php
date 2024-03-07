@@ -34,6 +34,7 @@ class VehicleInsurance extends Model
         'agent_name',
         'agent_mobile_number',
         'other_details',
+        'category',
         'jan',
         'feb',
         'mar',

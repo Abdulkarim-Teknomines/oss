@@ -83,7 +83,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Company Name<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="company_name" class="form-control @error('company_name') is-invalid @enderror company_name" name="company_name" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="company_name" class="form-control @error('company_name') is-invalid @enderror company_name" name="company_name" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Company Name --</option>
                                 @foreach ($company_name as $data)
                                 @if (old('company_name') == $data->id)
@@ -111,7 +111,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Policy Type<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="policy_type" class="form-control @error('policy_type') is-invalid @enderror policy_type" name="policy_type" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="policy_type" class="form-control @error('policy_type') is-invalid @enderror policy_type" name="policy_type" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Policy Type --</option>
                                 @foreach ($policy_type as $data)
                                 @if (old('policy_type') == $data->id)
@@ -150,7 +150,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Policy Mode<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="policy_mode" class="form-control @error('policy_mode') is-invalid @enderror policy_mode" name="policy_mode" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="policy_mode" class="form-control @error('policy_mode') is-invalid @enderror policy_mode" name="policy_mode" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Policy Mode --</option>
                                 @foreach ($policy_mode as $data)
                                 @if (old('policy_mode') == $data->id)

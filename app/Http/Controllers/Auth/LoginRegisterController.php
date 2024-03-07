@@ -127,29 +127,38 @@ class LoginRegisterController extends Controller
         $data['agent'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
             $query->where('name','agent');
         })->count();
-        $data['mediclaim_count'] = Mediclaim::count();
-        $data['life_insurance_count'] = Lifeinsurance::count();
-        $data['vehicle_insurance_count'] = VehicleInsurance::count();
+        $data['mediclaim_count'] = Mediclaim::where('user_id',auth()->user()->id)->count();
+        
+        $data['life_insurance_count'] = Lifeinsurance::where('user_id',auth()->user()->id)->count();
+        $data['mutual_fund_count'] = Mutualfund::where('user_id',auth()->user()->id)->count();
+        $data['vehicle_insurance_count'] = VehicleInsurance::where('user_id',auth()->user()->id)->count();
 
         $data['members'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
             $query->where('name','member');
         })->latest()->take(10)->get();
-        $data['mutual_fund_count'] = Mutualfund::count();
 
         $data['mediclaim']= Mediclaim::with('company_name','policy_type','policy_mode')->latest()->take(10)->get();
         $data['life_insurance']=Lifeinsurance::with('company_name','ppt','policy_mode')->latest()->take(10)->get();
         $data['vehicle_insurance']=VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->latest()->take(10)->get();
         $data['mutual_fund']=Mutualfund::with('mutual_fund_type')->latest()->take(10)->get();
 
+
+        $data['mediclaim_premium'] = Mediclaim::where('user_id',auth()->user()->id)->sum('yearly_premium_amount');
+        $data['lifeinsurance_premium'] = Lifeinsurance::where('user_id',auth()->user()->id)->sum('yearly_premium_amount');
+        $data['vehicleinsurance_premium'] = VehicleInsurance::where('user_id',auth()->user()->id)->sum('policy_premium');
+        $data['mutualfund_premium'] = Mutualfund::where('user_id',auth()->user()->id)->sum('yearly_amount');
+        if(Auth::user()->hasRole('Member')){
+            $member_details = User::where('id',Auth::id())->get();
+            $data['agent_details'] = User::where('id',$member_details[0]->parent_id)->get();
+            $data['manager_details'] = User::where('id',$data['agent_details'][0]->parent_id)->get();
+        }
         $data['title']='Dashboard';
         $data['content']='Dashboard';
         if(Auth::check())
         {
             return view('auth.dashboard',$data);
         }
-        
-        return redirect()->route('login')
-            ->withErrors([
+        return redirect()->route('login')->withErrors([
             'email' => 'Please login to access the dashboard.',
         ])->onlyInput('email');
     } 

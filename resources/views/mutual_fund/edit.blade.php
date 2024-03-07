@@ -47,7 +47,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-3 col-form-label text-md-end text-start">Mutual Fund<span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select id="mutual_fund_type" class="form-control @error('mutual_fund_type') is-invalid @enderror mutual_fund_type" name="mutual_fund_type" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                            <select id="mutual_fund_type" class="form-control @error('mutual_fund_type') is-invalid @enderror mutual_fund_type" name="mutual_fund_type" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Mutual Fund --</option>
                                 @foreach ($mutual_fund_type as $data)
                                 @if (old('mutual_fund_type',$mutual_fund->mutual_fund_type_id) == $data->id)
