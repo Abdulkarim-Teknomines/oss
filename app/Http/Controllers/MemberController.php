@@ -92,7 +92,7 @@ class MemberController extends Controller
                         if(Auth::user()->can('edit-member')) {
                             $btn.='<a href="members/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
                         }
-                        // $btn.='<a href="members/'.$row['id'].'/reports" class="ml-1 edit btn btn-dark btn-sm" id="view_report">Report</a>';
+                        $btn.='<a href="members/'.$row['id'].'/reports" class="ml-1 edit btn btn-dark btn-sm" id="view_report">Report</a>';
                         return $btn;
                     })
                     ->rawColumns(['action','life_insurance','mediclaim','mutual_fund','vehicle_insurance'])
@@ -795,8 +795,8 @@ class MemberController extends Controller
                     ->addColumn('policy_start_date', function($row){
                         return $row['policy_start_date'];
                     }) 
-                    ->addColumn('end_date', function($row){
-                        return $row['end_date'];
+                    ->addColumn('policy_end_date', function($row){
+                        return $row['policy_end_date'];
                     }) 
                     ->addColumn('company_name', function($row){
                         return $row->company_name['name'];

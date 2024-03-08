@@ -288,9 +288,9 @@
                 <p>Mediclaim</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fa fa-hospital"></i>
               </div>
-              
+              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -302,7 +302,7 @@
                 <p>Life Insurance</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fa fa-life-ring"></i>
               </div>
               <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -316,7 +316,7 @@
                 <p>Vehicle Insurance</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fa fa-car"></i>
               </div>
               <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -330,7 +330,59 @@
                 <p>Mutual Fund</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fa fa-dollar-sign"></i>
+              </div>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+              <div class="inner">
+                <h3>{{$mediclaim_premium}}</h3>
+                <p style="width:50%">Mediclaim Yearly Premium</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-hospital"></i>
+              </div>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+              <div class="inner">
+                <h3>{{$lifeinsurance_premium}}</h3>
+                <p style="width:50%">Life Insurance Yearly Premium</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-life-ring"></i>
+              </div>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-pink">
+              <div class="inner">
+                <h3>{{$vehicleinsurance_premium}}</h3>
+                <p style="width:50%">Vehicle Insurance Yearly Premium</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-car"></i>
+              </div>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h3>{{$mutualfund_premium}}</h3>
+                <p style="width:50%">Mutual Fund Yearly Premium</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-dollar-sign"></i>
               </div>
               <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>

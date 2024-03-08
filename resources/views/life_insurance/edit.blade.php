@@ -147,8 +147,8 @@
                                 @endfor
                             </select>
                             @if ($errors->has('ppt'))
-                                    <span class="error invalid-feedback">{{ $errors->first('ppt') }}</span>
-                                @endif
+                                <span class="error invalid-feedback">{{ $errors->first('ppt') }}</span>
+                            @endif
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -172,17 +172,16 @@
                             <select id="premium_mode" class="form-control @error('premium_mode') is-invalid @enderror premium_mode" name="premium_mode" style="width: 100%;" data-select2-id="1" aria-hidden="true">
                                 <option value="">-- Select Premium Mode --</option>
                                 @foreach ($policy_mode as $data)
-                                @if (old('premium_mode',$life_insurance->policy_mode_id) == $data->id)
-                                    <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
-                                @else
-                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
-                                @endif
-                                
+                                    @if (old('premium_mode',$life_insurance->policy_mode_id) == $data->id)
+                                        <option value="{{ $data->id }}" selected>{{ $data->name }}</option>
+                                    @else
+                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             @if ($errors->has('premium_mode'))
-                                    <span class="error invalid-feedback">{{ $errors->first('premium_mode') }}</span>
-                                @endif
+                                <span class="error invalid-feedback">{{ $errors->first('premium_mode') }}</span>
+                            @endif
                         </div>
                     </div>
                     <div class="mb-3 row">

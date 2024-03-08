@@ -305,8 +305,8 @@ class UserController extends Controller
                         $btn='';
                         $btn .= '<a href="/users/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
                         if(Auth::user()->can('edit-user')) {
-                            $btn.='<a href="users/'.$row['id'].'/edit" class="editd btn btn-primary btn-sm" id="editd">Edit</a>';
-                        }
+                            $btn.='<a href="javascript:void(0)" class="editd btn btn-primary btn-sm" id="editd" onClick="edit_user('.$row->id.')">Edit</a>';
+                        } 
                         // if(Auth::user()->can('delete-user')) {
                         //     $btn.='<form method="post" action="users/'.$row['id'].'">
                         //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>

@@ -64,5 +64,9 @@
 function view(id){
     window.location.href='/users/'+id+'/view';
 }
+function edit_user(id){
+    window.location.href='/users/'+id+'/edit';
+}
+
 </script>
 @endsection

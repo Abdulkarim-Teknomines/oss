@@ -127,12 +127,20 @@ class LoginRegisterController extends Controller
         $data['agent'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
             $query->where('name','agent');
         })->count();
-        $data['mediclaim_count'] = Mediclaim::where('user_id',auth()->user()->id)->count();
         
-        $data['life_insurance_count'] = Lifeinsurance::where('user_id',auth()->user()->id)->count();
-        $data['mutual_fund_count'] = Mutualfund::where('user_id',auth()->user()->id)->count();
-        $data['vehicle_insurance_count'] = VehicleInsurance::where('user_id',auth()->user()->id)->count();
+        if(Auth::User()->hasRole('Member')){
+            $data['mediclaim_count'] = Mediclaim::where('user_id',auth()->user()->id)->count();
+            $data['life_insurance_count'] = Lifeinsurance::where('user_id',auth()->user()->id)->count();
+            $data['mutual_fund_count'] = Mutualfund::where('user_id',auth()->user()->id)->count();
+            $data['vehicle_insurance_count'] = VehicleInsurance::where('user_id',auth()->user()->id)->count();
 
+        }else{
+            $data['mediclaim_count'] = Mediclaim::count();
+            $data['life_insurance_count'] = Lifeinsurance::count();
+            $data['mutual_fund_count'] = Mutualfund::count();
+            $data['vehicle_insurance_count'] = VehicleInsurance::count();
+        }
+        
         $data['members'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
             $query->where('name','member');
         })->latest()->take(10)->get();
@@ -142,11 +150,17 @@ class LoginRegisterController extends Controller
         $data['vehicle_insurance']=VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->latest()->take(10)->get();
         $data['mutual_fund']=Mutualfund::with('mutual_fund_type')->latest()->take(10)->get();
 
-
-        $data['mediclaim_premium'] = Mediclaim::where('user_id',auth()->user()->id)->sum('yearly_premium_amount');
-        $data['lifeinsurance_premium'] = Lifeinsurance::where('user_id',auth()->user()->id)->sum('yearly_premium_amount');
-        $data['vehicleinsurance_premium'] = VehicleInsurance::where('user_id',auth()->user()->id)->sum('policy_premium');
-        $data['mutualfund_premium'] = Mutualfund::where('user_id',auth()->user()->id)->sum('yearly_amount');
+        if(Auth::User()->hasRole('Member')){
+            $data['mediclaim_premium'] = Mediclaim::where('user_id',auth()->user()->id)->sum('yearly_premium_amount');
+            $data['lifeinsurance_premium'] = Lifeinsurance::where('user_id',auth()->user()->id)->sum('yearly_premium_amount');
+            $data['vehicleinsurance_premium'] = VehicleInsurance::where('user_id',auth()->user()->id)->sum('policy_premium');
+            $data['mutualfund_premium'] = Mutualfund::where('user_id',auth()->user()->id)->sum('yearly_amount');
+        }else{
+            $data['mediclaim_premium'] = Mediclaim::sum('yearly_premium_amount');
+            $data['lifeinsurance_premium'] = Lifeinsurance::sum('yearly_premium_amount');
+            $data['vehicleinsurance_premium'] = VehicleInsurance::sum('policy_premium');
+            $data['mutualfund_premium'] = Mutualfund::sum('yearly_amount');
+        }
         if(Auth::user()->hasRole('Member')){
             $member_details = User::where('id',Auth::id())->get();
             $data['agent_details'] = User::where('id',$member_details[0]->parent_id)->get();

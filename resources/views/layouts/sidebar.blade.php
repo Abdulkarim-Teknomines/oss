@@ -43,13 +43,15 @@
           @canany(['create-user', 'edit-user'])
               <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Users</p></a></li>
           @endcanany
+          
           @canany(['create-member', 'edit-member'])
           <li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Member</p></a></li>          
           @endcanany
+          
           @if(Auth::User()->hasRole('Super Admin'))
             <li class="nav-item">
               <a href="{{ route('admin_users.admin_list') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-user nav-icon"></i>
                 <p>Admin</p>
               </a>
             </li>
@@ -57,7 +59,7 @@
           @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin'))
             <li class="nav-item">
               <a href="{{ route('manager_users.manager_list') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-user nav-icon"></i>
                 <p>Manager</p>
               </a>
             </li>
@@ -65,23 +67,33 @@
           @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin') || Auth::User()->hasRole('Manager'))
             <li class="nav-item">
               <a href="{{ route('agent_users.agent_list') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-user nav-icon"></i>
                 <p>Agent</p>
               </a>
             </li>
           @endif
-         @if(Auth::User()->hasRole('Member')) 
-         <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
-         <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
-         <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
+          @if(auth::User()->hasRole('Super Admin'))
+          
+          <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li>
+          @elseif(Auth::User()->department_id=="1")
+          <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
+          @elseif(Auth::User()->department_id=="2")
+          <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
+          @elseif(Auth::User()->department_id=="3")
+          <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
+          @elseif(Auth::User()->department_id=="4")
          <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li>
+         @endif
          <li class="nav-item">
              <a href="{{ route('members.reports',Auth::User()->id) }}" class="nav-link">
                <i class="fa fa-book nav-icon"></i>
                <p>Annual Report</p>
              </a>
          </li>
-          @endif
+         
           <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -238,7 +250,7 @@
           
           <li class="nav-item">
             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-              document.getElementById('logout-form').submit();" class="nav-link"><i class="far fa-circle nav-icon"></i> {{ __('Logout') }}
+              document.getElementById('logout-form').submit();" class="nav-link"><i class="fa fa-user nav-icon"></i> {{ __('Logout') }}
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
