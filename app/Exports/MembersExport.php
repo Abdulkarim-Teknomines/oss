@@ -34,7 +34,7 @@ class MembersExport implements FromCollection, WithHeadings
     {
         $datad = [];
         $export = [];
-        $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',Auth::User()->id)->first()->toArray();
+        $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',$this->id)->first()->toArray();
         $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund'],$data['vehicle_insurance']);
         $i=0;
         $jan_sum =0;

@@ -953,7 +953,7 @@ class MemberController extends Controller
                     return $row['plan_name'];
                 }) 
                 ->addColumn('ppt_id', function($row){
-                    return $row['ppt'];
+                    return $row['ppt'].' Year';
                 }) 
                 ->addColumn('premium_mode_id', function($row){
                     return $row->policy_mode['name'];
@@ -2313,7 +2313,8 @@ class MemberController extends Controller
     }
     public function member_export(Request $request,User $user) 
     {
-        return Excel::download(new MembersExport($user->id), 'report.xlsx');
+        $date = ('Y-m-d h:i:s');
+        return Excel::download(new MembersExport($user->id), $date.'report.xlsx');
     }
     public function generate_pdf(Request $request,User $user)
     {

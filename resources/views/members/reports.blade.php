@@ -68,6 +68,7 @@
 <script>
 $(document).ready(function(){
     $('#dts1').DataTable({
+        
         "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
  
@@ -187,9 +188,10 @@ $(document).ready(function(){
             $( api.column( 15 ).footer() ).html(subTotal);
             
         },
-      processing: true,
+      processing: false,
       serverSide: false,
       paginate:false,
+      "ordering": false,
       ajax: "{{ route('members.reports',[Request::segment(2)]) }}",
       columns: [
           {data: 'name', name: 'name'},
@@ -210,6 +212,7 @@ $(document).ready(function(){
           {data: 'total', name: 'total'},
       
       ],
+      order: [[0, 'asc']]
       
   });
 });
