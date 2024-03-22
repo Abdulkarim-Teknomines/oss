@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->hasOne(Member::class);
     }
     public function children(){
-        return $this->hasMany(Children::class);
+        return $this->hasMany(User::class);
     }
     public function mediclaim()
     {
@@ -79,7 +79,14 @@ class User extends Authenticatable
     {
     return $this->hasMany(Lifeinsurance::class);
     }
-    
+    public function users()
+    {
+    return $this->hasMany(User::class);
+    }
+    public function recursivePosts()
+    {
+        return $this->hasManyOfDescendantsAndSelf(Mediclaim::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

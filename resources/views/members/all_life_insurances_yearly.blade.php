@@ -10,31 +10,7 @@
             </div>
         @endif
     @php $dates = Date('M');@endphp
-        <div class="mb-3 row">
-            <label class="col-md-1 offset-md-4 col-form-label text-md-end text-start">Month <span style="color:red">*</span></label>
-            <div class="col-md-3">
-                <select id="month" class="form-control" name="month" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                    <option value="">-- Select Month --</option>
-                    <option value="jan" @if(Date('M')=='Jan') selected="true" @endif >January</option>
-                    <option value="feb" @if(Date('M')=='Feb') selected="true" @endif>February</option>
-                    <option value="mar" @if(Date('M')=='Mar') selected="true" @endif>March</option>
-                    <option value="apr" @if(Date('M')=='Apr') selected="true" @endif>April</option>
-                    <option value="may" @if(Date('M')=='May') selected="true" @endif>May</option>
-                    <option value="jun" @if(Date('M')=='Jun') selected="true" @endif>June</option>
-                    <option value="jul" @if(Date('M')=='Jul') selected="true" @endif>July</option>
-                    <option value="aug" @if(Date('M')=='Aug') selected="true" @endif>August</option>
-                    <option value="sep" @if(Date('M')=='Sep') selected="true" @endif>September</option>
-                    <option value="oct" @if(Date('M')=='Oct') selected="true" @endif>October</option>
-                    <option value="nov" @if(Date('M')=='Nov') selected="true" @endif>November</option>
-                    <option value="dec" @if(Date('M')=='Dec') selected="true" @endif>December</option>
-                </select>
-            </div>
-        </div>
-        <div class="float-left">
-
-            
-
-        </div>
+        
 </div>
     <div class="card-body">
     <table class="table table-bordered dts">
@@ -48,8 +24,8 @@
                 <th scope="col">Policy Number</th>
                 <th scope="col">Sum Assured</th>
                 <th scope="col">Plan Name</th>
-                <th scope="col">PPT</th>
                 <th scope="col">Premium Mode</th>
+                <th scope="col">Yearly Premium Amount</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -76,7 +52,7 @@
     var table = $('.dts').DataTable({
       processing: true,
       serverSide: false,
-      ajax: "{{ route('life_insurance.all_life_insurance') }}",
+      ajax: "{{ route('life_insurance.all_life_insurance_yearly') }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},
             {data: 'policy_holder_name', name: 'policy_holder_name'},
@@ -86,8 +62,8 @@
             {data: 'policy_number', name: 'policy_number'},
             {data: 'sum_assured', name: 'sum_assured'},
             {data: 'plan_name', name: 'plan_name'},
-            {data: 'ppt_id', name: 'ppt_id'},
             {data: 'premium_mode', name: 'premium_mode'},
+            {data: 'yearly_premium_amount', name: 'yearly_premium_amount'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -95,7 +71,7 @@
 $(document).on('change','#month',function(){
     var val = $(this).val();
     $.ajax({
-        url: "{{ route('life_insurance.all_life_insurance') }}",
+        url: "{{ route('life_insurance.all_life_insurance_yearly') }}",
         type: 'GET',
         dataType: "json",
         data: {
@@ -108,5 +84,9 @@ $(document).on('change','#month',function(){
         }
     });
 });
+function view_life_insurance_yearly(id){
+    
+    window.location.href='/all_life_insurance/'+id+'/view';
+}
 </script>
 @endsection

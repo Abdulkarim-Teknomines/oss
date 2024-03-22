@@ -35,6 +35,10 @@ class Member extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function mediclaim()
+    {
+        return $this->belongsTo(Member::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

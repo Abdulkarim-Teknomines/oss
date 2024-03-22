@@ -234,6 +234,11 @@
     $('.child_dob').datetimepicker({
         format: 'yyyy-MM-DD',
     });
+    $( "#child_dob" ).datepicker( "destroy" );
+        $("#child_dob").datepicker({
+        changeMonth: true,
+        changeYear: true
+        }); 
     $('#policy_start_date').datetimepicker({
         format: 'yyyy-MM-DD',
     });

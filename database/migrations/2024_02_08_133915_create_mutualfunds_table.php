@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('sr_no');
             $table->string('mutual_fund_holder_name');
             $table->integer('mutual_fund_type_id');     //[dropdown provided by team]
-            $table->bigInteger('folio_number');
+            $table->string('folio_number');
             $table->string('fund_name');
             $table->string('fund_type');
             $table->date('purchase_date');

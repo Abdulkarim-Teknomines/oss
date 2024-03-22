@@ -83,17 +83,17 @@
                 <div class="mb-3 row">
                     <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>PPT:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
-                        {{ $life_insurance[0]->ppt }}
+                        {{ $life_insurance[0]->ppt }} Year
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>Policy Term:</strong></label>
+                    <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>PPT End Date:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
-                        {{ $life_insurance[0]->policy_term }}
+                        {{ $life_insurance[0]->ppt_end_date }}
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>Policy Mode:</strong></label>
+                    <label for="roles" class="col-md-3 col-form-label text-md-end text-start"><strong>Premium Mode:</strong></label>
                     <div class="col-md-4" style="line-height: 35px;">
                         {{ $life_insurance[0]->policy_mode->name }}
                     </div>

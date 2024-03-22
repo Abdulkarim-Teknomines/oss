@@ -94,7 +94,7 @@ class MembersExport implements FromCollection, WithHeadings
                 'nov'=>number_format($member['nov'],0),
                 'dec'=>number_format($member['dec'],0),
                 'single'=>number_format($member['single'],0),
-                'total' => $member['jan']+$member['feb']+$member['mar']+$member['apr']+$member['may']+$member['jun']+$member['jul']+$member['aug']+$member['sep']+$member['oct']+$member['nov']+$member['dec']+$member['single'],
+                'total' => $member['jan']+$member['feb']+$member['mar']+$member['apr']+$member['may']+$member['jun']+$member['jul']+$member['aug']+$member['sep']+$member['oct']+$member['nov']+$member['dec'],
             );
         }
         $new_arr[]=array(
@@ -113,7 +113,7 @@ class MembersExport implements FromCollection, WithHeadings
             'nov'=>number_format($nov_sum,0),
             'dec'=>number_format($dec_sum,0),
             'single'=>number_format($single_sum,0),
-            'total' => $jan_sum+$feb_sum+$mar_sum+$apr_sum+$may_sum+$jun_sum+$jul_sum+$aug_sum+$sep_sum+$oct_sum+$nov_sum+$dec_sum+$single_sum,
+            'total' => $jan_sum+$feb_sum+$mar_sum+$apr_sum+$may_sum+$jun_sum+$jul_sum+$aug_sum+$sep_sum+$oct_sum+$nov_sum+$dec_sum,
         );
         $ars = array_merge($datad,$new_arr);
         return collect($ars);

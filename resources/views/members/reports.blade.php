@@ -9,8 +9,7 @@
     <table class="table table-bordered dts1" id="dts1">
         <thead class="bg-primary">
             <tr  style="color:#fff">
-                
-                <th scope="col">Name</th>
+                <th scope="col">Policy Holder Name</th>
                 <th scope="col">Category</th>
                 <th scope="col">Jan</th>
                 <th scope="col">Feb</th>
@@ -34,7 +33,7 @@
         </tr>
         </tbody>
         <tfoot>
-            <tr style="color:#007bff">
+            <tr>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -53,10 +52,10 @@
                 <th></th>
         </tfoot>
     </table>
-    <div class="float-right">
-        <a class="btn btn-primary float-end" href="{{ route('members.member_export',[Request::segment(2)] )}}">Export Member Report</a>
+    <!-- <div class="float-right"> -->
+        <!-- <a class="btn btn-primary float-end" href="{{ route('members.member_export',[Request::segment(2)] )}}">Export Member Report</a> -->
         <!-- <a class="btn btn-warning float-end" href="{{ route('members.generate_pdf',[Request::segment(2)] )}}">Export User Data</a> -->
-    </div>
+    <!-- </div> -->
 </div>
     </div>
 </div>
@@ -68,10 +67,9 @@
 <script>
 $(document).ready(function(){
     $('#dts1').DataTable({
-        
         "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
- 
+            
             // converting to interger to find total
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
@@ -79,7 +77,7 @@ $(document).ready(function(){
                     typeof i === 'number' ?
                         i : 0;
             };
- 
+            
             // computing column Total of the complete result 
             var janTotal = api
                 .column( 2 )
@@ -161,7 +159,7 @@ $(document).ready(function(){
                 .column( 14 )
                 .data()
                 .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
+                    return intVal(0);
                }, 0 );
                var subTotal = api
                 .column( 15 )
@@ -188,10 +186,11 @@ $(document).ready(function(){
             $( api.column( 15 ).footer() ).html(subTotal);
             
         },
-      processing: false,
-      serverSide: false,
+      processing: true,
+      serverSide: true,
       paginate:false,
       "ordering": false,
+      dom:'lBfrtip',
       ajax: "{{ route('members.reports',[Request::segment(2)]) }}",
       columns: [
           {data: 'name', name: 'name'},
@@ -212,9 +211,40 @@ $(document).ready(function(){
           {data: 'total', name: 'total'},
       
       ],
-      order: [[0, 'asc']]
-      
-  });
+      buttons: [
+            {
+               "extend": 'excel',
+               "titleAttr": 'Excel',                               
+               "className": 'text-right',
+               
+            },
+            {
+               "extend": 'csv',
+               "titleAttr": 'CSV',                               
+            },
+            {
+               "extend": 'pdf',
+               "titleAttr": 'PDF',                               
+            },
+            {
+               "extend": 'print',
+               "titleAttr": 'Print',                                
+            }],
+
+    createdRow: function ( row, data, index ) {
+        if(data['category']=='Mediclaim'){
+            $(row).addClass('bg-purple');
+        }else if(data['category']=="Life Insurance"){
+            $(row).addClass('bg-success');
+        }else if(data['category']=="Vehicle Insurance"){
+            $(row).addClass('bg-gray');
+        }else if(data['category']=="Mutual Fund"){
+            $(row).addClass('bg-yellow');
+        }
+        },
+    });
+    
 });
+
 </script>
 @endsection

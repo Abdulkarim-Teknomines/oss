@@ -11,27 +11,27 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
               <div class="inner">
-                <h3>{{$mediclaim_count+$life_insurance_count+$vehicle_insurance_count+$mutual_fund_count}}</h3>
-                <p>Total Policy</p>
+                <h3 style="color:#fff">{{$mediclaim_count+$life_insurance_count+$vehicle_insurance_count+$mutual_fund_count}}</h3>
+                <p style="color:#fff">Total Policy</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="ion ion-stats-bars"></i>
               </div>
-              <!-- <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
 
           </div>
           <div class="col-lg-6 col-6">
             <!-- small box -->
-            <div class="small-box bg-orange">
+            <div class="small-box bg-pink">
               <div class="inner">
-                <h3>{{$mediclaim_premium+$lifeinsurance_premium+$vehicleinsurance_premium+$mutualfund_premium}}</h3>
-                <p>Annual Payment Premium</p>
+                <h3  style="color:#fff">{{$mediclaim_premium+$lifeinsurance_premium+$vehicleinsurance_premium+$mutualfund_premium}}</h3>
+                <p  style="color:#fff">Annual Payment Premium</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="ion ion-bag"></i>
               </div>
-              <!-- <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
 
           </div>
@@ -39,8 +39,8 @@
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
-                <h3>{{$mediclaim_count}}</h3>
-                <p>Mediclaim</p>
+                <h3 style="color:#fff">{{$mediclaim_count}}</h3>
+                <p style="color:#fff">Mediclaim</p>
               </div>
               <div class="icon">
                 <i class=" fa fa-hospital"></i>
@@ -51,10 +51,10 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box  -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-green">
               <div class="inner">
-                <h3>{{$life_insurance_count}}</h3>
-                <p>Life Insurance</p>
+                <h3 style="color:#fff">{{$life_insurance_count}}</h3>
+                <p style="color:#fff">Life Insurance</p>
               </div>
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
@@ -65,10 +65,10 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-red">
+            <div class="small-box bg-gray">
               <div class="inner">
-                <h3>{{$vehicle_insurance_count}}</h3>
-                <p>Vehicle Insurance</p>
+                <h3  style="color:#fff">{{$vehicle_insurance_count}}</h3>
+                <p  style="color:#fff">Vehicle Insurance</p>
               </div>
               <div class="icon">
                 <i class="fa fa-car"></i>
@@ -79,15 +79,15 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-primary">
+            <div class="small-box bg-yellow">
               <div class="inner">
-                <h3>{{$mutual_fund_count}}</h3>
-                <p>Mutual Fund</p>
+                <h3 style="color:#fff">{{$mutual_fund_count}}</h3>
+                <p style="color:#fff">Mutual Fund</p>
               </div>
               <div class="icon">
                 <i class=" fa fa-dollar-sign"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
           
@@ -95,52 +95,52 @@
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
-                <h3>{{$mediclaim_premium}}</h3>
-                <p>Mediclaim Premium</p>
+                <h3  style="color:#fff">{{$mediclaim_premium}}</h3>
+                <p  style="color:#fff">Mediclaim Premium</p>
               </div>
               <div class="icon">
                 <i class="fa fa-hospital"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-green">
               <div class="inner">
-                <h3>{{$lifeinsurance_premium}}</h3>
-                <p>Life Insurance Premium</p>
+                <h3  style="color:#fff">{{$lifeinsurance_premium}}</h3>
+                <p  style="color:#fff">Life Insurance Premium</p>
               </div>
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-red">
+            <div class="small-box bg-gray">
               <div class="inner">
-                <h3>{{$vehicleinsurance_premium}}</h3>
-                <p>Vehicle Insurance Premium</p>
+                <h3  style="color:#fff">{{$vehicleinsurance_premium}}</h3>
+                <p  style="color:#fff">Vehicle Insurance Premium</p>
               </div>
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-primary">
+            <div class="small-box bg-yellow">
               <div class="inner">
-                <h3>{{$mutualfund_premium}}</h3>
-                <p>Mutual Fund Premium</p>
+                <h3 style="color:#fff">{{$mutualfund_premium}}</h3>
+                <p style="color:#fff">Mutual Fund Premium</p>
               </div>
               <div class="icon">
                 <i class=" fa fa-dollar-sign"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
         </div>
@@ -199,98 +199,124 @@
 
           @else
           <div class="row">
+          @if(Auth::User()->hasRole('Super Admin','Admin','Manager','Agent'))
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-gray">
               <div class="inner">
-                <h3>{{$users}}</h3>
-                <p>Users</p>
+                <h3 style="color:#fff">{{$users}}</h3>
+                <p style="color:#fff">Users</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+          @endif
+          @if(Auth::User()->hasRole('Super Admin'))
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-orange">
               <div class="inner">
-                <h3>{{$admin}}</h3>
-                <p>Admin</p>
+                <h3 style="color:#fff">{{$admin}}</h3>
+                <p style="color:#fff">Admin</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+          @endif
+          @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin'))
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>{{$manager}}</h3>
+                <h3 style="color:#fff">{{$manager}}</h3>
 
-                <p>Manager</p>
+                <p style="color:#fff">Manager</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+          @endif
+          @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin')||Auth::User()->hasRole('Manager'))
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>{{$agent}}</h3>
-                <p>Agent</p>
+                <h3  style="color:#fff">{{$agent}}</h3>
+                <p  style="color:#fff">Agent</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
 
           </div>
-          <div class="col-lg-6 col-6">
+          @endif
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-4">
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
-                <h3>{{$member_count}}</h3>
-                <p>Member</p>
+                <h3  style="color:#fff">{{$member_count}}</h3>
+                <p  style="color:#fff">Member</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('members.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('members.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-6 col-6">
+          <div class="col-lg-4 col-4">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-yellow">
               <div class="inner">
-                <h3>{{$mediclaim_count+$life_insurance_count+$vehicle_insurance_count+$mutual_fund_count}}</h3>
-                <p>Total Policy</p>
+                <h3  style="color:#fff">{{$mediclaim_count+$life_insurance_count+$vehicle_insurance_count+$mutual_fund_count}}</h3>
+                <p  style="color:#fff">Total Policy</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="ion-stats-bars"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
 
           </div>
+          <div class="col-lg-4 col-4">
+            <!-- small box -->
+            <div class="small-box bg-pink">
+              <div class="inner">
+              <h3 style="color:#fff">{{$mediclaim_premium+$lifeinsurance_premium+$vehicleinsurance_premium+$mutualfund_premium}}</h3>
+                <p style="color:#fff">Annual Payment Premium</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
-                <h3>{{$mediclaim_count}}</h3>
-                <p>Mediclaim</p>
+                <h3 style="color:#fff">{{$mediclaim_count}}</h3>
+                <p style="color:#fff">Mediclaim</p>
               </div>
               <div class="icon">
                 <i class="fa fa-hospital"></i>
               </div>
-              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -298,54 +324,56 @@
             <!-- small box  -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{$life_insurance_count}}</h3>
-                <p>Life Insurance</p>
+                <h3 style="color:#fff">{{$life_insurance_count}}</h3>
+                <p style="color:#fff">Life Insurance</p>
               </div>
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div> 
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-pink">
+            <div class="small-box bg-gray">
               <div class="inner">
-                <h3>{{$vehicle_insurance_count}}</h3>
-                <p>Vehicle Insurance</p>
+                <h3 style="color:#fff">{{$vehicle_insurance_count}}</h3>
+                <p style="color:#fff">Vehicle Insurance</p>
               </div>
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-primary">
+            <div class="small-box bg-yellow">
               <div class="inner">
-                <h3>{{$mutual_fund_count}}</h3>
-                <p>Mutual Fund</p>
+                <h3 style="color:#fff">{{$mutual_fund_count}}</h3>
+                <p style="color:#fff">Mutual Fund</p>
               </div>
               <div class="icon">
                 <i class="fa fa-dollar-sign"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+        </div>
+        <div class="row">
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
-                <h3>{{$mediclaim_premium}}</h3>
-                <p style="width:50%">Mediclaim Yearly Premium</p>
+                <h3 style="color:#fff">{{$mediclaim_premium}}</h3>
+                <p style="width:50%;color:#fff">Mediclaim Yearly Premium</p>
               </div>
               <div class="icon">
                 <i class="fa fa-hospital"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -353,43 +381,217 @@
             <div class="small-box bg-green">
               <div class="inner">
                 <h3>{{$lifeinsurance_premium}}</h3>
-                <p style="width:50%">Life Insurance Yearly Premium</p>
+                <p style="width:50%;color:#fff">Life Insurance Yearly Premium</p>
               </div>
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-pink">
+            <div class="small-box bg-gray">
               <div class="inner">
                 <h3>{{$vehicleinsurance_premium}}</h3>
-                <p style="width:50%">Vehicle Insurance Yearly Premium</p>
+                <p style="width:50%;color:#fff">Vehicle Insurance Yearly Premium</p>
               </div>
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-primary">
+            <div class="small-box bg-yellow">
               <div class="inner">
-                <h3>{{$mutualfund_premium}}</h3>
-                <p style="width:50%">Mutual Fund Yearly Premium</p>
+                <h3 style="color:#fff">{{$mutualfund_premium}}</h3>
+                <p style="width:50%;color:#fff">Mutual Fund Yearly Premium</p>
               </div>
               <div class="icon">
                 <i class="fa fa-dollar-sign"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
         </div>
         <div class="row">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-header border-transparent bg-purple">
+                <h3 class="card-title">Members</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table m-0">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Mobile Number</th>
+                      <th>Pancard Number</th>
+                      <th>Adharcard Number</th>
+                      <th>Email</th>
+                      <th>Father Name</th>
+                      <th>Mother Name</th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody>
+                      @forelse($members as $med)
+                    <tr>
+                      <td>{{$med->name .'   '.$med->middle_name.' '.$med->surname}}</td>
+                      <td>{{$med->mobile_number}}</td>
+                      <td>{{$med->pancard_number}}</span></td>
+                      <td>{{$med->adharcard_number}}</td>
+                      <td>{{$med->email}}</td>
+                      <td>{{$med->member->father_name}}</td>
+                      <td>{{$med->member->mother_name}}</td>
+                    </tr>
+                      @empty
+                        <tr><td>No Record Found</td></tr>
+                      @endforelse
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div> 
+        </div>
+        <div class="row">
+        <div class="col-md-4 col-sm-12">
+          <div class="card">
+            <div class="card-header border-transparent bg-purple">
+              <h3 class="card-title">Member Birth Date</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0">
+                  <thead>
+                  <tr>
+                    <th>Member Name</th>
+                    <th>Birth Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    
+                    @forelse($member_birth_date as $med)
+                  <tr>
+                    <td>{{$med['name']}}</td>
+                    <td>{{$med['birth_date']}}</td>
+                  </tr>
+                    @empty
+                    <tr><td>No Record Found</td></tr>
+                  @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="card">
+            <div class="card-header border-transparent bg-purple">
+              <h3 class="card-title">Member Anniversary Date</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0">
+                  <thead>
+                  <tr>
+                    <th>Member Name</th>
+                    <th>Anniversary Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    
+                    @forelse($member_anniversary_date as $med)
+                  <tr>
+                    <td>{{$med['name']}}</td>
+                    <td>{{$med['anniversary_date']}}</td>
+                  </tr>
+                    @empty
+                    <tr><td>No Record Found</td></tr>
+                  @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="card">
+            <div class="card-header border-transparent bg-purple">
+              <h3 class="card-title">Member Spouse Birth Date</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0">
+                  <thead>
+                  <tr>
+                    <th>Member Name</th>
+                    <th>Spouse Birth Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    
+                    @forelse($member_spouse_date as $med)
+                  <tr>
+                    <td>{{$med['name']}}</td>
+                    <td>{{$med['spouse_dob']}}</td>
+                  </tr>
+                    @empty
+                    <tr><td>No Record Found</td></tr>
+                  @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-sm-6">
           <div class="card">
               <div class="card-header border-transparent bg-purple">
@@ -422,7 +624,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                      
                       @forelse($mediclaim as $med)
                     <tr>
                       <td>{{$med->policy_holder_name}}</td>
@@ -452,6 +653,7 @@
               <!-- /.card-footer -->
             </div>
           </div>
+        
           <div class="col-sm-6">
             <div class="card">
               <div class="card-header border-transparent bg-green">
@@ -511,8 +713,8 @@
             </div>
           </div>
           <div class="col-sm-6">
-          <div class="card">
-              <div class="card-header border-transparent bg-pink">
+            <div class="card">
+              <div class="card-header border-transparent bg-gray">
                 <h3 class="card-title">Vehicle Insurances</h3>
 
                 <div class="card-tools">
@@ -571,9 +773,9 @@
               <!-- /.card-footer -->
             </div>
           </div>
-        <div class="col-sm-6">
-          <div class="card">
-              <div class="card-header border-transparent bg-primary">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-header border-transparent bg-yellow">
                 <h3 class="card-title">Mutual Funds</h3>
 
                 <div class="card-tools">
@@ -635,97 +837,12 @@
           </div>
         </div>
       </div>
-      <div class="row">
-            <div class="col-sm-12">
-            <div class="card">
-              <div class="card-header border-transparent bg-red">
-                <h3 class="card-title">Members</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table class="table m-0">
-                    <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Mobile Number</th>
-                      <th>Pancard Number</th>
-                      <th>Adharcard Number</th>
-                      <!-- <th>Country</th>
-                      <th>State</th>
-                      <th>City</th>
-                      <th>Address</th> -->
-                      <th>Email</th>
-                      <th>Father Name</th>
-                      <th>Mother Name</th>
-                      <th>Spouse Name</th>
-                      <th>Spouse DOB</th>
-                      <th>Anniversary Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                      @forelse($members as $med)
-                    <tr>
-                      <td>{{$med->name .'   '.$med->middle_name.' '.$med->surname}}</td>
-                      <td>{{$med->mobile_number}}</td>
-                      <td>{{$med->pancard_number}}</span></td>
-                      <td>{{$med->adharcard_number}}</td>
-                        <!-- <td>{{$med->country->name}}</td>
-                        <td>{{$med->state->name}}</td>
-                        <td>{{$med->city->name}}</td>
-                        <td>{{$med->address}}</td> -->
-                      <td>{{$med->email}}</td>
-                      <td>{{$med->member->father_name}}</td>
-                      <td>{{$med->member->mother_name}}</td>
-                      <td>{{$med->member->spouse_name}}</td>
-                      <td>{{$med->member->spouse_dob}}</td>
-                      <td>{{$med->member->anniversary_date}}</td>
-                    </tr>
-                      @empty
-                      <tr><td>No Record Found</td></tr>
-                    @endforelse
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.table-responsive -->
-              </div>
-              
-              <!-- /.card-body -->
-              <!-- <div class="card-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
-              </div> -->
-              <!-- /.card-footer -->
-            </div>
-          </div> 
+     
+        
           @endif
-          
           <!-- ./col -->
-          
           <!-- ./col -->
-          
           <!-- ./col -->
-          
-          
-          
-          
-          
-         
-
-          
-          
-      
-             
-            
             <!-- /.row -->
         <!-- Main row -->
         <!-- /.row (main row) -->
