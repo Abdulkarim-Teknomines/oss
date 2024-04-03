@@ -109,12 +109,6 @@ class LoginRegisterController extends Controller
      */
     public function dashboard(User $user)
     {
-        // echo str_pad(1, 7, '0', STR_PAD_LEFT);die;
-        // $data['users'] = User::with('roles','member','country','state','city')->whereHas('roles', function($query) {
-        //     $query->where('name','admin');
-        //     $query->orWhere('name','agent');
-        //     $query->orWhere('name','manager');
-        // })->count();
         $data['users'] =User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
             $query->where('name','admin');
             $query->orWhere('name','agent');
@@ -151,9 +145,10 @@ class LoginRegisterController extends Controller
             //     $query->where('name','member');
             // })->count();
 
-            $members = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city','mediclaim','life_insurance','vehicle_insurance','mutual_fund')->whereHas('roles', function($query) {
+            $members = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city','mediclaim','life_insurance','vehicle_insurance','mutual_fund','children')->whereHas('roles', function($query) {
                 $query->where('name','member');
             })->get();
+
             $mediclaim_count=0;
             $life_insurance_count = 0;
             $vehicle_insurance_count = 0;
@@ -167,20 +162,10 @@ class LoginRegisterController extends Controller
             foreach($members as $memb){
                 if(!empty($memb->mediclaim)){
                     foreach($memb->mediclaim as $med){
-                        
                         $mediclaim_count+=1;  
                         $mediclaim_premium_sum+=$med->yearly_premium_amount;
-                            // $mediclaims[] = array(
-                            //     'policy_name'=>$med->policy_name,
-                            //     'holder_name'=>$med->policy_holder_name,
-                            //     'birth_date'=>$med->birth_date,
-                            //     'start_date'=>$med->policy_start_date,
-                            // );
-
-                        }
+                    }
                 }
-                
-                // die;
                 
                 if(!empty($memb->life_insurance)){
                     foreach($memb->life_insurance as $med){
@@ -215,50 +200,102 @@ class LoginRegisterController extends Controller
         $data['members'] = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
                 $query->where('name','member');
         })->latest()->take(10)->get();
-        $member_date = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city')->whereHas('roles', function($query) {
+        $member_date = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city','children')->whereHas('roles', function($query) {
             $query->where('name','member');
         })->get();
         $member_birth_date = array();
         $member_anniversary_date = array();
         $member_spouse_date = array();
-
+        $child_dobs = array();
         foreach($member_date as $member_dat){
             $bd = strtotime($member_dat->birth_date);
             $current_date =strtotime(date('Y-m-d'));
+            $dst = date("m-d", $current_date);
             $plus_1month = date("Y-m-d", strtotime("+1 month", $current_date));
+            $dst1 = date('m-d',strtotime($plus_1month));
             if(isset($bd) && !empty($bd)){
-                if($bd>=$current_date && $bd<=strtotime($plus_1month)){
+                if(date('m-d',$bd)>=$dst && date('m-d',$bd)<=$dst1){
                     $member_birth_date[]=array(
+                        'user_id'=>$member_dat->id,
                         'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
-                        'birth_date' => $member_dat->birth_date
-                        
+                        'birth_date' => $member_dat->birth_date,
+                        'father_name'=>  $member_dat->member->father_name,
+                        'mother_name'=>$member_dat->member->mother_name,
+                        'spouse_name'=>$member_dat->member->spouse_name,
+                        'spouse_dob'=>$member_dat->member->spouse_dob,
+                        'anniversary_date' => $member_dat->member->anniversary_date,
+                        'mobile_number'=>$member_dat->mobile_number,
+                        'email_id'=>$member_dat->email
                     );
                 }
             }
             $anni_date = strtotime($member_dat->member->anniversary_date);
             if(isset($anni_date) && !empty($anni_date)){
-            if($anni_date>=$current_date && $anni_date<=strtotime($plus_1month)){
-                $member_anniversary_date[]=array(
-                    'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
-                    'anniversary_date' => $member_dat->member->anniversary_date
-                    
-                );
+                if(date('m-d',$anni_date)>=$dst && date('m-d',$anni_date)<=$dst1){
+                    $member_anniversary_date[]=array(
+                        'user_id'=>$member_dat->id,
+                        'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
+                        'birth_date' => $member_dat->birth_date,
+                        'father_name'=>  $member_dat->member->father_name,
+                        'mother_name'=>$member_dat->member->mother_name,
+                        'spouse_name'=>$member_dat->member->spouse_name,
+                        'spouse_dob'=>$member_dat->member->spouse_dob,
+                        'anniversary_date' => $member_dat->member->anniversary_date,
+                        'mobile_number'=>$member_dat->mobile_number,
+                        'email_id'=>$member_dat->email
+                        
+                    );
+                }
             }
-        }
+            
+        
             $spouse_date = strtotime($member_dat->member->spouse_dob);
             if(isset($spouse_date) && !empty($spouse_date)){
-            if($spouse_date>=$current_date && $spouse_date<=strtotime($plus_1month)){
-                $member_spouse_date[]=array(
-                    'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
-                    'spouse_dob' => $member_dat->member->spouse_dob
-                );
+                if(date('m-d',$spouse_date)>=$dst && date('m-d',$spouse_date)<=$dst1){
+                    $member_spouse_date[]=array(
+                        'user_id'=>$member_dat->id,
+                        'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
+                        'birth_date' => $member_dat->birth_date,
+                        'father_name'=>  $member_dat->member->father_name,
+                        'mother_name'=>$member_dat->member->mother_name,
+                        'spouse_name'=>$member_dat->member->spouse_name,
+                        'spouse_dob'=>$member_dat->member->spouse_dob,
+                        'anniversary_date' => $member_dat->member->anniversary_date,
+                        'mobile_number'=>$member_dat->mobile_number,
+                        'email_id'=>$member_dat->email
+                    );
+                }
             }
-        }
+            if(!empty($member_dat->children)){
+                foreach($member_dat->children as $child){
+                    $child_dob = strtotime($child->birth_date);
+                    if(isset($child_dob) && !empty($child_dob)){
+                        if(date('m-d',$child_dob)>=$dst && date('m-d',$child_dob)<=$dst1){
+                            $child_dobs[]=array(
+                                    'user_id'=>$member_dat->id,
+                                    'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
+                                    'birth_date' => $member_dat->birth_date,
+                                    'father_name'=>  $member_dat->member->father_name,
+                                    'mother_name'=>$member_dat->member->mother_name,
+                                    'spouse_name'=>$member_dat->member->spouse_name,
+                                    'spouse_dob'=>$member_dat->member->spouse_dob,
+                                    'anniversary_date' => $member_dat->member->anniversary_date,
+                                    'child_birth_date'=>$child->birth_date,
+                                    'child_name'=>$child->name,
+                                    'mobile_number'=>$member_dat->mobile_number,
+                        'email_id'=>$member_dat->email
+                            );
+                        }
+                    }
+                }
+            }
+
         }
         
         $data['member_birth_date'] =$member_birth_date;
         $data['member_anniversary_date'] =$member_anniversary_date;
         $data['member_spouse_date'] =$member_spouse_date;
+        $data['child_birth_date'] = $child_dobs;
         $data['mediclaim']= Mediclaim::with('company_name','policy_type','policy_mode')->latest()->take(10)->get();
         $data['life_insurance']=Lifeinsurance::with('company_name','ppt','policy_mode')->latest()->take(10)->get();
         $data['vehicle_insurance']=VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->latest()->take(10)->get();
@@ -311,24 +348,19 @@ class LoginRegisterController extends Controller
      */
     public function submitForgetPasswordForm(Request $request)
     {
-        
         $request->validate([
             'email' => 'required|email|exists:users',
         ]);
-        
         $token = Str::random(64);
-        // echo $token;die;
         DB::table('password_resets')->insert([
             'email' => $request->email, 
             'token' => $token, 
             'created_at' => Carbon::now()
         ]);
-
         Mail::send('emails.forgetPassword', ['token' => $token], function($message) use($request){
             $message->to($request->email);
             $message->subject('Reset Password');
         });
-
         return back()->with('message', 'We have e-mailed your password reset link!');
     }
       /**

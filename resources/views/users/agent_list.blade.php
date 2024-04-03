@@ -9,11 +9,11 @@
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
         @endif
-        @can('create-user')
+        <!-- @can('create-user')
             <div class="float-right">
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm my-2"><i class="fa fa-plus"></i> Add New User</a>
             </div>
-        @endcan</div>
+        @endcan</div> -->
     <div class="card-body">
     <table class="table table-bordered dts">
         <thead class="bg-primary">
@@ -24,7 +24,6 @@
                 <th scope="col">Added By</th>
                 <th scope="col">Roles</th>
                 <th scope="col">Pancard Number</th>
-                <th scope="col">Adharcard Number</th>
                 <th scope="col">Mobile Number</th>
                 <th scope="col">Action</th>
             </tr>
@@ -52,7 +51,6 @@
             {data: 'added_by', name: 'added_by'},
             {data: 'roles', name: 'roles'},
             {data: 'pancard_number', name: 'pancard_number'},
-            {data: 'adharcard_number', name: 'adharcard_number'},
             {data: 'mobile_number', name: 'mobile_number'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]

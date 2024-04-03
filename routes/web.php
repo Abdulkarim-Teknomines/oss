@@ -149,17 +149,17 @@ Route::controller(MemberController::class)->group(function(){
     Route::get('all_mediclaim/{mediclaim}/view', 'view_all_mediclaim')->name('view_all_mediclaim');
 
     
-    Route::get('monthly_life_insurance/{date}', 'all_life_insurance_monthly')->name('life_insurance.all_life_insurance_monthly');
+    Route::get('monthly_life_insurance', 'all_life_insurance_monthly')->name('life_insurance.all_life_insurance_monthly');
     Route::get('yearly_life_insurance', 'all_life_insurance_yearly')->name('life_insurance.all_life_insurance_yearly');
 
-    Route::get('monthly_mediclaim/{date}', 'all_mediclaim_monthly')->name('mediclaim.all_mediclaim_monthly');
+    Route::get('monthly_mediclaim', 'all_mediclaim_monthly')->name('mediclaim.all_mediclaim_monthly');
     Route::get('yearly_mediclaim', 'all_mediclaim_yearly')->name('mediclaim.all_mediclaim_yearly');
 
     
-    Route::get('monthly_vehicle_insurance/{date}', 'all_vehicle_insurance_monthly')->name('vehicle_insurance.all_vehicle_insurance_monthly');
+    Route::get('monthly_vehicle_insurance', 'all_vehicle_insurance_monthly')->name('vehicle_insurance.all_vehicle_insurance_monthly');
     Route::get('yearly_vehicle_insurance', 'all_vehicle_insurance_yearly')->name('vehicle_insurance.all_vehicle_insurance_yearly');
 
-    Route::get('monthly_mutual_fund/{date}', 'all_mutual_fund_monthly')->name('mutual_fund.all_mutual_fund_monthly');
+    Route::get('monthly_mutual_fund', 'all_mutual_fund_monthly')->name('mutual_fund.all_mutual_fund_monthly');
     Route::get('yearly_mutual_fund', 'all_mutual_fund_yearly')->name('mutual_fund.all_mutual_fund_yearly');
     
     Route::get('all_life_insurance/{life_insurance}/view', 'view_all_life_insurance')->name('view_all_life_insurance');

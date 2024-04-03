@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-
+<hr>
 <div class="row justify-content-center">
     <div class="col-md-11">
         <div class="card card-primary">
@@ -214,12 +214,35 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var childrens= @php echo json_encode($user[0]->children) @endphp; 
+        console.log(childrens);
         $(childrens).each(function(key,val){
-            newRowAdd ='<div id="row" class="row mb-3"> <label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label><div class="col-md-3"><input type="text" class="form-control m-input child_name" value="'+val.name+'"name="child_name[]"> </div><label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label><div class="col-md-3"><div class="input-group child_dob" id="child_dob" data-target-input="nearest"><input type="text" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#child_dob" placeholder="YYYY-MM-DD" value="'+val.birth_date+'" readonly="true" name="child_dob[]"/><div class="input-group-append" data-target="#child_dob" data-toggle="datetimepicker"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div></div></div><div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
+            newRowAdd ='<div id="row sd" class="row mb-3">';
+                newRowAdd +='<label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label>';
+                newRowAdd +='<div class="col-md-3">';
+                    newRowAdd +='<input type="text" class="form-control m-input child_name" name="child_name[]" value="'+val.name+'">'; 
+                newRowAdd +='</div>';
+                newRowAdd +='<label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label>';
+                newRowAdd +='<div class="col-md-3">';
+                    newRowAdd +='<div class="input-group child_dob" id="child_dob" data-target-input="nearest">';
+                    newRowAdd +='<input type="text" value="'+val.birth_date+'" name="child_dob[]" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible child_dob datetimepicker-input" placeholder="YYYY-MM-DD" readonly="true"/>';
+            newRowAdd +='</div>';
+            newRowAdd +='</div>';
+            newRowAdd +='<div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
             $('#newinput').append(newRowAdd);
         });
         $("#rowAdder").click(function () {
-            newRowAdd ='<div id="row" class="row mb-3"> <label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label><div class="col-md-3"><input type="text" class="form-control m-input child_name" name="child_name[]"> </div><label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label><div class="col-md-3"><div class="input-group child_dob" id="child_dob" data-target-input="nearest"><input type="text" class="form-control select2 select2-hidden-accessible state datetimepicker-input" data-target="#child_dob" placeholder="YYYY-MM-DD" readonly="true" name="child_dob[]"/><div class="input-group-append" data-target="#child_dob" data-toggle="datetimepicker"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div></div></div><div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
+            newRowAdd ='<div id="row sd" class="row mb-3">';
+                newRowAdd +='<label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label>';
+                newRowAdd +='<div class="col-md-3">';
+                    newRowAdd +='<input type="text" class="form-control m-input child_name" name="child_name[]">'; 
+                newRowAdd +='</div>';
+                newRowAdd +='<label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label>';
+                newRowAdd +='<div class="col-md-3">';
+                    newRowAdd +='<div class="input-group child_dob" id="child_dob" data-target-input="nearest">';
+                    newRowAdd +='<input type="text"  name="child_dob[]" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible child_dob datetimepicker-input" placeholder="YYYY-MM-DD" readonly="true"/>';
+            newRowAdd +='</div>';
+            newRowAdd +='</div>';
+            newRowAdd +='<div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
             $('#newinput').append(newRowAdd);
         });
         $("body").on("click", "#DeleteRow", function () {

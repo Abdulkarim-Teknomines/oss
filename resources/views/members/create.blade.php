@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-
+<hr>
 <div class="row justify-content-center">
     <div class="col-md-11">
         <div class="card card-primary">
@@ -23,7 +23,7 @@
                         <label for="name" class="col-md-3 col-form-label text-md-end text-start">Name <span style="color:red">*</span></label>
                         <div class="col-md-4">
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Name" autocomplete="off">
-                            @if ($errors->has('name'))
+                            @if($errors->has('name'))
                                 <span class="error invalid-feedback">{{ $errors->first('name') }}</span>
                             @endif
                         </div>
@@ -208,16 +208,44 @@
     </div>
 </div>    
 <script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+        var i=0;
         $("#rowAdder").click(function () {
-            newRowAdd ='<div id="row" class="row mb-3"> <label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label><div class="col-md-3"><input type="text" class="form-control m-input child_name" name="child_name[]"> </div><label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label><div class="col-md-3"><div class="input-group child_dob" id="child_dob" data-target-input="nearest"><input type="text"  name="child_dob[]" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible child_dob datetimepicker-input" placeholder="YYYY-MM-DD" readonly="true"/><div class="input-group-append" data-target=".child_dob" data-toggle="datetimepicker"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div></div></div><div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
+            i= i+1;
+            newRowAdd ='<div id="row sd" class="row mb-3">';
+                newRowAdd +='<label for="child_name" class="col-md-2 col-form-label text-md-end text-start">Child Name</label>';
+                newRowAdd +='<div class="col-md-3">';
+                    newRowAdd +='<input type="text" class="form-control m-input child_name" name="child_name[]">'; 
+                newRowAdd +='</div>';
+                newRowAdd +='<label for="child_dob" class="col-md-2 col-form-label text-md-end text-start">Child DOB</label>';
+                newRowAdd +='<div class="col-md-3">';
+                    newRowAdd +='<div class="input-group child_dob" id="child_dob" data-target-input="nearest">';
+                    newRowAdd +='<input type="text"  name="child_dob[]" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible child_dob datetimepicker-input" placeholder="YYYY-MM-DD" readonly="true"/>';
+                    
+                
+            newRowAdd +='</div>';
+            newRowAdd +='</div>';
+            newRowAdd +='<div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
+            
             $('#newinput').append(newRowAdd);
         });
+        var row = $(".sd").clone(false).get();
+    console.log(row);
+// Select the row and iterate through any/all children timepicker inputs and initialize them.
+            $(row).find('.datetimepicker-input').each(function () {
+                // $(this).datetimepicker(...options...);
+            });
+        // $(document).on("click", "#rowAdder", function() {
+        //     var $new_row = $("<tr><td><input type='text' class='Ecd' /></td></tr>");
+        //     $new_row.find('input').datepicker();
+        //     $("#newinput").append($new_row);
+        //     });
         $("body").on("click", "#DeleteRow", function () {
             $(this).parents("#row").remove();
         })
-    
         var country_id = "{{old('country_id')}}";
         var state_id = "{{old('state_id')}}";
         var city_id = "{{old('city_id')}}";

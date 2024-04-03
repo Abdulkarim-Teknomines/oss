@@ -1,7 +1,10 @@
 @extends('layouts.default')
 
 @section('content')
-
+<style>
+    .dataTables_length, .dataTables_length select{ float:left}
+    #DataTables_Table_0_filter{margin-top:10px;}
+    </style>
 <div class="card pt-3">
     <div class="card-header">
         @if (session('success'))
@@ -9,8 +12,22 @@
                 <h5 class="alert alert-success mb-2">{{ session('success') }}</h5>
             </div>
         @endif
-        
+        <!-- <h4 class="text-center" style="color:#007bff">Mediclaim Yearly Premium Amount Sum : <span id="sum_yearly_amount"></span></h4> -->
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fa fa-dollar-sign"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text" style="color:#007bff">Mediclaim Yearly Premium Amount</span>
+                        <span class="info-box-number"  style="color:#007bff" id="sum_yearly_amount"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card-body">
+    <div id="buttons" class="text-right" ></div>
     <table class="table table-bordered dts">
         <thead class="bg-primary">
             <tr>
@@ -40,10 +57,13 @@
 
                 
 <script>
-    var table = $('.dts').DataTable({
-      processing: true,
-      serverSide: false,
-      ajax: "{{ route('mediclaim.all_mediclaim_yearly',Auth::User()->id) }}",
+    $(document).ready(function(){
+        var sum =0;
+        var table = $('.dts').DataTable({
+        processing: true,
+        serverSide: true,
+        dom:'lBfrtip',
+        ajax: "{{ route('mediclaim.all_mediclaim_yearly',Auth::User()->id) }}",
         columns: [
             {data: 'sr_no', name: 'sr_no'},
             {data: 'policy_holder_name', name: 'policy_holder_name'},
@@ -56,11 +76,56 @@
             {data: 'policy_mode', name: 'policy_mode'},
             {data: 'yearly_premium_amount', name: 'yearly_premium_amount'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        buttons: [
+            {
+            "extend": 'excel',
+            "titleAttr": 'Excel',                               
+            "className": 'text-right',
+            "footer": true,
+            "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                } 
+            },
+            {
+            "extend": 'csv',
+            "titleAttr": 'CSV',   
+            "footer": true,
+            "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }                             
+            },
+            {
+            "extend": 'pdf',
+            "titleAttr": 'PDF',
+            "pageSize": 'B4',
+            "footer": true,
+            "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }
+            },
+            {
+            "extend": 'print',
+            "titleAttr": 'Print', 
+            "footer": true,
+            "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }                                
+            }
+        ],
+        createdRow: function ( row, data, index ) {
+            $(data).each(function(key,val){
+                sum=sum+parseInt(val.yearly_premium_amount);
+            });
+            $("#sum_yearly_amount").text(parseInt(sum));
+        }
     });
+    table.buttons().container().appendTo($('#buttons'))
+});
     function view_mediclaim_yearly(id){
-    
+        
     window.location.href='/all_mediclaim/'+id+'/view';
 }
+
 </script>
 @endsection

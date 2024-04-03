@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->hasOne(Member::class);
     }
     public function children(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(Children::class);
     }
     public function mediclaim()
     {

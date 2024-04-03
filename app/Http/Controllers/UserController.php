@@ -153,7 +153,7 @@ class UserController extends Controller
                     ->rawColumns(['action','id'])
                     ->make(true);
         }
-        
+         
         return view('users.admin_list', [
             // 'users' => $data,
             'title'=>'Users',
@@ -506,7 +506,7 @@ class UserController extends Controller
     }
     public function change_password(){
         $data['title']='Users';
-        $data['content']='Create User';
+        $data['content']='Change Password';
         return view('users.change_password',$data);
     }
     public function update_password(Request $request)

@@ -2399,8 +2399,10 @@ class MemberController extends Controller
                 $dt = $request->date;
                 $dts = date('M', strtotime($dt));
                 $dtss = strtolower($dts);
+
                 $data =Mediclaim::with('company_name','policy_type','policy_mode')->where($dtss,'!=',0)->get();
             
+                
            return Datatables::of($data)
             ->addIndexColumn()
                     ->addColumn('sr_no', function($row){
@@ -2438,7 +2440,7 @@ class MemberController extends Controller
                         $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" view_mediclaim_monthly('.$row->id.')">View</a>&nbsp;&nbsp;';
                         return $btn;
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','yearly_premium_amount'])
                     
                     ->make(true);
         }
@@ -2453,7 +2455,7 @@ class MemberController extends Controller
     {
         if ($request->ajax()) {
             
-            $data =Mediclaim::with('company_name','policy_type','policy_mode')->where('policy_mode_id','4')->get();
+            $data =Mediclaim::with('company_name','policy_type','policy_mode')->get();
             return Datatables::of($data)
             ->addIndexColumn()
                     ->addColumn('sr_no', function($row){
@@ -2491,7 +2493,7 @@ class MemberController extends Controller
                         $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" view_mediclaim_yearly('.$row->id.')">View</a>&nbsp;&nbsp;';
                         return $btn;
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','yearly_premium_amount'])
                     
                     ->make(true);
         }
@@ -2568,7 +2570,6 @@ class MemberController extends Controller
                 $dts = date('M', strtotime($dt));
                 $dtss = strtolower($dts);
                 $data = VehicleInsurance::with('company_name','user','vehicle_category','insurance_policy_type')->where($dtss,'!=',0)->get();
-            
             return Datatables::of($data)
             ->addIndexColumn()
                     ->addColumn('sr_no', function($row){
@@ -2596,6 +2597,7 @@ class MemberController extends Controller
                         return $row->insurance_policy_type->name;
                     }) 
                     ->addColumn('policy_premium', function($row){
+                        
                         return $row->policy_premium;
                     }) 
                     ->addColumn('vehicle_owner_name', function($row){
@@ -2607,7 +2609,7 @@ class MemberController extends Controller
                         $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_vehicle_insurance_monthly('.$row->id.')">View</a>&nbsp;&nbsp;';
                         return $btn;
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','policy_premium'])
                     
                     
                     ->make(true);
@@ -2650,7 +2652,8 @@ class MemberController extends Controller
                         return $row->insurance_policy_type->name;
                     }) 
                     ->addColumn('policy_premium', function($row){
-                        return $row->policy_premium;
+                        
+                       return $row->policy_premium;
                     }) 
                     ->addColumn('vehicle_owner_name', function($row){
                         return $row->vehicle_owner_name;
@@ -2661,7 +2664,7 @@ class MemberController extends Controller
                         $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_vehicle_insurance_yearly('.$row->id.')">View</a>&nbsp;&nbsp;';
                         return $btn;
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','policy_premium'])
                     
                     
                     ->make(true);
@@ -2729,54 +2732,52 @@ class MemberController extends Controller
         ]);
     } 
     public function all_life_insurance_monthly(Request $request)
-        { 
+        {  
             if ($request->ajax()) {
                 $dt = $request->date;
                 $dts = date('M', strtotime($dt));
                 $dtss = strtolower($dts);
                 $datas = Lifeinsurance::with('company_name','ppt','policy_mode')->where($dtss,'!=',0)->get();
-                
                 return Datatables::of($datas)
                 ->addIndexColumn()
-
-                    ->addColumn('sr_no', function($row){
-                        return $row->sr_no;
-                    }) 
-                    ->addColumn('policy_holder_name', function($row){
-                        return $row->policy_holder_name;
-                    }) 
-                    ->addColumn('policy_start_date', function($row){
-                        return $row->policy_start_date;
-                    }) 
-                    ->addColumn('company_name_id', function($row){
-                        return $row->company_name->name;
-                    }) 
-                    ->addColumn('policy_number', function($row){
-                        return $row->policy_number;
-                    }) 
-                    ->addColumn('sum_assured', function($row){
-                        return $row->sum_assured;
-                    }) 
-                    ->addColumn('plan_name', function($row){
-                        return $row->plan_name;
-                    }) 
-                    ->addColumn('premium_amount', function($row){
-                        return $row->premium_amount;
-                    }) 
-                    ->addColumn('premium_mode', function($row){
-                        return $row->policy_mode->name;
-                    }) 
-                    ->addColumn('yearly_premium_amount', function($row){
-                        return '<span class="yearly_premium_amount">'.$row->yearly_premium_amount.'</span>';
-                    }) 
-                    ->addColumn('action', function ($row){
-                        $btn='';
-                        $btn .= '<a href="javascript:void(0)" class="view btn btn-info btn-sm"  onClick="view_life_insurance_monthly('.$row->id.')">View</a>&nbsp;&nbsp;';
-                        return $btn;
-                    })
-                    ->rawColumns(['action','yearly_premium_amount'])
-                    ->make(true);
-        }
+                ->addColumn('sr_no', function($row){
+                    return $row->sr_no;
+                }) 
+                ->addColumn('policy_holder_name', function($row){
+                    return $row->policy_holder_name;
+                }) 
+                ->addColumn('policy_start_date', function($row){
+                    return $row->policy_start_date;
+                }) 
+                ->addColumn('company_name_id', function($row){
+                    return $row->company_name->name;
+                }) 
+                ->addColumn('policy_number', function($row){
+                    return $row->policy_number;
+                }) 
+                ->addColumn('sum_assured', function($row){
+                    return $row->sum_assured;
+                }) 
+                ->addColumn('plan_name', function($row){
+                    return $row->plan_name;
+                }) 
+                ->addColumn('premium_amount', function($row){
+                    return $row->premium_amount;
+                }) 
+                ->addColumn('premium_mode', function($row){
+                    return $row->policy_mode->name;
+                }) 
+                ->addColumn('yearly_premium_amount', function($row){
+                    return $row->yearly_premium_amount;
+                }) 
+                ->addColumn('action', function ($row){
+                    $btn='';
+                    $btn .= '<a href="javascript:void(0)" class="view btn btn-info btn-sm"  onClick="view_life_insurance_monthly('.$row->id.')">View</a>&nbsp;&nbsp;';
+                    return $btn;
+                })
+                ->rawColumns(['action','yearly_premium_amount'])
+                ->make(true);
+            }
         
         return view('members.all_life_insurance_monthly', [
             // 'users' => $data,
@@ -2786,8 +2787,6 @@ class MemberController extends Controller
     } 
     public function member_life_insurance(Request $request)
     { 
-        
-        
         if ($request->ajax()) {
             $new_array = [];
             $life_insurance = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city','life_insurance')->whereHas('roles', function($query) {
@@ -3116,7 +3115,7 @@ class MemberController extends Controller
     public function all_life_insurance_yearly(Request $request)
     { 
         if ($request->ajax()) {
-            $data =Lifeinsurance::with('company_name','ppt','policy_mode')->where('policy_mode_id','4')->get();
+            $data =Lifeinsurance::with('company_name','ppt','policy_mode')->get();
                 return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('sr_no', function($row){
@@ -3154,7 +3153,7 @@ class MemberController extends Controller
                     $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_life_insurance_yearly('.$row->id.')">View</a>&nbsp;&nbsp;';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','yearly_premium_amount'])
                 ->make(true);
         }
     
@@ -3216,7 +3215,7 @@ class MemberController extends Controller
                     $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mutual_fund_monthly('.$row->id.')">View</a>&nbsp;&nbsp;';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','yearly_amount'])
                 ->make(true);
         }
         
@@ -3228,7 +3227,7 @@ class MemberController extends Controller
     public function all_mutual_fund_yearly(Request $request)
     {
         if ($request->ajax()) {
-            $data = Mutualfund::with('mutual_fund_type')->where('mutual_fund_type_id','1')->get();
+            $data = Mutualfund::with('mutual_fund_type')->get();
             // if(Auth::User()->hasRole('Member')){
             //     $data =Mutualfund::with('mutual_fund_type')->where('user_id',Auth::User()->id)->get();
             // }else{
@@ -3276,7 +3275,7 @@ class MemberController extends Controller
                     $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mutual_fund_yearly('.$row->id.')">View</a>&nbsp;&nbsp;';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','yearly_amount'])
                 ->make(true);
         }
         

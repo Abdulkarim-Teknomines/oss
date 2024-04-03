@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-
+<hr>
 <div class="row justify-content-center">
     <div class="col-md-11">
         <div class="card card-primary">
@@ -16,6 +16,7 @@
                     <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
                 </div>
             </div>
+            
             <div class="card-body">
                 <form action="{{ route('users.store') }}" method="post">
                     @csrf

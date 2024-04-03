@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="{{ route('dashboard') }}" class="brand-link">
       <img src="{{ URL::asset('assets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">OSS</span>
+      <span class="brand-text font-weight-light">OSS Data Management</span>
     </a>
 
     <!-- Sidebar -->
@@ -37,9 +37,9 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="nav-icon fa fa-home"></i><p>Dashboard</p></a></li>
-          @canany(['create-role', 'edit-role'])
+          <!-- @canany(['create-role', 'edit-role'])
               <li class="nav-item"><a class="nav-link" href="{{ route('roles.index') }}"><i class="nav-icon fa fa-edit"></i><p>Manage Roles</p></a></li>
-          @endcanany
+          @endcanany -->
           @canany(['create-user', 'edit-user'])
               <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Users</p></a></li>
           @endcanany
@@ -73,10 +73,10 @@
             </li>
           @endif
           @if(auth::User()->hasRole('Super Admin') || auth::User()->hasRole('Admin') || auth::User()->hasRole('Manager') || auth::User()->hasRole('Agent'))
-            <li class="nav-item"><a class="nav-link" href="{{ route('member_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance Report</p></a></li>
+            <!-- <li class="nav-item"><a class="nav-link" href="{{ route('member_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance Report</p></a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('member_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund Report</p></a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('member_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund Report</p></a></li> -->
           @endif
           @if(auth::User()->hasRole('Member'))
             <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
@@ -94,12 +94,12 @@
             </a>
             @php $date = Date('M'); @endphp
             <ul class="nav nav-treeview">
-              <!-- <li class="nav-item">
-                <a href="{{ route('life_insurance.all_life_insurance_monthly',$date) }}" class="nav-link">
+              <li class="nav-item">
+                <a href="{{ route('life_insurance.all_life_insurance_monthly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Monthly Report</p>
                 </a>
-              </li> -->
+              </li>
               <li class="nav-item">
                 <a href="{{ route('life_insurance.all_life_insurance_yearly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -117,12 +117,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <!-- <li class="nav-item">
-                <a href="{{ route('mediclaim.all_mediclaim_monthly',$date) }}" class="nav-link">
+              <li class="nav-item">
+                <a href="{{ route('mediclaim.all_mediclaim_monthly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Monthly Report</p>
                 </a>
-              </li> -->
+              </li>
               <li class="nav-item">
                 <a href="{{ route('mediclaim.all_mediclaim_yearly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -141,12 +141,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <!-- <li class="nav-item">
-                <a href="{{ route('vehicle_insurance.all_vehicle_insurance_monthly',$date) }}" class="nav-link">
+              <li class="nav-item">
+                <a href="{{ route('vehicle_insurance.all_vehicle_insurance_monthly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Monthly Report</p>
                 </a>
-              </li> -->
+              </li>
               <li class="nav-item">
                 <a href="{{ route('vehicle_insurance.all_vehicle_insurance_yearly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -165,12 +165,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <!-- <li class="nav-item">
-                <a href="{{route('mutual_fund.all_mutual_fund_monthly',$date) }}" class="nav-link">
+              <li class="nav-item">
+                <a href="{{route('mutual_fund.all_mutual_fund_monthly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Monthly Report</p>
                 </a>
-              </li> -->
+              </li>
               <li class="nav-item">
                 <a href="{{route('mutual_fund.all_mutual_fund_yearly') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

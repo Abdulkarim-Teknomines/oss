@@ -1,6 +1,6 @@
 @extends('layouts.default')
-
 @section('content')
+<hr>
 <div class="row justify-content-center">
     <div class="col-md-11">
         @if (session('success'))

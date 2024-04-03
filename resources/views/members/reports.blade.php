@@ -1,11 +1,22 @@
 @extends('layouts.default')
 
 @section('content')
+<style>
+    .dataTables_length, .dataTables_length select{ float:left}
+    #dts1_filter{margin-top:10px;}
 
+    </style>
 <div class="card pt-3">
-    <div class="card-header-primary">
+    <div class="card-header">
+        <div class="float-left pt-1">
+            Add New User
+        </div>
+        <div class="float-right">
+            <a href="javascript:history.back()" class="btn btn-primary">&larr; Back</a>
+        </div>
+    </div>
     <div class="card-body">
-        
+    <div id="buttons" class="text-right" ></div>
     <table class="table table-bordered dts1" id="dts1">
         <thead class="bg-primary">
             <tr  style="color:#fff">
@@ -66,7 +77,7 @@
 
 <script>
 $(document).ready(function(){
-    $('#dts1').DataTable({
+    var table = $('#dts1').DataTable({
         "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
             
@@ -167,7 +178,6 @@ $(document).ready(function(){
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                }, 0 );
-            // Update footer by showing the total with the reference of the column index 
 	        $( api.column( 0 ).footer() ).html('Total');
             $( api.column( 1 ).footer() ).html('');
             $( api.column( 2 ).footer() ).html(janTotal);
@@ -216,34 +226,38 @@ $(document).ready(function(){
                "extend": 'excel',
                "titleAttr": 'Excel',                               
                "className": 'text-right',
-               
+               "footer": true 
             },
             {
                "extend": 'csv',
-               "titleAttr": 'CSV',                               
+               "titleAttr": 'CSV',   
+               "footer": true                             
             },
             {
                "extend": 'pdf',
-               "titleAttr": 'PDF',                               
+               "titleAttr": 'PDF',
+               "pageSize": 'A3',
+               "footer": true,
             },
             {
                "extend": 'print',
-               "titleAttr": 'Print',                                
+               "titleAttr": 'Print', 
+               "footer": true                                
             }],
 
-    createdRow: function ( row, data, index ) {
-        if(data['category']=='Mediclaim'){
-            $(row).addClass('bg-purple');
-        }else if(data['category']=="Life Insurance"){
-            $(row).addClass('bg-success');
-        }else if(data['category']=="Vehicle Insurance"){
-            $(row).addClass('bg-gray');
-        }else if(data['category']=="Mutual Fund"){
-            $(row).addClass('bg-yellow');
-        }
-        },
+            createdRow: function ( row, data, index ) {
+                if(data['category']=='Mediclaim'){
+                    $(row).addClass('bg-purple');
+                }else if(data['category']=="Life Insurance"){
+                    $(row).addClass('bg-success');
+                }else if(data['category']=="Vehicle Insurance"){
+                    $(row).addClass('bg-red');
+                }else if(data['category']=="Mutual Fund"){
+                    $(row).addClass('bg-yellow');
+                }
+            },
     });
-    
+    table.buttons().container().appendTo($('#buttons'))
 });
 
 </script>

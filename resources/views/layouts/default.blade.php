@@ -78,15 +78,13 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    @yield('content')
     <!-- /.content -->
+    @yield('content')
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    
     <strong>Copyright &copy; 2024-{{now()->format('Y')}}</strong>
     All rights reserved.
-    
   </footer>
 
   <!-- Control Sidebar -->
@@ -157,7 +155,9 @@
 <script src="{{ URL::asset('assets/dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ URL::asset('assets/dist/js/pages/dashboard.js') }}"></script>
-
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"> -->
 @yield('pagespecificscripts')
 <script>
   
@@ -171,7 +171,7 @@
   
   
     $(document).ready(function () {
-      
+      var i=0;
       $("input[data-bootstrap-switch]").each(function(){
         $(this).bootstrapSwitch('state', $(this).prop('checked'));
       
@@ -196,7 +196,6 @@
                     },
                     dataType: 'json',
                     success: function (result) {
-                        console.log(result);
                         $('#state').html('<option value="">-- Select State --</option>');
                         $.each(result.states, function (key, value) {
                             $("#state").append('<option value="' + value.id + '">' + value.name + '</option>');
@@ -231,14 +230,15 @@
     $('#birth_date').datetimepicker({
         format: 'yyyy-MM-DD',
     });
-    $('.child_dob').datetimepicker({
-        format: 'yyyy-MM-DD',
+    
+      
+    $('body').on('focus',".child_dob", function(){
+    $(this).datetimepicker({
+      format: 'yyyy-MM-DD',
     });
-    $( "#child_dob" ).datepicker( "destroy" );
-        $("#child_dob").datepicker({
-        changeMonth: true,
-        changeYear: true
-        }); 
+});
+    
+   
     $('#policy_start_date').datetimepicker({
         format: 'yyyy-MM-DD',
     });

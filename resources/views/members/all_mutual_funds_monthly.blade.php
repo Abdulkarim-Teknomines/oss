@@ -1,7 +1,10 @@
 @extends('layouts.default')
 
 @section('content')
-
+<style>
+    .dataTables_length, .dataTables_length select{ float:left}
+    #DataTables_Table_0_filter{margin-top:10px;}
+    </style>
 <div class="card pt-3">
     <div class="card-header">
         @if (session('success'))
@@ -10,6 +13,19 @@
             </div>
         @endif
         @php $dates = Date('M');@endphp
+        <!-- <h4 class="text-center" style="color:#007bff">Mutual Fund Yearly Premium Amount Sum : <span id="sum_yearly_amount">0</span></h4> -->
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fa fa-dollar-sign"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text" style="color:#007bff">Mutual Fund Yearly Premium Amount</span>
+                        <span class="info-box-number"  style="color:#007bff" id="sum_yearly_amount"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <div class="mb-3 row">
             
             <label class="col-md-1 offset-md-4 col-form-label text-md-end text-start">Month <span style="color:red">*</span></label>
@@ -30,12 +46,9 @@
                 </select>
             </div>
         </div>
-        <div class="float-left">
-
-            
-
-        </div>
+    </div>  
     <div class="card-body">
+    <div id="buttons" class="text-right" ></div>
     <table class="table table-bordered dts">
         <thead class="bg-primary">
             <tr>
@@ -72,16 +85,25 @@
             }
         });
         
-    
+        $(document).ready(function(){
+            var sum =0;
     var month = $('#month').find(":selected").val();
     var table = $('.dts').DataTable({
-        processing: false,
-        serverSide: false,
+        
+        processing: true,
+        serverSide: true,
         paging: true,
         searching: true,
         "bDestroy": false,
         "info":true,
-      ajax: "{{ route('mutual_fund.all_mutual_fund_monthly',['date' => "+month+"])  }}",
+        type: 'GET',
+        dom:'lBfrtip',
+        ajax: {
+            url: "{{ route('mutual_fund.all_mutual_fund_monthly')  }}",
+            data: function (d) {
+                d.date = month;
+             }
+        },
         columns: [
             {data: 'sr_no', name: 'sr_no'},
             {data: 'mutual_fund_holder_name', name: 'mutual_fund_holder_name'},
@@ -94,19 +116,69 @@
              {data: 'yearly_amount', name: 'yearly_amount'},
             {data: 'nominee_name', name: 'nominee_name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        buttons: [
+            {
+               "extend": 'excel',
+               "titleAttr": 'Excel',                               
+               "className": 'text-right',
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                } 
+            },
+            {
+               "extend": 'csv',
+               "titleAttr": 'CSV',   
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }                             
+            },
+            {
+               "extend": 'pdf',
+               "titleAttr": 'PDF',
+               "pageSize": 'B4',
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }
+            },
+            {
+               "extend": 'print',
+               "titleAttr": 'Print', 
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }                                
+            }],
+            createdRow: function ( row, data, index ) {
+                $(data).each(function(key,val){
+                    sum=sum+parseInt(val.yearly_amount);
+                });
+                $("#sum_yearly_amount").text(parseInt(sum));
+            }
     });
-   
+    table.buttons().container().appendTo($('#buttons'))
+});
 $(document).on('change','#month',function(){
+    var sum =0;
     var months = $(this).val();
     var table = $('.dts').DataTable({
-      processing: false,
-      paging: false,
-      serverSide: false,
-      searching: false,
-      "bDestroy": true,
-      "info":false,
-      ajax: "{{ route('mutual_fund.all_mutual_fund_monthly',['date' => "+months+"])  }}",
+        processing: true,
+        paging: true,
+        serverSide: true,
+        searching: true,
+        "bDestroy": true,
+        "info":true,
+        dom:'lBfrtip',
+        type: 'GET',
+        ajax: {
+            url: "{{ route('mutual_fund.all_mutual_fund_monthly')  }}",
+            data: function (d) {
+                d.date = months;
+             }
+        },
         columns: [
             {data: 'sr_no', name: 'sr_no'},
             {data: 'mutual_fund_holder_name', name: 'mutual_fund_holder_name'},
@@ -119,11 +191,55 @@ $(document).on('change','#month',function(){
              {data: 'yearly_amount', name: 'yearly_amount'},
             {data: 'nominee_name', name: 'nominee_name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        buttons: [
+            {
+               "extend": 'excel',
+               "titleAttr": 'Excel',                               
+               "className": 'text-right',
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                } 
+            },
+            {
+               "extend": 'csv',
+               "titleAttr": 'CSV',   
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }                             
+            },
+            {
+               "extend": 'pdf',
+               "titleAttr": 'PDF',
+               "pageSize": 'B4',
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }
+            },
+            {
+               "extend": 'print',
+               "titleAttr": 'Print', 
+               "footer": true,
+               "exportOptions": {
+                    columns: 'th:not(:last-child)'
+                }                                
+            }],
+            createdRow: function ( row, data, index ) {
+                $(data).each(function(key,val){
+                    sum=sum+parseInt(val.yearly_amount);
+                });
+                $("#sum_yearly_amount").text(parseInt(sum));
+            }
     });
+    table.buttons().container().appendTo($('#buttons'))
+    
 });
 function view_mutual_fund_monthly(id){
     window.location.href='/all_mutual_fund/'+id+'/view';
 }
+
 </script>
 @endsection

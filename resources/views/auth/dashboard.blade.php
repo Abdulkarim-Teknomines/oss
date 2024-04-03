@@ -9,7 +9,7 @@
         <div class="row">
           <div class="col-lg-6 col-6">
             <!-- small box -->
-            <div class="small-box bg-yellow">
+            <div class="small-box bg-orange">
               <div class="inner">
                 <h3 style="color:#fff">{{$mediclaim_count+$life_insurance_count+$vehicle_insurance_count+$mutual_fund_count}}</h3>
                 <p style="color:#fff">Total Policy</p>
@@ -42,10 +42,10 @@
                 <h3 style="color:#fff">{{$mediclaim_count}}</h3>
                 <p style="color:#fff">Mediclaim</p>
               </div>
-              <div class="icon">
+              <div class="icon"> 
                 <i class=" fa fa-hospital"></i>
               </div>
-              
+              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -59,13 +59,13 @@
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              
+              <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div> 
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-gray">
+            <div class="small-box bg-red">
               <div class="inner">
                 <h3  style="color:#fff">{{$vehicle_insurance_count}}</h3>
                 <p  style="color:#fff">Vehicle Insurance</p>
@@ -73,7 +73,7 @@
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              
+              <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -87,7 +87,7 @@
               <div class="icon">
                 <i class=" fa fa-dollar-sign"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           
@@ -101,7 +101,7 @@
               <div class="icon">
                 <i class="fa fa-hospital"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -114,12 +114,12 @@
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-gray">
+            <div class="small-box bg-red">
               <div class="inner">
                 <h3  style="color:#fff">{{$vehicleinsurance_premium}}</h3>
                 <p  style="color:#fff">Vehicle Insurance Premium</p>
@@ -127,7 +127,7 @@
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -140,7 +140,7 @@
               <div class="icon">
                 <i class=" fa fa-dollar-sign"></i>
               </div>
-              <!-- <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@
 
           @else
           <div class="row">
-          @if(Auth::User()->hasRole('Super Admin','Admin','Manager','Agent'))
+          @if(Auth::User()->hasRole('Super Admin')|| Auth::User()->hasRole('Admin')|| Auth::User()->hasRole('Manager')|| Auth::User()->hasRole('Agemt'))
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-gray">
@@ -278,7 +278,7 @@
           </div>
           <div class="col-lg-4 col-4">
             <!-- small box -->
-            <div class="small-box bg-yellow">
+            <div class="small-box bg-orange">
               <div class="inner">
                 <h3  style="color:#fff">{{$mediclaim_count+$life_insurance_count+$vehicle_insurance_count+$mutual_fund_count}}</h3>
                 <p  style="color:#fff">Total Policy</p>
@@ -286,7 +286,7 @@
               <div class="icon">
                 <i class="ion-stats-bars"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
 
           </div>
@@ -300,7 +300,7 @@
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
 
           </div>
@@ -336,7 +336,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-gray">
+            <div class="small-box bg-red">
               <div class="inner">
                 <h3 style="color:#fff">{{$vehicle_insurance_count}}</h3>
                 <p style="color:#fff">Vehicle Insurance</p>
@@ -373,7 +373,7 @@
               <div class="icon">
                 <i class="fa fa-hospital"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -386,12 +386,12 @@
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-gray">
+            <div class="small-box bg-red">
               <div class="inner">
                 <h3>{{$vehicleinsurance_premium}}</h3>
                 <p style="width:50%;color:#fff">Vehicle Insurance Yearly Premium</p>
@@ -399,7 +399,7 @@
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -417,11 +417,214 @@
           </div>
           <!-- ./col -->
         </div>
+        
         <div class="row">
+        <div class="col-md-3 col-sm-12">
+          <div class="card">
+            <div class="card-header border-transparent bg-red">
+              <h3 class="card-title">Member Birth Date</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0 member_birth_date" >
+                  <thead>
+                  <tr>
+                    <th>Member Name</th>
+                    <th>Birth Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    @forelse($member_birth_date as $med)
+                    <tr>
+                      <td><input type="hidden" value="{{$med['name']}}" class="member_name">
+                      <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
+                      <input type="hidden" value="{{$med['father_name']}}" class="father_name">
+                      <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
+                      <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
+                      <input type="hidden" value="{{$med['spouse_dob']}}" class="spouse_dob">
+                      <input type="hidden" value="{{$med['anniversary_date']}}" class="anniversary_date">
+                      <input type="hidden" value="{{$med['mobile_number']}}" class="member_mobile_number">
+                      <input type="hidden" value="{{$med['email_id']}}" class="member_email_id">
+                      {{$med['name']}}</td>
+                      <td>{{$med['birth_date']}}</td>
+                    </tr>
+                    @empty
+                    <tr><td>No Record Found</td></tr>
+                  @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 col-sm-12">
+          <div class="card">
+            <div class="card-header border-transparent bg-red">
+              <h3 class="card-title">Member Anniversary Date</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0 member_anniversary_date">
+                  <thead>
+                  <tr>
+                    <th>Member Name</th>
+                    <th>Anniversary Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    
+                    @forelse($member_anniversary_date as $med)
+                  <tr>
+                  
+                    <td><input type="hidden" value="{{$med['name']}}" class="member_name">
+                      <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
+                      <input type="hidden" value="{{$med['father_name']}}" class="father_name">
+                      <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
+                      <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
+                      <input type="hidden" value="{{$med['spouse_dob']}}" class="spouse_dob">
+                      <input type="hidden" value="{{$med['anniversary_date']}}" class="anniversary_date">
+                      <input type="hidden" value="{{$med['mobile_number']}}" class="member_mobile_number">
+                      <input type="hidden" value="{{$med['email_id']}}" class="member_email_id">
+                  {{$med['name']}}</td>
+                    <td>{{$med['anniversary_date']}}</td>
+                  </tr>
+                    @empty
+                    <tr><td>No Record Found</td></tr>
+                  @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-12">
+          <div class="card">
+            <div class="card-header border-transparent bg-red">
+              <h3 class="card-title">Member Spouse Birth Date</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0 spouse_dob">
+                  <thead>
+                  <tr>
+                    <th>Member Name</th>
+                    <th>Spouse Birth Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    
+                    @forelse($member_spouse_date as $med)
+                  <tr>
+                    <td>
+                    <input type="hidden" value="{{$med['name']}}" class="member_name">
+                      <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
+                      <input type="hidden" value="{{$med['father_name']}}" class="father_name">
+                      <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
+                      <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
+                      <input type="hidden" value="{{$med['spouse_dob']}}" class="spouse_dob">
+                      <input type="hidden" value="{{$med['anniversary_date']}}" class="anniversary_date">
+                      <input type="hidden" value="{{$med['mobile_number']}}" class="member_mobile_number">
+                      <input type="hidden" value="{{$med['email_id']}}" class="member_email_id">{{$med['name']}}</td>
+                    <td>{{$med['spouse_dob']}}</td>
+                  </tr>
+                    @empty
+                    <tr><td>No Record Found</td></tr>
+                  @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+          <div class="card">
+            <div class="card-header border-transparent bg-red">
+              <h3 class="card-title">Member Child Birth Date</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0 child_dob">
+                  <thead>
+                  <tr>
+                    <th>Member Name</th>
+                    <th>Child Name</th>
+                    <th>Child Birth Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    
+                    @forelse($child_birth_date as $med)
+                  <tr>
+                    <td>
+                    <input type="hidden" value="{{$med['name']}}" class="member_name">
+                      <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
+                      <input type="hidden" value="{{$med['father_name']}}" class="father_name">
+                      <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
+                      <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
+                      <input type="hidden" value="{{$med['spouse_dob']}}" class="spouse_dob">
+                      <input type="hidden" value="{{$med['anniversary_date']}}" class="anniversary_date">
+                      <input type="hidden" value="{{$med['mobile_number']}}" class="member_mobile_number">
+                      <input type="hidden" value="{{$med['email_id']}}" class="member_email_id">{{$med['name']}}</td>
+                    <td>{{$med['child_name']}}</td>
+                    <td>{{$med['child_birth_date']}}</td>
+                  </tr>
+                    @empty
+                    <tr><td>No Record Found</td></tr>
+                  @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
           <div class="col-sm-12">
             <div class="card">
               <div class="card-header border-transparent bg-purple">
-                <h3 class="card-title">Members</h3>
+                <h3 class="card-title">Members Latest 10</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -469,128 +672,6 @@
             </div>
           </div> 
         </div>
-        <div class="row">
-        <div class="col-md-4 col-sm-12">
-          <div class="card">
-            <div class="card-header border-transparent bg-purple">
-              <h3 class="card-title">Member Birth Date</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <table class="table m-0">
-                  <thead>
-                  <tr>
-                    <th>Member Name</th>
-                    <th>Birth Date</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    
-                    @forelse($member_birth_date as $med)
-                  <tr>
-                    <td>{{$med['name']}}</td>
-                    <td>{{$med['birth_date']}}</td>
-                  </tr>
-                    @empty
-                    <tr><td>No Record Found</td></tr>
-                  @endforelse
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-12">
-          <div class="card">
-            <div class="card-header border-transparent bg-purple">
-              <h3 class="card-title">Member Anniversary Date</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <table class="table m-0">
-                  <thead>
-                  <tr>
-                    <th>Member Name</th>
-                    <th>Anniversary Date</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    
-                    @forelse($member_anniversary_date as $med)
-                  <tr>
-                    <td>{{$med['name']}}</td>
-                    <td>{{$med['anniversary_date']}}</td>
-                  </tr>
-                    @empty
-                    <tr><td>No Record Found</td></tr>
-                  @endforelse
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-12">
-          <div class="card">
-            <div class="card-header border-transparent bg-purple">
-              <h3 class="card-title">Member Spouse Birth Date</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <table class="table m-0">
-                  <thead>
-                  <tr>
-                    <th>Member Name</th>
-                    <th>Spouse Birth Date</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    
-                    @forelse($member_spouse_date as $med)
-                  <tr>
-                    <td>{{$med['name']}}</td>
-                    <td>{{$med['spouse_dob']}}</td>
-                  </tr>
-                    @empty
-                    <tr><td>No Record Found</td></tr>
-                  @endforelse
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="row">
         <div class="col-sm-6">
           <div class="card">
@@ -850,4 +931,239 @@
     </section>
 </div>
 </div>
+<div class="modal fade" id="member_birth_datee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="float-left">
+                <h4 class="modal-title" id="myModal">Member Details </h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
+                    <span class="col-md-6 form-control member_namee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
+                    <span class="col-md-6 form-control member_birth_datee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
+                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
+                    <span class="col-md-6 form-control member_emailide"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
+                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<div class="modal fade" id="member_anniversary_datee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="float-left">
+                <h4 class="modal-title" id="myModal">Member Details </h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
+                    <span class="col-md-6 form-control member_namee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
+                    <span class="col-md-6 form-control member_birth_datee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
+                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
+                    <span class="col-md-6 form-control member_emailide"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
+                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>  
+<div class="modal fade" id="child_birth_datee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="float-left">
+                <h4 class="modal-title" id="myModal">Member Details </h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
+                    <span class="col-md-6 form-control member_namee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
+                    <span class="col-md-6 form-control member_birth_datee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
+                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
+                    <span class="col-md-6 form-control member_emailide"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
+                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>  
+<div class="modal fade" id="member_child_birth_datee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="float-left">
+                <h4 class="modal-title" id="myModal">Member Details </h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
+                    <span class="col-md-6 form-control member_namee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
+                    <span class="col-md-6 form-control member_birth_datee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
+                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
+                    <span class="col-md-6 form-control member_emailide"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
+                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>  
+<!-- 'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
+                        'birth_date' => $member_dat->birth_date,
+                        'father_name'=>  $member_dat->member->father_name,
+                        'mother_name'=>$member_dat->member->mother_name,
+                        'spouse_name'=>$member_dat->member->spouse_name,
+                        'spouse_dob'=>$member_dat->member->spouse_dob,
+                        'anniversary_date' => $member_dat->member->anniversary_date -->
+<script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+<script>
+$('.member_birth_date tr').click(function () {
+  $("#member_birth_datee").modal('show');
+  var mother_name = $(this).closest('tr').find('.mother_name').val();
+  var father_name = $(this).closest('tr').find('.father_name').val();
+  var member_name = $(this).closest('tr').find('.member_name').val();
+  var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
+  var spouse_name = $(this).closest('tr').find('.spouse_name').val();
+  var member_mobile_number = $(this).closest('tr').find('.member_mobile_number').val();
+  var member_emailid = $(this).closest('tr').find('.member_email_id').val();
+  var member_birth_date = $(this).closest('tr').find('.member_birth_dates').val();
+  
+  $('.spouse_dobe').text(spouse_dob);
+  $('.spouse_namee').text(spouse_name);
+  $('.member_birth_datee').text(member_birth_date);
+  $('.member_namee').text(member_name);
+  $('.member_mother_namee').text(mother_name);
+  $('.member_mother_father_namee').text(father_name);
+  $(".member_emailide").text(member_emailid);
+  $(".member_mobile_numbere").text(member_mobile_number);
+});
+$('.member_anniversary_date tr').click(function () {
+  $("#member_anniversary_datee").modal('show');
+  var mother_name = $(this).closest('tr').find('.mother_name').val();
+  var father_name = $(this).closest('tr').find('.father_name').val();
+  var member_name = $(this).closest('tr').find('.member_name').val();
+  var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
+  var spouse_name = $(this).closest('tr').find('.spouse_name').val();
+  var member_mobile_number = $(this).closest('tr').find('.member_mobile_number').val();
+  var member_emailid = $(this).closest('tr').find('.member_email_id').val();
+  var member_birth_date = $(this).closest('tr').find('.member_birth_dates').val();
+  
+  $('.spouse_dobe').text(spouse_dob);
+  $('.spouse_namee').text(spouse_name);
+  $('.member_birth_datee').text(member_birth_date);
+  $('.member_namee').text(member_name);
+  $('.member_mother_namee').text(mother_name);
+  $('.member_mother_father_namee').text(father_name);
+  $(".member_emailide").text(member_emailid);
+  $(".member_mobile_numbere").text(member_mobile_number);
+});
+$('.spouse_dob tr').click(function () {
+  $("#member_spouse_birth_datee").modal('show');
+  var mother_name = $(this).closest('tr').find('.mother_name').val();
+  var father_name = $(this).closest('tr').find('.father_name').val();
+  var member_name = $(this).closest('tr').find('.member_name').val();
+  var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
+  var spouse_name = $(this).closest('tr').find('.spouse_name').val();
+  var member_mobile_number = $(this).closest('tr').find('.member_mobile_number').val();
+  var member_emailid = $(this).closest('tr').find('.member_email_id').val();
+  var member_birth_date = $(this).closest('tr').find('.member_birth_dates').val();
+  
+  $('.spouse_dobe').text(spouse_dob);
+  $('.spouse_namee').text(spouse_name);
+  $('.member_birth_datee').text(member_birth_date);
+  $('.member_namee').text(member_name);
+  $('.member_mother_namee').text(mother_name);
+  $('.member_mother_father_namee').text(father_name);
+  $(".member_emailide").text(member_emailid);
+  $(".member_mobile_numbere").text(member_mobile_number);
+});
+$('.child_dob tr').click(function () {
+  $("#child_birth_datee").modal('show');
+  var mother_name = $(this).closest('tr').find('.mother_name').val();
+  var father_name = $(this).closest('tr').find('.father_name').val();
+  var member_name = $(this).closest('tr').find('.member_name').val();
+  var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
+  var spouse_name = $(this).closest('tr').find('.spouse_name').val();
+  var member_mobile_number = $(this).closest('tr').find('.member_mobile_number').val();
+  var member_emailid = $(this).closest('tr').find('.member_email_id').val();
+  var member_birth_date = $(this).closest('tr').find('.member_birth_dates').val();
+  
+  $('.spouse_dobe').text(spouse_dob);
+  $('.spouse_namee').text(spouse_name);
+  $('.member_birth_datee').text(member_birth_date);
+  $('.member_namee').text(member_name);
+  $('.member_mother_namee').text(mother_name);
+  $('.member_mother_father_namee').text(father_name);
+  $(".member_emailide").text(member_emailid);
+  $(".member_mobile_numbere").text(member_mobile_number);
+});
+member_child_birth_datee
+</script>
     @endsection

@@ -1,5 +1,6 @@
 @extends('layouts.default')
 @section('content')
+<hr>
 <div class="py-5">
     <!-- <div class="container"> -->
         <div class="row justify-content-center">
