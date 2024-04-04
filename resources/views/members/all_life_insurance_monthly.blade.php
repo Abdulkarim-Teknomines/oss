@@ -85,8 +85,8 @@ $(document).ready(function(){
     var sum =0;
     var month = $('#month').find(":selected").val();
     var table = $('.dts').DataTable({
-        processing: true,
-        serverSide: true,
+        processing: false,
+        serverSide: false,
         paging: true,
         searching: true,
         "bDestroy": false,

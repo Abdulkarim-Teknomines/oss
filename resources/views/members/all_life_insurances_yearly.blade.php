@@ -64,8 +64,8 @@
     $(document).ready(function(){
         var sum =0;
         var table = $('.dts').DataTable({
-        processing: true,
-        serverSide: true,
+        processing: false,
+        serverSide: false,
         dom:'lBfrtip',
         ajax: "{{ route('life_insurance.all_life_insurance_yearly') }}",
         columns: [

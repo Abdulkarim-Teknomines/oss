@@ -56,8 +56,8 @@
     $(document).ready(function(){
         var sum =0;
         var table = $('.dts').DataTable({
-        processing: true,
-        serverSide: true,
+        processing: false,
+        serverSide: false,
         dom:'lBfrtip',
         ajax: "{{ route('mutual_fund.all_mutual_fund_yearly') }}",
             columns: [

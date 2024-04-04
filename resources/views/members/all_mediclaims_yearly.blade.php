@@ -60,8 +60,8 @@
     $(document).ready(function(){
         var sum =0;
         var table = $('.dts').DataTable({
-        processing: true,
-        serverSide: true,
+        processing: false,
+        serverSide: false,
         dom:'lBfrtip',
         ajax: "{{ route('mediclaim.all_mediclaim_yearly',Auth::User()->id) }}",
         columns: [
