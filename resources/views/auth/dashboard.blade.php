@@ -522,7 +522,6 @@
           <div class="card">
             <div class="card-header border-transparent bg-red">
               <h3 class="card-title">Member Spouse Birth Date</h3>
-
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                   <i class="fas fa-minus"></i>
@@ -795,7 +794,7 @@
           </div>
           <div class="col-sm-6">
             <div class="card">
-              <div class="card-header border-transparent bg-gray">
+              <div class="card-header border-transparent bg-red">
                 <h3 class="card-title">Vehicle Insurances</h3>
 
                 <div class="card-tools">
@@ -944,23 +943,23 @@
             <div class="modal-body">
                 <div class="mb-3 row">
                     <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
-                    <span class="col-md-6 form-control member_namee"></span>
+                    <span class="col-md-6 member_namee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
-                    <span class="col-md-6 form-control member_birth_datee"></span>
+                    <span class="col-md-6 member_birth_datee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
-                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                    <span class="col-md-6 member_mobile_numbere"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
-                    <span class="col-md-6 form-control member_emailide"></span>
+                    <span class="col-md-6 member_emailide"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
-                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                    <span class="col-md-6 member_mother_father_namee"></span>
                 </div>
             </div>
         </div>
@@ -980,30 +979,30 @@
             <div class="modal-body">
                 <div class="mb-3 row">
                     <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
-                    <span class="col-md-6 form-control member_namee"></span>
+                    <span class="col-md-6 member_namee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
-                    <span class="col-md-6 form-control member_birth_datee"></span>
+                    <span class="col-md-6 member_birth_datee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
-                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                    <span class="col-md-6 member_mobile_numbere"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
-                    <span class="col-md-6 form-control member_emailide"></span>
+                    <span class="col-md-6 member_emailide"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
-                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                    <span class="col-md-6 member_mother_father_namee"></span>
                 </div>
                 
             </div>
         </div>
     </div>
 </div>  
-<div class="modal fade" id="child_birth_datee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="member_spouse_birth_datee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -1016,23 +1015,23 @@
             <div class="modal-body">
                 <div class="mb-3 row">
                     <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
-                    <span class="col-md-6 form-control member_namee"></span>
+                    <span class="col-md-6 member_namee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
-                    <span class="col-md-6 form-control member_birth_datee"></span>
+                    <span class="col-md-6 member_birth_datee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
-                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                    <span class="col-md-6 member_mobile_numbere"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
-                    <span class="col-md-6 form-control member_emailide"></span>
+                    <span class="col-md-6 member_emailide"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
-                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                    <span class="col-md-6 member_mother_father_namee"></span>
                 </div>
                 
             </div>
@@ -1052,23 +1051,23 @@
             <div class="modal-body">
                 <div class="mb-3 row">
                     <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
-                    <span class="col-md-6 form-control member_namee"></span>
+                    <span class="col-md-6 member_namee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
-                    <span class="col-md-6 form-control member_birth_datee"></span>
+                    <span class="col-md-6 member_birth_datee"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Mobile Number</label>
-                    <span class="col-md-6 form-control member_mobile_numbere"></span>
+                    <span class="col-md-6 member_mobile_numbere"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="sr_nos" class="col-md-4 col-form-label text-md-end text-start">Member Email ID</label>
-                    <span class="col-md-6 form-control member_emailide"></span>
+                    <span class="col-md-6 member_emailide"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="policy_holder_name" class="col-md-4 col-form-label text-md-end text-start">Father Name</label>
-                    <span class="col-md-6 form-control member_mother_father_namee"></span>
+                    <span class="col-md-6 member_mother_father_namee"></span>
                 </div>
                 
             </div>
@@ -1145,7 +1144,7 @@ $('.spouse_dob tr').click(function () {
   $(".member_mobile_numbere").text(member_mobile_number);
 });
 $('.child_dob tr').click(function () {
-  $("#child_birth_datee").modal('show');
+  $("#member_child_birth_datee").modal('show');
   var mother_name = $(this).closest('tr').find('.mother_name').val();
   var father_name = $(this).closest('tr').find('.father_name').val();
   var member_name = $(this).closest('tr').find('.member_name').val();
@@ -1164,6 +1163,6 @@ $('.child_dob tr').click(function () {
   $(".member_emailide").text(member_emailid);
   $(".member_mobile_numbere").text(member_mobile_number);
 });
-member_child_birth_datee
+
 </script>
     @endsection
