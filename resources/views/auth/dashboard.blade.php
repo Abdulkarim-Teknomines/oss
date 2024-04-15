@@ -17,7 +17,7 @@
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+               <a href="javascript:void(0)" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> 
             </div>
 
           </div>
@@ -31,7 +31,7 @@
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+               <a href="javascript:void(0)" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> 
             </div>
 
           </div>
@@ -200,7 +200,18 @@
           @else
           <div class="row">
           @if(Auth::User()->hasRole('Super Admin')|| Auth::User()->hasRole('Admin')|| Auth::User()->hasRole('Manager')|| Auth::User()->hasRole('Agemt'))
+          @if(Auth::User()->hasRole('Super Admin'))
           <div class="col-lg-3 col-6">
+          @endif
+          @if(Auth::User()->hasRole('Admin'))
+          <div class="col-lg-4 col-6">
+          @endif
+          @if(Auth::User()->hasRole('Manager'))
+          <div class="col-lg-6 col-6">
+          @endif
+          @if(Auth::User()->hasRole('Agent'))
+          <div class="col-lg-12 col-6">
+          @endif
             <!-- small box -->
             <div class="small-box bg-gray">
               <div class="inner">
@@ -230,7 +241,12 @@
           </div>
           @endif
           @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin'))
+          @if(Auth::User()->hasRole('Super Admin'))
           <div class="col-lg-3 col-6">
+            @endif
+          @if(Auth::User()->hasRole('Admin'))
+          <div class="col-lg-4 col-6">
+          @endif
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
@@ -246,7 +262,15 @@
           </div>
           @endif
           @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin')||Auth::User()->hasRole('Manager'))
+          @if(Auth::User()->hasRole('Super Admin'))
           <div class="col-lg-3 col-6">
+          @endif
+          @if(Auth::User()->hasRole('Admin'))
+          <div class="col-lg-4 col-6">
+          @endif
+          @if(Auth::User()->hasRole('Manager'))
+          <div class="col-lg-6 col-6">
+          @endif
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
@@ -286,7 +310,7 @@
               <div class="icon">
                 <i class="ion-stats-bars"></i>
               </div>
-              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+               <a href="javascript:void(0)" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> 
             </div>
 
           </div>
@@ -300,7 +324,7 @@
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <!-- <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+               <a href="javascript:void(0)" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a> 
             </div>
 
           </div>

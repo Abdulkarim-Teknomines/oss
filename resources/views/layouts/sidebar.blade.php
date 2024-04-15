@@ -45,7 +45,9 @@
           @endcanany
           
           @canany(['create-member', 'edit-member'])
-          <li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Member</p></a></li>          
+          @if(Auth::User()->hasRole('Agent'))
+          <li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}"><i class="nav-icon fa fa-user" aria-hidden="true"></i><p>Manage Member</p></a></li>   
+          @endif
           @endcanany
           
           @if(Auth::User()->hasRole('Super Admin'))
@@ -72,18 +74,19 @@
               </a>
             </li>
           @endif
-          @if(auth::User()->hasRole('Super Admin') || auth::User()->hasRole('Admin') || auth::User()->hasRole('Manager') || auth::User()->hasRole('Agent'))
-            <!-- <li class="nav-item"><a class="nav-link" href="{{ route('member_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance Report</p></a></li>
+          @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin') || Auth::User()->hasRole('Manager') || Auth::User()->hasRole('Agent'))
+            <li class="nav-item"><a class="nav-link" href="{{ route('member_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance Report</p></a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('member_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund Report</p></a></li> -->
-          @endif
+            <li class="nav-item"><a class="nav-link" href="{{ route('member_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund Report</p></a></li>
+         @endif
           @if(auth::User()->hasRole('Member'))
             <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('vehicle_insurance.all_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('mutual_fund.all_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund</p></a></li>
-          @else
+          @endif
+          @if(auth::User()->hasRole('Super Admin'))
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-life-ring"></i>
@@ -153,7 +156,6 @@
                   <p>Yearly Report</p>
                 </a>
               </li>
-              
             </ul>
           </li>
           <li class="nav-item">
@@ -177,10 +179,112 @@
                   <p>Yearly Report</p>
                 </a>
               </li>
-              
             </ul>
           </li>
-         @endif
+        @else
+            @if(auth::user()->department_id=="1")
+                <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-life-ring"></i>
+              <p>
+                Life Insurance
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            @php $date = Date('M'); @endphp
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('life_insurance.all_life_insurance_monthly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('life_insurance.all_life_insurance_yearly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+            @endif
+            @if(auth::user()->department_id=="2")
+            <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-hospital"></i>
+              <p>
+                Mediclaim 
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('mediclaim.all_mediclaim_monthly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('mediclaim.all_mediclaim_yearly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+            @endif
+            @if(auth::user()->department_id=="3")
+                <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon  fa fa-car"></i>
+              <p>
+                Vehicle Insurance
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('vehicle_insurance.all_vehicle_insurance_monthly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('vehicle_insurance.all_vehicle_insurance_yearly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+            @endif
+            @if(auth::user()->department_id=="4")
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon  fa fa-dollar-sign"></i>
+                <p>
+                  Mutual Fund
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{route('mutual_fund.all_mutual_fund_monthly') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Monthly Report</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{route('mutual_fund.all_mutual_fund_yearly') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Yearly Report</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            @endif
+        @endif
          
          @if(Auth::User()->hasRole('Member')=="Member")
          <li class="nav-item">
@@ -190,6 +294,20 @@
              </a>
          </li>
          @endif
+         <!-- @if(Auth::User()->hasRole('Super Admin'))
+         <li class="nav-item">
+             <a href="{{ route('user_password') }}" class="nav-link">
+               <i class="fa fa-book nav-icon"></i>
+               <p>User Password</p>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a href="{{ route('member_password') }}" class="nav-link">
+               <i class="fa fa-book nav-icon"></i>
+               <p>Member Password</p>
+             </a>
+         </li>
+         @endif -->
           <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>

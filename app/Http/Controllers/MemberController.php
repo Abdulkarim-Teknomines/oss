@@ -158,6 +158,7 @@ class MemberController extends Controller
         $input['birth_date'] = $request->birth_date;
         $input['email'] = $request->email;
         $input['isActive'] = 0;
+        
         $user = User::create($input);
         if($user){
             $user_id = 'MEM'.str_pad($user->id, 5, '0', STR_PAD_LEFT);
@@ -180,6 +181,15 @@ class MemberController extends Controller
                     $members = Children::create($child);
                 }
             }
+            $url = route('login');
+            $mailData = [
+                'title' => 'Mail from www.onestopsolutiondatamanagement.com',
+                'body' => 'Login With Below Credentials',
+                'url'=>'<a href="{{$url}}">Click to Login</a>',
+                'username'=>$user->email,
+                'password'=>$password
+            ];
+            Mail::to($user->email)->send(new DemoMail($mailData));
             return redirect()->route('members.index')
                     ->withSuccess('Member is added successfully.');
 
@@ -788,46 +798,46 @@ class MemberController extends Controller
             $data =Mediclaim::with('company_name','policy_type','policy_mode')->where('user_id',$user->id)->get();            
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('sr_no', function($row){
-                        return $row['sr_no'];
-                    }) 
-                    ->addColumn('policy_holder_name', function($row){
-                        return $row['policy_holder_name'];
-                    }) 
-                    ->addColumn('birth_date', function($row){
-                        return $row['birth_date'];
-                    }) 
-                    ->addColumn('policy_start_date', function($row){
-                        return $row['policy_start_date'];
-                    }) 
-                    ->addColumn('policy_end_date', function($row){
-                        return $row['policy_end_date'];
-                    }) 
-                    ->addColumn('company_name', function($row){
-                        return $row->company_name['name'];
-                    }) 
-                    ->addColumn('policy_number', function($row){
-                        return $row['policy_number'];
-                    }) 
-                    ->addColumn('policy_type', function($row){
-                        return $row->policy_type['name'];
-                    }) 
-                    ->addColumn('sum_assured', function($row){
-                        return $row['sum_assured'];
-                    }) 
-                    ->addColumn('action', function ($row){
-                        $btn='';
-                        $btn .= '<a href="javascript:void(0)" class="view_mediclaim btn btn-info btn-sm" id="view_mediclaim" onClick="view_mediclaim('.$row->id.')">View</a>&nbsp;&nbsp;';
-                        // if(Auth::user()->can('edit-mediclaim')) {
-                            if(Auth::user()->hasRole('Agent')){
-                            $btn.='<a href="javascript:void(0)" class="edit_mediclaim btn btn-primary btn-sm" id="edit_mediclaim"  onClick="edit_mediclaim('.$row->id.')">Edit</a>';
-                        }
-                        // }
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+            ->addIndexColumn()
+            ->addColumn('sr_no', function($row){
+                return $row['sr_no'];
+            }) 
+            ->addColumn('policy_holder_name', function($row){
+                return $row['policy_holder_name'];
+            }) 
+            ->addColumn('birth_date', function($row){
+                return $row['birth_date'];
+            }) 
+            ->addColumn('policy_start_date', function($row){
+                return $row['policy_start_date'];
+            }) 
+            ->addColumn('policy_end_date', function($row){
+                return $row['policy_end_date'];
+            }) 
+            ->addColumn('company_name', function($row){
+                return $row->company_name['name'];
+            }) 
+            ->addColumn('policy_number', function($row){
+                return $row['policy_number'];
+            }) 
+            ->addColumn('policy_type', function($row){
+                return $row->policy_type['name'];
+            }) 
+            ->addColumn('sum_assured', function($row){
+                return $row['sum_assured'];
+            }) 
+            ->addColumn('action', function ($row){
+                $btn='';
+                $btn .= '<a href="javascript:void(0)" class="view_mediclaim btn btn-info btn-sm" id="view_mediclaim" onClick="view_mediclaim('.$row->id.')">View</a>&nbsp;&nbsp;';
+                // if(Auth::user()->can('edit-mediclaim')) {
+                    if(Auth::user()->hasRole('Agent')){
+                    $btn.='<a href="javascript:void(0)" class="edit_mediclaim btn btn-primary btn-sm" id="edit_mediclaim"  onClick="edit_mediclaim('.$row->id.')">Edit</a>';
+                }
+                // }
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
         }
         return view('mediclaim.view', [
             // 'users' => $data,
@@ -841,41 +851,41 @@ class MemberController extends Controller
             $data =Mutualfund::with('mutual_fund_type')->where('user_id',$user->id)->get();            
             // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->get();
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('sr_no', function($row){
-                        return $row['sr_no'];
-                    }) 
-                    ->addColumn('mutual_fund_holder_name', function($row){
-                        return $row['mutual_fund_holder_name'];
-                    }) 
-                    ->addColumn('mutual_fund_type_id', function($row){
-                        return $row->mutual_fund_type['name'];
-                    }) 
-                    ->addColumn('folio_number', function($row){
-                        return $row['folio_number'];
-                    }) 
-                    ->addColumn('fund_name', function($row){
-                        return $row['fund_name'];
-                    }) 
-                    ->addColumn('fund_type', function($row){
-                        return $row['fund_type'];
-                    }) 
-                    ->addColumn('purchase_date', function($row){
-                        return $row['purchase_date'];
-                    }) 
-                    ->addColumn('amount', function($row){
-                        return $row['amount'];
-                    }) 
-                    ->addColumn('action', function ($row){
-                        $btn='';
-                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mutual_fund('.$row->id.')">View</a>&nbsp;&nbsp;';
-                        if(Auth::user()->can('edit-member')) {
-                            $btn.='<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edit" onClick="edit_mutual_fund('.$row->id.')">Edit</a>';
-                        }
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+            ->addIndexColumn()
+            ->addColumn('sr_no', function($row){
+                return $row['sr_no'];
+            }) 
+            ->addColumn('mutual_fund_holder_name', function($row){
+                return $row['mutual_fund_holder_name'];
+            }) 
+            ->addColumn('mutual_fund_type_id', function($row){
+                return $row->mutual_fund_type['name'];
+            }) 
+            ->addColumn('folio_number', function($row){
+                return $row['folio_number'];
+            }) 
+            ->addColumn('fund_name', function($row){
+                return $row['fund_name'];
+            }) 
+            ->addColumn('fund_type', function($row){
+                return $row['fund_type'];
+            }) 
+            ->addColumn('purchase_date', function($row){
+                return $row['purchase_date'];
+            }) 
+            ->addColumn('amount', function($row){
+                return $row['amount'];
+            }) 
+            ->addColumn('action', function ($row){
+                $btn='';
+                $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mutual_fund('.$row->id.')">View</a>&nbsp;&nbsp;';
+                if(Auth::user()->can('edit-member')) {
+                    $btn.='<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edit" onClick="edit_mutual_fund('.$row->id.')">Edit</a>';
+                }
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
         }
         return view('mutual_fund.view', [
             // 'users' => $data,
@@ -883,50 +893,46 @@ class MemberController extends Controller
             'content'=>'Manage Mutual Fund'
         ]);
     }
-
     
     public function list_vehicle_insurance(Request $request,User $user){
-
-        
         if ($request->ajax()) {
             $data =VehicleInsurance::with('company_name','insurance_policy_type','vehicle_category')->where('user_id',$user->id)->get();    
-            
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('sr_no', function($row){
-                        return $row['sr_no'];
-                    }) 
-                    ->addColumn('vehicle_category_id', function($row){
-                        return $row->vehicle_category['name'];
-                    }) 
-                    ->addColumn('vehicle_number', function($row){
-                        return $row['vehicle_number'];
-                    }) 
-                    ->addColumn('vehicle_name', function($row){
-                        return $row['vehicle_name'];
-                    }) 
-                    ->addColumn('company_name_id', function($row){
-                        return $row->company_name['name'];
-                    }) 
-                    ->addColumn('policy_number', function($row){
-                        return $row['policy_number'];
-                    }) 
-                    ->addColumn('insurance_policy_type_id', function($row){
-                        return $row->insurance_policy_type['name'];
-                    }) 
-                    ->addColumn('policy_premium', function($row){
-                        return $row['policy_premium'];
-                    }) 
-                    ->addColumn('action', function ($row){
-                        $btn='';
-                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_vehicle_insurance('.$row->id.')">View</a>&nbsp;&nbsp;';
-                        if(Auth::user()->can('edit-member')) {
-                            $btn.='<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edit" onClick="edit_vehicle_insurance('.$row->id.')">Edit</a>';
-                        }
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+            ->addIndexColumn()
+            ->addColumn('sr_no', function($row){
+                return $row['sr_no'];
+            }) 
+            ->addColumn('vehicle_category_id', function($row){
+                return $row->vehicle_category['name'];
+            }) 
+            ->addColumn('vehicle_number', function($row){
+                return $row['vehicle_number'];
+            }) 
+            ->addColumn('vehicle_name', function($row){
+                return $row['vehicle_name'];
+            }) 
+            ->addColumn('company_name_id', function($row){
+                return $row->company_name['name'];
+            }) 
+            ->addColumn('policy_number', function($row){
+                return $row['policy_number'];
+            }) 
+            ->addColumn('insurance_policy_type_id', function($row){
+                return $row->insurance_policy_type['name'];
+            }) 
+            ->addColumn('policy_premium', function($row){
+                return $row['policy_premium'];
+            }) 
+            ->addColumn('action', function ($row){
+                $btn='';
+                $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_vehicle_insurance('.$row->id.')">View</a>&nbsp;&nbsp;';
+                if(Auth::user()->can('edit-member')) {
+                    $btn.='<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edit" onClick="edit_vehicle_insurance('.$row->id.')">Edit</a>';
+                }
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
         }
         return view('vehicle_insurance.view', [
             // 'users' => $data,
@@ -2789,10 +2795,12 @@ class MemberController extends Controller
     { 
         if ($request->ajax()) {
             $new_array = [];
+            // $life_insurance = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city','life_insurance')->whereHas('roles', function($query) {
+            //     $query->where('name','member');
+            // })->get();
             $life_insurance = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles','member','country','state','city','life_insurance')->whereHas('roles', function($query) {
                 $query->where('name','member');
             })->get();
-            
             if(!empty($life_insurance)){
                 foreach($life_insurance as $li){
                     foreach($li->life_insurance as $list){

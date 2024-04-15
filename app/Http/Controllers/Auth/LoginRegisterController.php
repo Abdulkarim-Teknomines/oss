@@ -311,6 +311,9 @@ class LoginRegisterController extends Controller
             'email' => 'Please login to access the dashboard.',
         ])->onlyInput('email');
     } 
+    public function homepage(){
+        return view('frontend.homepage');
+    }
     protected function traverseTree($subtree, $des)
     {
         $descendants = $des;
@@ -334,7 +337,7 @@ class LoginRegisterController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')
+        return redirect()->route('homepage')
             ->withSuccess('You have logged out successfully!');;
     }    
     public function showForgetPasswordForm()

@@ -360,7 +360,7 @@ class UserController extends Controller
             $user->assignRole($request->roles);
             $url = route('login');
             $mailData = [
-                'title' => 'Mail from www.onestopsolution.com',
+                'title' => 'Mail from www.onestopsolutiondatamanagement.com',
                 'body' => 'Login With Below Credentials',
                 'url'=>'<a href="'.$url.'">Click to Login</a>',
                 'username'=>$request->email,
@@ -503,7 +503,7 @@ class UserController extends Controller
         }
         return redirect()->back()
                 ->withSuccess('User is updated successfully.');
-    }
+    } 
     public function change_password(){
         $data['title']='Users';
         $data['content']='Change Password';
@@ -530,4 +530,66 @@ class UserController extends Controller
             return redirect()->back()->with('error','Current Password does not match with Old Password');
         }
     }
+    public function user_password(Request $request,User $user)
+    {
+        
+        if ($request->ajax()) {
+            $data =User::with('roles')->whereHas('roles', function($query) {
+                    $query->where('name','Admin');
+                    $query->orWhere('name','Manager');
+                    $query->orWhere('name','Agent');
+                })->get();
+            // $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+            //     $query->where('name','Admin');
+            //     $query->orWhere('name','Manager');
+            //     $query->orWhere('name','Agent');
+            // })->get();
+            return Datatables::of($data)
+                ->addColumn('name', function($row){
+                    return $row['name'].' '.$row['middle_name'].' '.$row['surname'];
+                })
+                ->addColumn('email', function($row){
+                    return $row->email;
+                })  
+                ->addColumn('password', function($row){
+                    
+                        return $row->password;
+                    
+                })      
+                ->make(true);
+        }
+        
+        return view('users.user_password', [
+            // 'users' => $data,
+            'title'=>'Users',
+            'content'=>'User Password'
+        ]);
+    } 
+    public function member_password(Request $request,User $user)
+    {
+        if ($request->ajax()) {
+            $data =User::with('roles')->whereHas('roles', function($query) {
+                    $query->Where('name','Member');
+                })->get();
+                return Datatables::of($data)
+                    ->addColumn('name', function($row){
+                        return $row['name'].' '.$row['middle_name'].' '.$row['surname'];
+                    })
+                    ->addColumn('email', function($row){
+                        return $row->email;
+                    })  
+                    ->addColumn('password', function($row){
+                        
+                            return $row->password;
+                        
+                    })      
+                ->make(true);
+        }
+        
+        return view('users.member_password', [
+            // 'users' => $data,
+            'title'=>'Users',
+            'content'=>'Member Password'
+        ]);
+    } 
 }

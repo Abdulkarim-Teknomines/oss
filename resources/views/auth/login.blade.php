@@ -3,7 +3,7 @@
 
 <div class="login-box">
   <div class="login-logo">
-    <p style="color:#007bff;"><b>One Stop Solution</b><p>
+    <p style="color:#007bff;"><b>One Stop Solution Data Management</b><p>
   </div>
   <!-- /.login-logo -->
   <div class="card">

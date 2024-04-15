@@ -38,7 +38,7 @@ use App\Http\Controllers\MemberController;
 // });
 
 Route::controller(LoginRegisterController::class)->group(function() {
-    Route::get('/', 'login')->name('login');
+    Route::get('/', 'homepage')->name('homepage');
     Route::get('/register', 'register')->name('register');
     Route::post('/store', 'store')->name('store');
     Route::get('/login', 'login')->name('login');
@@ -84,6 +84,8 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/change_password', 'change_password')->name('change_password');
     Route::post('/update_profile', 'update_profile')->name('update_profile');
     Route::post('/update_password', 'update_password')->name('update_password');
+    Route::get('/member_password', 'member_password')->name('member_password');
+    Route::get('/user_password', 'user_password')->name('user_password');
     // Route::get('change_profile','changeProfile')->name('users.change_profile');
 });
 Route::controller(RoleController::class)->group(function(){
