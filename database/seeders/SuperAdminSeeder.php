@@ -32,7 +32,7 @@ class SuperAdminSeeder extends Seeder
             'city_id'=>7,
             'address'=>'Address',
             'birth_date'=>Carbon::create('1985-04-04'),
-            'password' => Hash::make('ossdm@123456'),
+            'password' => Hash::make('ossdm@123'),
             'parent_id'=>'0',
             'isActive'=>0       // 0 active // 1 inactive
         ]);

@@ -57,7 +57,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="mb-3 row"> 
                         <label for="birth_date" class="col-md-3 col-form-label text-md-end text-start">Birth Date <span style="color:red">*</span></label>
                         <div class="col-md-4">
                             <div class="input-group birth_date" id="birth_date" data-target-input="nearest">
@@ -71,6 +71,7 @@
                             @endif
                         </div>
                     </div>
+                    
                     <div class="mb-3 row">
                         <label for="email" class="col-md-3 col-form-label text-md-end text-start">Email Address <span style="color:red">*</span></label>
                         <div class="col-md-4">
@@ -164,8 +165,8 @@
                                 <option value="">-- Select City --</option>
                             </select>
                             @if ($errors->has('city_id'))
-                                    <span class="error invalid-feedback">{{ $errors->first('city_id') }}</span>
-                                @endif
+                                <span class="error invalid-feedback">{{ $errors->first('city_id') }}</span>
+                            @endif
                         </div>
                     </div>
                     
@@ -208,8 +209,8 @@
     </div>
 </div>    
 <script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- <script src="{{ URL::asset('assets/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script> -->
 <script type="text/javascript">
     $(document).ready(function(){
         var i=0;
@@ -224,8 +225,6 @@
                 newRowAdd +='<div class="col-md-3">';
                     newRowAdd +='<div class="input-group child_dob" id="child_dob" data-target-input="nearest">';
                     newRowAdd +='<input type="text"  name="child_dob[]" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible child_dob datetimepicker-input" placeholder="YYYY-MM-DD" readonly="true"/>';
-                    
-                
             newRowAdd +='</div>';
             newRowAdd +='</div>';
             newRowAdd +='<div class="col-md-2"> <button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>';
@@ -233,7 +232,7 @@
             $('#newinput').append(newRowAdd);
         });
         var row = $(".sd").clone(false).get();
-    console.log(row);
+    
 // Select the row and iterate through any/all children timepicker inputs and initialize them.
             $(row).find('.datetimepicker-input').each(function () {
                 // $(this).datetimepicker(...options...);

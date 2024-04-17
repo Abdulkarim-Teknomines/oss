@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>onestopsolution.com</title>
+    <title>www.ossdm.com</title>
 </head>
 <body>
 
@@ -9,7 +9,7 @@
 
     <p>{{ $mailData['body'] }}</p>
 
-    <p>{{$mailData['url']}}</p>
+    <a href="{{$mailData['url']}}">Click to Login</a>
 
     <p>User name : {{$mailData['username']}}</p>
     <p>Password : {{$mailData['password']}}</p>

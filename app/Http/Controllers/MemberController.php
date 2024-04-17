@@ -2744,6 +2744,7 @@ class MemberController extends Controller
                 $dts = date('M', strtotime($dt));
                 $dtss = strtolower($dts);
                 $datas = Lifeinsurance::with('company_name','ppt','policy_mode')->where($dtss,'!=',0)->get();
+                
                 return Datatables::of($datas)
                 ->addIndexColumn()
                 ->addColumn('sr_no', function($row){

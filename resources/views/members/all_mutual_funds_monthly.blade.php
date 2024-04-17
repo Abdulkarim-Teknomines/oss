@@ -164,6 +164,7 @@
 $(document).on('change','#month',function(){
     var sum =0;
     var months = $(this).val();
+    $("#sum_yearly_amount").text(parseInt(sum));
     var table = $('.dts').DataTable({
         processing: false,
         paging: true,

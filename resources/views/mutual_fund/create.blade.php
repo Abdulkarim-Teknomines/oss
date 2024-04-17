@@ -60,7 +60,7 @@
                     <div class="mb-3 row">
                         <label for="folio_number" class="col-md-3 col-form-label text-md-end text-start">Folio Number <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                        <input type="number" min="0" class="form-control @error('folio_number') is-invalid @enderror" id="folio_number" name="folio_number" value="{{ old('folio_number') }}" placeholder="Folio Number" autocomplete="off">
+                        <input type="text" class="form-control @error('folio_number') is-invalid @enderror" id="folio_number" name="folio_number" value="{{ old('folio_number') }}" placeholder="Folio Number" autocomplete="off">
                             @if ($errors->has('folio_number'))
                                 <span class="error invalid-feedback">{{ $errors->first('folio_number') }}</span>
                             @endif

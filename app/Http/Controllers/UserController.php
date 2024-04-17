@@ -348,8 +348,9 @@ class UserController extends Controller
         // echo Auth::user()->id;die;
         $input = $request->all();
         $input['parent_id'] = Auth::user()->id;
-        $password = Str::random(8);
+        $password = "ossdm@123";
         $input['password'] = Hash::make($password);
+        // $input['password'] = Hash::make('ossdm@123');
         $input['isActive']=0;
         $user = User::create($input);
         if($user){
@@ -360,11 +361,13 @@ class UserController extends Controller
             $user->assignRole($request->roles);
             $url = route('login');
             $mailData = [
-                'title' => 'Mail from www.onestopsolutiondatamanagement.com',
-                'body' => 'Login With Below Credentials',
-                'url'=>'<a href="'.$url.'">Click to Login</a>',
+                'title' => 'Mail from www.ossdm.com',
+                'body' => 'OSSDM Login Credentials',
+                'url'=>$url,
+                'subject' => 'www.ossdm.com',
                 'username'=>$request->email,
-                'password'=>$password
+                'password'=>$password,
+                
             ];
             Mail::to($request->email)->send(new DemoMail($mailData));
             return redirect()->route('users.index')

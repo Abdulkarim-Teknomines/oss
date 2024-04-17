@@ -83,6 +83,7 @@ $.ajaxSetup({
 
 $(document).ready(function(){
     var sum =0;
+    
     var month = $('#month').find(":selected").val();
     var table = $('.dts').DataTable({
         processing: false,
@@ -148,6 +149,7 @@ $(document).ready(function(){
                 }                                
         }],
         createdRow: function ( row, data, index ) {
+            
             $(data).each(function(key,val){
                 sum=sum+parseInt(val.yearly_premium_amount);
             });
@@ -160,6 +162,7 @@ $(document).ready(function(){
 $(document).on('change','#month',function(){
     var months = $(this).val();
     var sum=0;
+    $("#sum_yearly_amount").text(parseInt(sum));
     var tables = $('.dts').DataTable({
         processing: false,
         paging: true,
