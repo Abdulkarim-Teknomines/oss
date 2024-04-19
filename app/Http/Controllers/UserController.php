@@ -276,6 +276,64 @@ class UserController extends Controller
             'content'=>'Manage Users'
         ]);
     }
+    public function Member_list(Request $request,User $user)
+    {
+        
+        if ($request->ajax()) {
+            // $data =User::where('parent_id',auth()->user()->id)->with('roles')->whereHas('roles', function($query) {
+            //         $query->where('name','Admin');
+            //         $query->orWhere('name','Manager');
+            //         $query->orWhere('name','Agent');
+            //     })->get();
+            $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+                $query->where('name','Member');
+                
+            })->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){
+                        // foreach($row->getRoleNames() as $role){
+                            // if($role=='Member'){
+                                return $row['user_id'];
+                            // }else{
+                            //     return '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edits" onClick="view('.$row->id.')">'.$row['user_id'].'</a>';
+                            // }
+                        // }
+                    }) 
+                    ->addColumn('name', function($row){
+                        return $row['name'].' '.$row['middle_name'].' '.$row['surname'];
+                    })
+                    ->addColumn('added_by', function($row){
+                        return User::getUserNameByID($row->parent_id);
+                    })  
+                    ->addColumn('roles', function($row){
+                        foreach($row->getRoleNames() as $role){
+                            return $role;
+                        }
+                    })      
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="/users/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        if(Auth::user()->can('edit-user')) {
+                            $btn.='<a href="users/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                        }
+                        // if(Auth::user()->can('delete-user')) {
+                        //     $btn.='<form method="post" action="users/'.$row['id'].'">
+                        //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>
+                        //     </form>';
+                        // }
+                        return $btn;
+                    })
+                    ->rawColumns(['action','id'])
+                    ->make(true);
+        }
+        
+        return view('users.member_list', [
+            // 'users' => $data,
+            'title'=>'Users',
+            'content'=>'Manage Users'
+        ]);
+    }
     public function view(Request $request,User $user)
     {
         if ($request->ajax()) {

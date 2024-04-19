@@ -75,11 +75,19 @@
             </li>
           @endif
           @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin') || Auth::User()->hasRole('Manager') || Auth::User()->hasRole('Agent'))
+          
+            <li class="nav-item">
+              <a href="{{ route('member_users.member_list') }}" class="nav-link">
+                <i class="fa fa-user nav-icon"></i>
+                <p>Member</p>
+              </a>
+            </li>
+          
             <li class="nav-item"><a class="nav-link" href="{{ route('member_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_mutual_fund') }}"><i class="nav-icon fa fa-dollar-sign"></i><p>Mutual Fund Report</p></a></li>
-         @endif
+          @endif
           @if(auth::User()->hasRole('Member'))
             <li class="nav-item"><a class="nav-link" href="{{ route('life_insurance.all_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('mediclaim.all_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim</p></a></li>
@@ -156,6 +164,7 @@
                   <p>Yearly Report</p>
                 </a>
               </li>
+              
             </ul>
           </li>
           <li class="nav-item">
@@ -210,7 +219,7 @@
 
             @endif
             @if(auth::user()->department_id=="2")
-            <li class="nav-item">
+                            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-hospital"></i>
               <p>
@@ -231,6 +240,7 @@
                   <p>Yearly Report</p>
                 </a>
               </li>
+              
             </ul>
           </li>
             @endif
@@ -256,33 +266,34 @@
                   <p>Yearly Report</p>
                 </a>
               </li>
+              
             </ul>
           </li>
             @endif
             @if(auth::user()->department_id=="4")
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon  fa fa-dollar-sign"></i>
-                <p>
-                  Mutual Fund
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{{route('mutual_fund.all_mutual_fund_monthly') }}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Monthly Report</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{route('mutual_fund.all_mutual_fund_yearly') }}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Yearly Report</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+                 <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon  fa fa-dollar-sign"></i>
+              <p>
+                Mutual Fund
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('mutual_fund.all_mutual_fund_monthly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('mutual_fund.all_mutual_fund_yearly') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Yearly Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
             @endif
         @endif
          
@@ -294,20 +305,6 @@
              </a>
          </li>
          @endif
-         <!-- @if(Auth::User()->hasRole('Super Admin'))
-         <li class="nav-item">
-             <a href="{{ route('user_password') }}" class="nav-link">
-               <i class="fa fa-book nav-icon"></i>
-               <p>User Password</p>
-             </a>
-         </li>
-         <li class="nav-item">
-             <a href="{{ route('member_password') }}" class="nav-link">
-               <i class="fa fa-book nav-icon"></i>
-               <p>Member Password</p>
-             </a>
-         </li>
-         @endif -->
           <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>

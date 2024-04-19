@@ -138,7 +138,7 @@
                 <p style="color:#fff">Mutual Fund Premium</p>
               </div>
               <div class="icon">
-                <i class=" fa fa-dollar-sign"></i>
+                <i class=" fa fa-rupee-sign"></i>
               </div>
               <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -236,7 +236,7 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('admin_users.admin_list')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           @endif
@@ -257,11 +257,13 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('manager_users.manager_list')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           @endif
+          
           @if(Auth::User()->hasRole('Super Admin') || Auth::User()->hasRole('Admin')||Auth::User()->hasRole('Manager'))
+          
           @if(Auth::User()->hasRole('Super Admin'))
           <div class="col-lg-3 col-6">
           @endif
@@ -280,12 +282,13 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="{{route('users.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('agent_users.agent_list')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
 
           </div>
           @endif
         </div>
+        
         <div class="row">
           <div class="col-lg-4 col-4">
             <!-- small box -->
@@ -340,7 +343,7 @@
               <div class="icon">
                 <i class="fa fa-hospital"></i>
               </div>
-              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -354,7 +357,7 @@
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div> 
           <!-- ./col -->
@@ -368,7 +371,7 @@
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -380,9 +383,9 @@
                 <p style="color:#fff">Mutual Fund</p>
               </div>
               <div class="icon">
-                <i class="fa fa-dollar-sign"></i>
+                <i class="fa fa-rupee-sign"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         </div>
@@ -397,7 +400,7 @@
               <div class="icon">
                 <i class="fa fa-hospital"></i>
               </div>
-              <a href="{{route('mediclaim.all_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_mediclaim')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -410,7 +413,7 @@
               <div class="icon">
                 <i class="fa fa-life-ring"></i>
               </div>
-              <a href="{{route('life_insurance.all_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_life_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -423,7 +426,7 @@
               <div class="icon">
                 <i class="fa fa-car"></i>
               </div>
-              <a href="{{route('vehicle_insurance.all_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_vehicle_insurance')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -434,15 +437,16 @@
                 <p style="width:50%;color:#fff">Mutual Fund Yearly Premium</p>
               </div>
               <div class="icon">
-                <i class="fa fa-dollar-sign"></i>
+                <i class="fa fa-rupee-sign"></i>
               </div>
-              <a href="{{route('mutual_fund.all_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('member_mutual_fund')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
         </div>
-        
+        @if(Auth::User()->hasRole('Super Admin'))
         <div class="row">
+            
         <div class="col-md-3 col-sm-12">
           <div class="card">
             <div class="card-header border-transparent bg-red">
@@ -458,6 +462,7 @@
               </div>
             </div>
             <!-- /.card-header -->
+            
             <div class="card-body p-0">
               <div class="table-responsive">
                 <table class="table m-0 member_birth_date" >
@@ -472,6 +477,7 @@
                     <tr>
                       <td><input type="hidden" value="{{$med['name']}}" class="member_name">
                       <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
+                      <input type="hidden" value="{{$med['added_by']}}" class="added_by">
                       <input type="hidden" value="{{$med['father_name']}}" class="father_name">
                       <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
                       <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
@@ -491,7 +497,7 @@
             </div>
           </div>
         </div>
-        
+       
         <div class="col-md-3 col-sm-12">
           <div class="card">
             <div class="card-header border-transparent bg-red">
@@ -524,6 +530,7 @@
                     <td><input type="hidden" value="{{$med['name']}}" class="member_name">
                       <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
                       <input type="hidden" value="{{$med['father_name']}}" class="father_name">
+                      <input type="hidden" value="{{$med['added_by']}}" class="added_by">
                       <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
                       <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
                       <input type="hidden" value="{{$med['spouse_dob']}}" class="spouse_dob">
@@ -573,6 +580,7 @@
                     <input type="hidden" value="{{$med['name']}}" class="member_name">
                       <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
                       <input type="hidden" value="{{$med['father_name']}}" class="father_name">
+                      <input type="hidden" value="{{$med['added_by']}}" class="added_by">
                       <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
                       <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
                       <input type="hidden" value="{{$med['spouse_dob']}}" class="spouse_dob">
@@ -624,6 +632,7 @@
                     <input type="hidden" value="{{$med['name']}}" class="member_name">
                       <input type="hidden" value="{{$med['birth_date']}}" class="member_birth_dates">
                       <input type="hidden" value="{{$med['father_name']}}" class="father_name">
+                      <input type="hidden" value="{{$med['added_by']}}" class="added_by">
                       <input type="hidden" value="{{$med['mother_name']}}" class="mother_name">
                       <input type="hidden" value="{{$med['spouse_name']}}" class="spouse_name">
                       <input type="hidden" value="{{$med['spouse_dob']}}" class="spouse_dob">
@@ -643,6 +652,7 @@
           </div>
         </div>
       </div>
+       @endif
       <div class="row">
           <div class="col-sm-12">
             <div class="card">
@@ -970,6 +980,10 @@
                     <span class="col-md-6 member_namee"></span>
                 </div>
                 <div class="mb-3 row">
+                    <label for="added_by" class="col-md-4 col-form-label text-md-end text-start">Added By</label>
+                    <span class="col-md-6 added_bye"></span>
+                </div>
+                <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
                     <span class="col-md-6 member_birth_datee"></span>
                 </div>
@@ -1004,6 +1018,10 @@
                 <div class="mb-3 row">
                     <label for="User_ids" class="col-md-4 col-form-label text-md-end text-start">Member Name</label>
                     <span class="col-md-6 member_namee"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label for="added_by" class="col-md-4 col-form-label text-md-end text-start">Added By</label>
+                    <span class="col-md-6 added_bye"></span>
                 </div>
                 <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
@@ -1042,6 +1060,10 @@
                     <span class="col-md-6 member_namee"></span>
                 </div>
                 <div class="mb-3 row">
+                    <label for="added_by" class="col-md-4 col-form-label text-md-end text-start">Added By</label>
+                    <span class="col-md-6 added_bye"></span>
+                </div>
+                <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
                     <span class="col-md-6 member_birth_datee"></span>
                 </div>
@@ -1078,6 +1100,10 @@
                     <span class="col-md-6 member_namee"></span>
                 </div>
                 <div class="mb-3 row">
+                    <label for="added_by" class="col-md-4 col-form-label text-md-end text-start">Added By</label>
+                    <span class="col-md-6 added_bye"></span>
+                </div>
+                <div class="mb-3 row">
                     <label for="user_names" class="col-md-4 col-form-label text-md-end text-start">Member Birth Date</label>
                     <span class="col-md-6 member_birth_datee"></span>
                 </div>
@@ -1112,6 +1138,7 @@ $('.member_birth_date tr').click(function () {
   var mother_name = $(this).closest('tr').find('.mother_name').val();
   var father_name = $(this).closest('tr').find('.father_name').val();
   var member_name = $(this).closest('tr').find('.member_name').val();
+  var added_by = $(this).closest('tr').find('.added_by').val();
   var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
   var spouse_name = $(this).closest('tr').find('.spouse_name').val();
   var member_mobile_number = $(this).closest('tr').find('.member_mobile_number').val();
@@ -1119,6 +1146,7 @@ $('.member_birth_date tr').click(function () {
   var member_birth_date = $(this).closest('tr').find('.member_birth_dates').val();
   
   $('.spouse_dobe').text(spouse_dob);
+  $(".added_bye").text(added_by);
   $('.spouse_namee').text(spouse_name);
   $('.member_birth_datee').text(member_birth_date);
   $('.member_namee').text(member_name);
@@ -1131,6 +1159,7 @@ $('.member_anniversary_date tr').click(function () {
   $("#member_anniversary_datee").modal('show');
   var mother_name = $(this).closest('tr').find('.mother_name').val();
   var father_name = $(this).closest('tr').find('.father_name').val();
+  var added_by = $(this).closest('tr').find('.added_by').val();
   var member_name = $(this).closest('tr').find('.member_name').val();
   var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
   var spouse_name = $(this).closest('tr').find('.spouse_name').val();
@@ -1140,6 +1169,7 @@ $('.member_anniversary_date tr').click(function () {
   
   $('.spouse_dobe').text(spouse_dob);
   $('.spouse_namee').text(spouse_name);
+  $(".added_bye").text(added_by);
   $('.member_birth_datee').text(member_birth_date);
   $('.member_namee').text(member_name);
   $('.member_mother_namee').text(mother_name);
@@ -1152,6 +1182,7 @@ $('.spouse_dob tr').click(function () {
   var mother_name = $(this).closest('tr').find('.mother_name').val();
   var father_name = $(this).closest('tr').find('.father_name').val();
   var member_name = $(this).closest('tr').find('.member_name').val();
+  var added_by = $(this).closest('tr').find('.added_by').val();
   var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
   var spouse_name = $(this).closest('tr').find('.spouse_name').val();
   var member_mobile_number = $(this).closest('tr').find('.member_mobile_number').val();
@@ -1161,6 +1192,7 @@ $('.spouse_dob tr').click(function () {
   $('.spouse_dobe').text(spouse_dob);
   $('.spouse_namee').text(spouse_name);
   $('.member_birth_datee').text(member_birth_date);
+  $(".added_bye").text(added_by);
   $('.member_namee').text(member_name);
   $('.member_mother_namee').text(mother_name);
   $('.member_mother_father_namee').text(father_name);
@@ -1172,6 +1204,7 @@ $('.child_dob tr').click(function () {
   var mother_name = $(this).closest('tr').find('.mother_name').val();
   var father_name = $(this).closest('tr').find('.father_name').val();
   var member_name = $(this).closest('tr').find('.member_name').val();
+  var added_by = $(this).closest('tr').find('.added_by').val();
   var spouse_dob = $(this).closest('tr').find('.spouse_dob').val();
   var spouse_name = $(this).closest('tr').find('.spouse_name').val();
   var member_mobile_number = $(this).closest('tr').find('.member_mobile_number').val();
@@ -1182,6 +1215,7 @@ $('.child_dob tr').click(function () {
   $('.spouse_namee').text(spouse_name);
   $('.member_birth_datee').text(member_birth_date);
   $('.member_namee').text(member_name);
+  $(".added_bye").text(added_by);
   $('.member_mother_namee').text(mother_name);
   $('.member_mother_father_namee').text(father_name);
   $(".member_emailide").text(member_emailid);

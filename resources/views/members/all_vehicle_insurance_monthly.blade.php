@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fa fa-dollar-sign"></i></span>
+                    <span class="info-box-icon bg-info"><i class="fa fa-rupee-sign"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text" style="color:#007bff">Vehicle Insurance Yearly Premium Amount</span>
                         <span class="info-box-number"  style="color:#007bff" id="sum_yearly_amount"></span>
@@ -225,6 +225,7 @@ $(document).on('change','#month',function(){
                 }                                
         }],
         createdRow: function ( row, data, index ) {
+            
             $(data).each(function(key,val){
                 sum=sum+parseInt(val.policy_premium);
             });

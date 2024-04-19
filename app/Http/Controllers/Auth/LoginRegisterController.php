@@ -216,6 +216,7 @@ class LoginRegisterController extends Controller
             if(isset($bd) && !empty($bd)){
                 if(date('m-d',$bd)>=$dst && date('m-d',$bd)<=$dst1){
                     $member_birth_date[]=array(
+                        'added_by'=>User::getUserNameByID($member_dat->parent_id),
                         'user_id'=>$member_dat->id,
                         'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
                         'birth_date' => $member_dat->birth_date,
@@ -234,6 +235,7 @@ class LoginRegisterController extends Controller
                 if(date('m-d',$anni_date)>=$dst && date('m-d',$anni_date)<=$dst1){
                     $member_anniversary_date[]=array(
                         'user_id'=>$member_dat->id,
+                        'added_by'=>User::getUserNameByID($member_dat->parent_id),
                         'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
                         'birth_date' => $member_dat->birth_date,
                         'father_name'=>  $member_dat->member->father_name,
@@ -254,6 +256,7 @@ class LoginRegisterController extends Controller
                 if(date('m-d',$spouse_date)>=$dst && date('m-d',$spouse_date)<=$dst1){
                     $member_spouse_date[]=array(
                         'user_id'=>$member_dat->id,
+                        'added_by'=>User::getUserNameByID($member_dat->parent_id),
                         'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
                         'birth_date' => $member_dat->birth_date,
                         'father_name'=>  $member_dat->member->father_name,
@@ -272,6 +275,7 @@ class LoginRegisterController extends Controller
                     if(isset($child_dob) && !empty($child_dob)){
                         if(date('m-d',$child_dob)>=$dst && date('m-d',$child_dob)<=$dst1){
                             $child_dobs[]=array(
+                                    'added_by'=>User::getUserNameByID($member_dat->parent_id),
                                     'user_id'=>$member_dat->id,
                                     'name' => $member_dat->name.' '.$member_dat->middle_name.' '.$member_dat->surname,
                                     'birth_date' => $member_dat->birth_date,
@@ -283,7 +287,7 @@ class LoginRegisterController extends Controller
                                     'child_birth_date'=>$child->birth_date,
                                     'child_name'=>$child->name,
                                     'mobile_number'=>$member_dat->mobile_number,
-                        'email_id'=>$member_dat->email
+                                    'email_id'=>$member_dat->email
                             );
                         }
                     }

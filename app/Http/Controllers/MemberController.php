@@ -141,7 +141,7 @@ class MemberController extends Controller
             'city_id' => 'required',
             'address' => 'required',
         ]); 
-        $password = Str::random(8);
+        $password = "ossdm@123";
         // dd($request->all());
         $input['parent_id'] = Auth::user()->id;
         $input['name'] = $request->name;
@@ -2443,7 +2443,7 @@ class MemberController extends Controller
                     }) 
                     ->addColumn('action', function ($row){
                         $btn='';
-                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" view_mediclaim_monthly('.$row->id.')">View</a>&nbsp;&nbsp;';
+                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mediclaim_monthly('.$row->id.')">View</a>&nbsp;&nbsp;';
                         return $btn;
                     })
                     ->rawColumns(['action','yearly_premium_amount'])
@@ -2496,7 +2496,7 @@ class MemberController extends Controller
                     }) 
                     ->addColumn('action', function ($row){
                         $btn='';
-                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" view_mediclaim_yearly('.$row->id.')">View</a>&nbsp;&nbsp;';
+                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mediclaim_yearly('.$row->id.')">View</a>&nbsp;&nbsp;';
                         return $btn;
                     })
                     ->rawColumns(['action','yearly_premium_amount'])
@@ -2744,7 +2744,6 @@ class MemberController extends Controller
                 $dts = date('M', strtotime($dt));
                 $dtss = strtolower($dts);
                 $datas = Lifeinsurance::with('company_name','ppt','policy_mode')->where($dtss,'!=',0)->get();
-                
                 return Datatables::of($datas)
                 ->addIndexColumn()
                 ->addColumn('sr_no', function($row){
@@ -2805,19 +2804,19 @@ class MemberController extends Controller
             if(!empty($life_insurance)){
                 foreach($life_insurance as $li){
                     foreach($li->life_insurance as $list){
-                        $company_name_id = LifeInsuranceCompany::find($list->company_name_id)->first();
-                        $policy_mode = PolicyMode::find($list->policy_mode_id)->first();
+                        $company_name_id = LifeInsuranceCompany::where('id',$list->company_name_id)->get();
+                        $policy_mode = PolicyMode::where('id',$list->policy_mode_id)->get();
                         $new_array[] =array(
                             'id'=>$list->id,
                             'sr_no'=>$list->sr_no,
                             'policy_holder_name'=>$list->policy_holder_name,
-                            'birth_date'=>$list->birth_date,
+                            'added_by'=>User::getUserNameByID($list->parent_id),
                             'policy_start_date'=>$list->policy_start_date,
-                            'company_name'=>$company_name_id->name,
+                            'company_name'=>$company_name_id[0]->name,
                             'policy_number'=>$list->policy_number,
                             'sum_assured'=>$list->sum_assured,
                             'plan_name'=>$list->plan_name,
-                            'policy_mode'=>$policy_mode->name,
+                            'policy_mode'=>$policy_mode[0]->name,
                             'yearly_premium_amount'=>$list->yearly_premium_amount,
                         );
                     }
@@ -2838,8 +2837,8 @@ class MemberController extends Controller
                 ->addColumn('policy_holder_name', function($row){
                     return $row['policy_holder_name'];
                 }) 
-                ->addColumn('birth_date', function($row){
-                    return $row['birth_date'];
+                ->addColumn('added_by', function($row){
+                    return $row['added_by'];
                 }) 
                 ->addColumn('policy_start_date', function($row){
                     return $row['policy_start_date'];
@@ -2890,20 +2889,20 @@ class MemberController extends Controller
             if(!empty($mediclaim)){
                 foreach($mediclaim as $li){
                     foreach($li->mediclaim as $list){
-                        $company_name_id = MediclaimCompany::find($list->company_name_id)->first();
-                        $policy_mode = PolicyMode::find($list->policy_mode_id)->first();
-                        $policy_type = PolicyType::find($list->policy_type_id)->first();
+                        $company_name_id = MediclaimCompany::where('id',$list->company_name_id)->get();
+                        $policy_mode = PolicyMode::where('id',$list->policy_mode_id)->get();
+                        $policy_type = PolicyType::where('id',$list->policy_type_id)->get();
                         $new_array[] =array(
                             'id'=>$list->id,
                             'sr_no'=>$list->sr_no,
                             'policy_holder_name'=>$list->policy_holder_name,
-                            'birth_date'=>$list->birth_date,
+                            'added_by'=>User::getUserNameByID($list->parent_id),
                             'policy_start_date'=>$list->policy_start_date,
-                            'company_name'=>$company_name_id->name,
+                            'company_name'=>$company_name_id[0]->name,
                             'policy_number'=>$list->policy_number,
-                            'policy_type'=>$policy_type->name,
+                            'policy_type'=>$policy_type[0]->name,
                             'policy_name'=>$list->policy_name,
-                            'policy_mode'=>$policy_mode->name,
+                            'policy_mode'=>$policy_mode[0]->name,
                             'yearly_premium_amount'=>$list->yearly_premium_amount,
                         );
                     }
@@ -2919,8 +2918,8 @@ class MemberController extends Controller
                     ->addColumn('policy_holder_name', function($row){
                         return $row['policy_holder_name'];
                     }) 
-                    ->addColumn('birth_date', function($row){
-                        return $row['birth_date'];
+                    ->addColumn('added_by', function($row){
+                        return $row['added_by'];
                     }) 
                     ->addColumn('policy_start_date', function($row){
                         return $row['policy_start_date'];
@@ -2945,7 +2944,7 @@ class MemberController extends Controller
                     }) 
                     ->addColumn('action', function ($row){
                         $btn='';
-                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" view_mediclaim_yearly('.$row['id'].')">View</a>&nbsp;&nbsp;';
+                        $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" onClick="view_mediclaim_yearly('.$row['id'].')">View</a>&nbsp;&nbsp;';
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -2969,25 +2968,28 @@ class MemberController extends Controller
             
             if(!empty($vehicle_insurance)){
                 foreach($vehicle_insurance as $li){
+                    
                     foreach($li->vehicle_insurance as $list){
-
-                        $company_name = VehicleInsuranceCompany::find($list->company_name)->first();
-                        $vehicle_category = VehicleCategory::find($list->vehicle_category_id)->first();
-                        $insurance_policy_type = InsurancePolicyType::find($list->insurance_policy_type_id)->first();
+                        
+                         $company_name = VehicleInsuranceCompany::where('id',$list->company_name_id)->get();
+                        $vehicle_category = VehicleCategory::where('id',$list->vehicle_category_id)->get();
+                        $insurance_policy_type = InsurancePolicyType::where('id',$list->insurance_policy_type_id)->get();
+                    
                         $new_array[] =array(
                             'id'=>$list->id,
                             'sr_no'=>$list->sr_no,
-                            'vehicle_category'=>$vehicle_category->name,
+                            'vehicle_category'=>$vehicle_category[0]->name,
                             'vehicle_number'=>$list->vehicle_number,
                             'vehicle_name'=>$list->vehicle_name,
                             'chasis_number'=>$list->chasis_number,
-                            'company_name'=>$company_name->name,
+                            'company_name'=>$company_name[0]->name,
                             'policy_number'=>$list->policy_number,
-                            'insurance_policy_type'=>$insurance_policy_type->name,
+                            'added_by'=>User::getUserNameByID($list->parent_id),
                             'policy_premium'=>$list->policy_premium,
                             'vehicle_owner_name'=>$list->vehicle_owner_name,
                             
                         );
+                        
                     }
     
                 }
@@ -3016,8 +3018,8 @@ class MemberController extends Controller
                     ->addColumn('policy_number', function($row){
                         return $row['policy_number'];
                     }) 
-                    ->addColumn('insurance_policy_type_id', function($row){
-                        return $row['insurance_policy_type'];
+                    ->addColumn('added_by', function($row){
+                        return $row['added_by'];
                     }) 
                     ->addColumn('policy_premium', function($row){
                         return $row['policy_premium'];
@@ -3055,20 +3057,20 @@ class MemberController extends Controller
                 foreach($mutual_fund as $li){
                     foreach($li->mutual_fund as $list){
 
-                        $mutual_fund_type = MutualFundType::find($list->mutual_fund_type_id)->first();
+                        $mutual_fund_type = MutualFundType::where('id',$list->mutual_fund_type_id)->get();
                         
                         $new_array[] =array(
                             'id'=>$list->id,
                             'sr_no'=>$list->sr_no,
                             'mutual_fund_holder_name'=>$list->mutual_fund_holder_name,
-                            'mutual_fund_type'=>$mutual_fund_type->name,
+                            'mutual_fund_type'=>$mutual_fund_type[0]->name,
                             'folio_number'=>$list->folio_number,
                             'fund_name'=>$list->fund_name,
                             'fund_type'=>$list->fund_type,
                             'purchase_date'=>$list->purchase_date,
                             'amount'=>$list->amount,
                             'yearly_amount'=>$list->yearly_amount,
-                            'nominee_name'=>$list->nominee_name,
+                            'added_by'=>User::getUserNameByID($list->parent_id),
                         );
                     }
     
@@ -3104,8 +3106,8 @@ class MemberController extends Controller
                  ->addColumn('yearly_amount', function($row){
                      return $row['yearly_amount'];
                  }) 
-                ->addColumn('nominee_name', function($row){
-                    return $row['nominee_name'];
+                ->addColumn('added_by', function($row){
+                    return $row['added_by'];
                 }) 
                 ->addColumn('action', function ($row){
                     $btn='';
@@ -3456,7 +3458,8 @@ class MemberController extends Controller
                     ->withSuccess('Company Name is added successfully.');
     }
     public function view_life_insurance_company(Request $request,LifeInsuranceCompany $company){
-        $company =$company::get();
+        $company =$company::where('id',$company->id)->get();
+        
         return view('life_insurance.view_life_insurance_company', [
             'company' => $company,
             'title'=>'Life Insurance',
@@ -3464,7 +3467,7 @@ class MemberController extends Controller
         ]);
     }
     public function view_vehicle_insurance_company(Request $request,VehicleInsuranceCompany $company){
-        $company =$company::get();
+        $company =$company::where('id',$company->id)->get();
         return view('vehicle_insurance.view_vehicle_insurance_company', [
             'company' => $company,
             'title'=>'Vehcile Insurance',
@@ -3472,7 +3475,7 @@ class MemberController extends Controller
         ]);
     }
     public function view_mediclaim_company(Request $request,MediclaimCompany $company){
-        $company =$company::get();
+        $company =$company::where('id',$company->id)->get();
         return view('mediclaim.view_mediclaim_company', [
             'company' => $company,
             'title'=>'Mediclaim',
@@ -3480,7 +3483,7 @@ class MemberController extends Controller
         ]);
     }
     public function edit_life_insurance_company(Request $request,LifeInsuranceCompany $company){
-        $company =$company::get();
+        $company =$company::where('id',$company->id)->get();
         
         return view('life_insurance.edit_life_insurance_company', [
             'company' => $company,
@@ -3489,7 +3492,7 @@ class MemberController extends Controller
         ]);
     }
     public function edit_vehicle_insurance_company(Request $request,VehicleInsuranceCompany $company){
-        $company =$company::get();
+        $company =$company::where('id',$company->id)->get();
         
         return view('vehicle_insurance.edit_vehicle_insurance_company', [
             'company' => $company,
@@ -3498,7 +3501,8 @@ class MemberController extends Controller
         ]);
     }
     public function edit_mediclaim_company(Request $request,MediclaimCompany $company){
-        $company =$company::get();
+        
+        $company =$company::where('id',$company->id)->get();
         
         return view('mediclaim.edit_mediclaim_company', [
             'company' => $company,

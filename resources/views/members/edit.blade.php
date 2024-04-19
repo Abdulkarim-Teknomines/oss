@@ -195,6 +195,12 @@
                             
                         </div>
                     </div>
+                      <div class="mb-3 row">
+                        <label for="email" class="col-md-3 col-form-label text-md-end text-start">Active / Inactive <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <input type="checkbox" name="isActive" id="enable_disable" value="{{ $user[0]->isActive=='0' ? '0' : '1' }}" {{$user[0]->isActive == 0 ? 'checked':''}} data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                        </div>
+                        </div>
                     <input type="hidden" id="childrens" value="{{json_encode($user[0]->children)}}">
                     <div class="row mb-3"><label for="child" class="col-md-3 col-form-label text-md-end text-start">Children</label><div class="col-md-3"><button id="rowAdder" type="button" class="btn btn-dark">
                         <span class="bi bi-plus-square-dotted">

@@ -21,7 +21,7 @@
                 <th scope="col">Chassis Number</th>
                 <th scope="col">Insurance Company Name</th>
                 <th scope="col">Policy Number</th>
-                <th scope="col">Insurance Policy Type</th>
+                <th scope="col">Added By</th>
                 <th scope="col">Policy Premium</th>
                 <th scope="col">Vehicle Owner Name</th>
                 <th scope="col">Action</th>
@@ -49,7 +49,7 @@
             {data: 'chasis_number', name: 'chasis_number'},
             {data: 'company_name_id', name: 'company_name_id'},
             {data: 'policy_number', name: 'policy_number'},
-            {data: 'insurance_policy_type_id', name: 'insurance_policy_type_id'},
+            {data: 'added_by', name: 'added_by'},
             {data: 'policy_premium', name: 'policy_premium'},
             {data: 'vehicle_owner_name', name: 'vehicle_owner_name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},

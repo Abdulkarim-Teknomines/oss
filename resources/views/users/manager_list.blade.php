@@ -55,8 +55,8 @@
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
-function view(id){
-    window.location.href='/users/'+id+'/view';
-}
+// function view(id){
+//     window.location.href='/users/'+id+'/view';
+// }
 </script>
 @endsection

@@ -16,7 +16,7 @@
             <tr>
                 <th scope="col">Sr No</th>
                 <th scope="col">Policy Holder Name</th>
-                <th scope="col">Birth Date</th>
+                <th scope="col">Added By</th>
                 <th scope="col">Policy Start Date</th>
                 <th scope="col">Company Name</th>
                 <th scope="col">Policy Number</th>
@@ -47,7 +47,7 @@
         columns: [
             {data: 'sr_no', name: 'sr_no'},
             {data: 'policy_holder_name', name: 'policy_holder_name'},
-            {data: 'birth_date', name: 'birth_date'},
+            {data: 'added_by', name: 'added_by'},
             {data: 'policy_start_date', name: 'policy_start_date'},
             {data: 'company_name', name: 'company_name'},
             {data: 'policy_number', name: 'policy_number'},

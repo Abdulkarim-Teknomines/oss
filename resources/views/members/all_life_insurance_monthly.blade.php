@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fa fa-dollar-sign"></i></span>
+                    <span class="info-box-icon bg-info"><i class="fa fa-rupee-sign"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text" style="color:#007bff">Life Insurance Yearly Premium Amount</span>
                         <span class="info-box-number"  style="color:#007bff" id="sum_yearly_amount"></span>
@@ -83,7 +83,6 @@ $.ajaxSetup({
 
 $(document).ready(function(){
     var sum =0;
-    
     var month = $('#month').find(":selected").val();
     var table = $('.dts').DataTable({
         processing: false,
@@ -149,7 +148,6 @@ $(document).ready(function(){
                 }                                
         }],
         createdRow: function ( row, data, index ) {
-            
             $(data).each(function(key,val){
                 sum=sum+parseInt(val.yearly_premium_amount);
             });

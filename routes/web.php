@@ -69,6 +69,7 @@ Route::controller(ProductController::class)->group(function(){
 Route::controller(UserController::class)->group(function(){
     Route::get('users', 'index')->name('users.index');
     Route::get('admin_users', 'admin_list')->name('admin_users.admin_list');
+    Route::get('member_users', 'member_list')->name('member_users.member_list');
     Route::get('manager_users', 'manager_list')->name('manager_users.manager_list');
     Route::get('agent_users', 'agent_list')->name('agent_users.agent_list');
     Route::get('users/{user}/view', 'view')->name('users.view');
@@ -84,8 +85,6 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/change_password', 'change_password')->name('change_password');
     Route::post('/update_profile', 'update_profile')->name('update_profile');
     Route::post('/update_password', 'update_password')->name('update_password');
-    Route::get('/member_password', 'member_password')->name('member_password');
-    Route::get('/user_password', 'user_password')->name('user_password');
     // Route::get('change_profile','changeProfile')->name('users.change_profile');
 });
 Route::controller(RoleController::class)->group(function(){
