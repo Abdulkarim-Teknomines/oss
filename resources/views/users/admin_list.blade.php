@@ -31,7 +31,7 @@
         <tbody>
         </tbody>
     </table>
-    
+</div>
     </div>
 </div>
 <script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>

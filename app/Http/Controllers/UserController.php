@@ -313,10 +313,9 @@ class UserController extends Controller
                     })      
                     ->addColumn('action', function ($row){
                         $btn='';
-                        $btn .= '<a href="/users/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
-                        if(Auth::user()->can('edit-user')) {
-                            $btn.='<a href="users/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
-                        }
+                        $btn .= '<a href="members/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        $btn.='<a href="members/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                        
                         // if(Auth::user()->can('delete-user')) {
                         //     $btn.='<form method="post" action="users/'.$row['id'].'">
                         //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>
