@@ -35,7 +35,6 @@ class StoreUserRequest extends FormRequest
             'address'=>'required|string|max:250',
             'birth_date'=>'required',
             'blood_group_id'=>'required',
-            'department_id'=>'required',
             'email' => 'required|string|email:rfc,dns|max:250|unique:users,email',
             'roles' => 'required'
         ];

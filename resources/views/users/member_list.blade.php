@@ -22,7 +22,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Added By</th>
-                <th scope="col">Roles</th>
+                <th scope="col">Status <select class="status"><option value="2">All</option><option value="0">Active</option><option value="1">inActive</option></select></select></th>
                 <th scope="col">Pancard Number</th>
                 <th scope="col">Mobile Number</th>
                 <th scope="col">Action</th>
@@ -40,23 +40,68 @@
 <script src="{{ URL::asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <script>
+    $(document).ready(function(){
+        var status = $('.status').find(":selected").val();
     var table = $('.dts').DataTable({
-      processing: true,
-      serverSide: false,
-      ajax: "{{ route('member_users.member_list') }}",
+      processing: false,
+        serverSide: false,
+        paging: true,
+        searching: true,
+        "bDestroy": false,
+        "info":true,
+        type: 'GET',
+        ajax: {
+            url: "{{ route('member_users.member_list') }}",
+            data: function (d) {
+                 d.status = status;
+             }
+        },
         columns: [
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'added_by', name: 'added_by'},
-            {data: 'roles', name: 'roles'},
+            {data: 'status', name: 'status', orderable: false},
             {data: 'pancard_number', name: 'pancard_number'},
             {data: 'mobile_number', name: 'mobile_number'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
+}); 
+$(document).on('change','.status',function(){
+    var status = $(this).val();
+   var tables = $('.dts').DataTable({
+        processing: false,
+        paging: true,
+        serverSide: false,
+        searching: true,
+        "bDestroy": true,
+        "info":true,
+        type: 'GET',
+        ajax: {
+            url: "{{ route('member_users.member_list') }}",
+            data: function (d) {
+                 d.status = status;
+             }
+        },
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'added_by', name: 'added_by'},
+            {data: 'status', name: 'status', orderable: false},
+            {data: 'pancard_number', name: 'pancard_number'},
+            {data: 'mobile_number', name: 'mobile_number'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+
+
+    });
+});
+
 function view(id){
     window.location.href='/users/'+id+'/view';
 }
+
 </script>
 @endsection

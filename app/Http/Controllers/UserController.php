@@ -280,15 +280,25 @@ class UserController extends Controller
     {
         
         if ($request->ajax()) {
+            $status = $request->status;
             // $data =User::where('parent_id',auth()->user()->id)->with('roles')->whereHas('roles', function($query) {
             //         $query->where('name','Admin');
             //         $query->orWhere('name','Manager');
             //         $query->orWhere('name','Agent');
             //     })->get();
-            $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
-                $query->where('name','Member');
-                
-            })->get();
+            if($status == 0){
+                $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+                    $query->where('name','Member');
+                })->where('isActive',0)->get();
+            }elseif($status == 1){
+                $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+                    $query->where('name','Member');
+                })->where('isActive',1)->get();
+            }else{
+                $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+                    $query->where('name','Member');
+                })->get();
+            }
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('id', function($row){
@@ -306,9 +316,21 @@ class UserController extends Controller
                     ->addColumn('added_by', function($row){
                         return User::getUserNameByID($row->parent_id);
                     })  
-                    ->addColumn('roles', function($row){
-                        foreach($row->getRoleNames() as $role){
-                            return $role;
+                    ->addColumn('status', function($row){
+                        // foreach($row->getRoleNames() as $role){
+                        //     return $role;
+                        // }
+                        if($row->isActive=="0"){
+                            $expiry_date = date('Y-m-d', strtotime("-1 month", strtotime($row->expiry_date)));
+                            $today_date = date('Y-m-d');
+                            $dateDiff = $this->dateDiffInDays($expiry_date, $today_date); 
+                            if($dateDiff<='30'){
+                                return 'Active (Expire Soon)';
+                            }else{
+                                return 'Active';
+                            }
+                        }else{
+                            return 'inActive';
                         }
                     })      
                     ->addColumn('action', function ($row){
@@ -333,6 +355,10 @@ class UserController extends Controller
             'content'=>'Manage Users'
         ]);
     }
+    function dateDiffInDays($date1, $date2) { 
+        $diff = strtotime($date2) - strtotime($date1); 
+      return abs(round($diff / 86400)); 
+    } 
     public function view(Request $request,User $user)
     {
         if ($request->ajax()) {
@@ -489,7 +515,6 @@ class UserController extends Controller
             'address'=>'required|string|max:250',
             'birth_date'=>'required',
             'blood_group_id'=>'required',
-            'department_id'=>'required',
             'email' => 'required|string|email:rfc,dns|max:250|unique:users,email,'.$user->id,
         ]); 
         $input = $request->all();

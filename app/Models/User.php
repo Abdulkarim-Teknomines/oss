@@ -38,6 +38,7 @@ class User extends Authenticatable
         'city_id',
         'birth_date',
         'isActive',
+        'expiry_date',
         'password'
     ];
     

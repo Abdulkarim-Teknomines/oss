@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('surname');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->date('expiry_date')->nullable();
             $table->string('password');
             $table->integer('isActive');        // 0 active // 1 inactive
             $table->rememberToken();

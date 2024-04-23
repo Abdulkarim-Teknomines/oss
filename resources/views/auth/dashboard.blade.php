@@ -299,8 +299,8 @@
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
-              </div>
-              <a href="{{route('members.index')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div> 
+              <a href="{{route('member_users.member_list')}}" class="small-box-footer" style="color:#fff">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-4 col-4">
@@ -318,7 +318,6 @@
 
           </div>
           <div class="col-lg-4 col-4">
-            <!-- small box -->
             <div class="small-box bg-pink">
               <div class="inner">
               <h3 style="color:#fff">{{$mediclaim_premium+$lifeinsurance_premium+$vehicleinsurance_premium+$mutualfund_premium}}</h3>

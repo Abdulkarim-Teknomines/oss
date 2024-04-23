@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 Use Carbon;
 use App\Models\User;
+use App\Models\Member;
 class inActiveUser extends Command
 {
     /**
@@ -32,21 +33,28 @@ class inActiveUser extends Command
             $query->where('name','member');
         })->get();
         
-        // foreach($users[0]->vehicle_insurance as $us){
-        //     $created_at = strtotime($us->created_at);
-        //     $time = date('Y-m-d H:i:s');
-        //     $new_time = $created_at + (365 * 24 * 60 * 60);
+        foreach($users as $us){
+            $expiry_date = $us->expiry_date;
+            $today_date = date('Y-m-d');
             
-        //     $futureDate =date("Y-m-d H:i:s", $new_time);
-        //     \Log::info($futureDate);
-        //     do {
-        //         if(strtotime($futureDate) == strtotime($time)){
-        //             $user_update = User::whereId($us->user_id)->update([
-        //                 'isActive' => 1,
-        //             ]);
-        //         }
-        //     }while(strtotime($time) == strtotime($futureDate));
-        // }
+            if(strtotime($today_date)==strtotime($expiry_date)){
+                User::whereId($us->id)->update([
+                    'isActive' => 1
+                ]);
+            }
+            // $created_at = strtotime($us->created_at);
+            // $time = date('Y-m-d H:i:s');
+            // $new_time = $created_at + (365 * 24 * 60 * 60);
+            
+            // $futureDate =date("Y-m-d H:i:s", $new_time);
+            // do {
+            //     if(strtotime($futureDate) == strtotime($time)){
+            //         $user_update = User::whereId($us->user_id)->update([
+            //             'isActive' => 1,
+            //         ]);
+            //     }
+            // }while(strtotime($time) == strtotime($futureDate));
+        }
         // foreach($users[0]->life_insurance as $li){
         //     $created_at = strtotime($li->created_at);
         //     $time = date('Y-m-d H:i:s');

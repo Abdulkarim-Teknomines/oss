@@ -158,7 +158,10 @@ class MemberController extends Controller
         $input['birth_date'] = $request->birth_date;
         $input['email'] = $request->email;
         $input['isActive'] = 0;
-        
+        $date = date('Y-m-d');
+        $date = strtotime($date); 
+        $expiry_dat = strtotime('+ 1 year', $date);
+        $input['expiry_date'] = date('Y-m-d',$expiry_dat);
         $user = User::create($input);
         if($user){
             $user_id = 'MEM'.str_pad($user->id, 5, '0', STR_PAD_LEFT);
@@ -183,7 +186,7 @@ class MemberController extends Controller
             }
             $url = route('login');
             $mailData = [
-                'title' => 'Mail from www.onestopsolutiondatamanagement.com',
+                'title' => 'Mail from www.ossdm.com',
                 'body' => 'Login With Below Credentials',
                 'url'=>'<a href="{{$url}}">Click to Login</a>',
                 'username'=>$user->email,
