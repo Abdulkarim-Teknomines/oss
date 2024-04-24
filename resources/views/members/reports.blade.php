@@ -94,6 +94,12 @@ $(document).ready(function(){
                 .column( 2 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                 }, 0 );
 				
@@ -101,6 +107,12 @@ $(document).ready(function(){
                 .column( 3 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                 }, 0 );
 				
@@ -108,6 +120,12 @@ $(document).ready(function(){
                 .column( 4 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                 }, 0 );
 				
@@ -115,6 +133,12 @@ $(document).ready(function(){
                 .column( 5 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                 }, 0 );
 				
@@ -122,48 +146,96 @@ $(document).ready(function(){
                 .column( 6 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                 }, 0 );
             var junTotal = api
                 .column( 7 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                }, 0 );
                var julTotal = api
                 .column( 8 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                }, 0 );
                var augTotal = api
                 .column( 9 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                }, 0 );
                var sepTotal = api
                 .column( 10 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                }, 0 );
                var octTotal = api
                 .column( 11 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                }, 0 );
                var novTotal = api
                 .column( 12 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                }, 0 );
                var decTotal = api
                 .column( 13 )
                 .data()
                 .reduce( function (a, b) {
+                    if(intVal(a)<0){
+                        a = 0;
+                    }
+                    if(intVal(b)<0){
+                        b = 0;
+                    }
                     return intVal(a) + intVal(b);
                }, 0 );
                var singleTotal = api

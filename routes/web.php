@@ -70,6 +70,9 @@ Route::controller(UserController::class)->group(function(){
     Route::get('users', 'index')->name('users.index');
     Route::get('admin_users', 'admin_list')->name('admin_users.admin_list');
     Route::get('member_users', 'member_list')->name('member_users.member_list');
+    Route::get('active_member', 'active_member')->name('member.active_member');
+    Route::get('inactive_member', 'inactive_member')->name('member.inactive_member');
+    
     Route::get('manager_users', 'manager_list')->name('manager_users.manager_list');
     Route::get('agent_users', 'agent_list')->name('agent_users.agent_list');
     Route::get('users/{user}/view', 'view')->name('users.view');

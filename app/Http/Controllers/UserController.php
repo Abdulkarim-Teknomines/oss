@@ -355,6 +355,143 @@ class UserController extends Controller
             'content'=>'Manage Users'
         ]);
     }
+    public function active_member(Request $request,User $user)
+    {
+        
+        if ($request->ajax()) {
+            $status = $request->status;
+            // $data =User::where('parent_id',auth()->user()->id)->with('roles')->whereHas('roles', function($query) {
+            //         $query->where('name','Admin');
+            //         $query->orWhere('name','Manager');
+            //         $query->orWhere('name','Agent');
+            //     })->get();
+                $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+                    $query->where('name','Member');
+                })->where('isActive',0)->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){
+                        // foreach($row->getRoleNames() as $role){
+                            // if($role=='Member'){
+                                return $row['user_id'];
+                            // }else{
+                            //     return '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edits" onClick="view('.$row->id.')">'.$row['user_id'].'</a>';
+                            // }
+                        // }
+                    }) 
+                    ->addColumn('name', function($row){
+                        return $row['name'].' '.$row['middle_name'].' '.$row['surname'];
+                    })
+                    ->addColumn('added_by', function($row){
+                        return User::getUserNameByID($row->parent_id);
+                    })  
+                    ->addColumn('status', function($row){
+                        // foreach($row->getRoleNames() as $role){
+                        //     return $role;
+                        // }
+                        if($row->isActive=="0"){
+                            $expiry_date = date('Y-m-d', strtotime("-1 month", strtotime($row->expiry_date)));
+                            $today_date = date('Y-m-d');
+                            $dateDiff = $this->dateDiffInDays($expiry_date, $today_date); 
+                            if($dateDiff<='30'){
+                                return 'Active (Expire Soon)';
+                            }else{
+                                return 'Active';
+                            }
+                        }else{
+                            return 'inActive';
+                        }
+                    })      
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="members/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        $btn.='<a href="members/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                        
+                        // if(Auth::user()->can('delete-user')) {
+                        //     $btn.='<form method="post" action="users/'.$row['id'].'">
+                        //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>
+                        //     </form>';
+                        // }
+                        return $btn;
+                    })
+                    ->rawColumns(['action','id'])
+                    ->make(true);
+        }
+        
+        return view('users.active_member', [
+            // 'users' => $data,
+            'title'=>'Users',
+            'content'=>'Manage Users'
+        ]);
+    }
+    public function inactive_member(Request $request,User $user)
+    {
+        
+        if ($request->ajax()) {
+            // $data =User::where('parent_id',auth()->user()->id)->with('roles')->whereHas('roles', function($query) {
+            //         $query->where('name','Admin');
+            //         $query->orWhere('name','Manager');
+            //         $query->orWhere('name','Agent');
+            //     })->get();
+                $data = User::find(auth()->user()->id)->descendants()->depthFirst()->with('roles')->whereHas('roles', function($query) {
+                    $query->where('name','Member');
+                })->where('isActive',1)->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){
+                        // foreach($row->getRoleNames() as $role){
+                            // if($role=='Member'){
+                                return $row['user_id'];
+                            // }else{
+                            //     return '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" id="edits" onClick="view('.$row->id.')">'.$row['user_id'].'</a>';
+                            // }
+                        // }
+                    }) 
+                    ->addColumn('name', function($row){
+                        return $row['name'].' '.$row['middle_name'].' '.$row['surname'];
+                    })
+                    ->addColumn('added_by', function($row){
+                        return User::getUserNameByID($row->parent_id);
+                    })  
+                    ->addColumn('status', function($row){
+                        // foreach($row->getRoleNames() as $role){
+                        //     return $role;
+                        // }
+                        if($row->isActive=="0"){
+                            $expiry_date = date('Y-m-d', strtotime("-1 month", strtotime($row->expiry_date)));
+                            $today_date = date('Y-m-d');
+                            $dateDiff = $this->dateDiffInDays($expiry_date, $today_date); 
+                            if($dateDiff<='30'){
+                                return 'Active (Expire Soon)';
+                            }else{
+                                return 'Active';
+                            }
+                        }else{
+                            return 'inActive';
+                        }
+                    })      
+                    ->addColumn('action', function ($row){
+                        $btn='';
+                        $btn .= '<a href="members/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
+                        $btn.='<a href="members/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
+                        
+                        // if(Auth::user()->can('delete-user')) {
+                        //     $btn.='<form method="post" action="users/'.$row['id'].'">
+                        //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>
+                        //     </form>';
+                        // }
+                        return $btn;
+                    })
+                    ->rawColumns(['action','id'])
+                    ->make(true);
+        }
+        
+        return view('users.inactive_member', [
+            // 'users' => $data,
+            'title'=>'Users',
+            'content'=>'Manage Users'
+        ]);
+    }
     function dateDiffInDays($date1, $date2) { 
         $diff = strtotime($date2) - strtotime($date1); 
       return abs(round($diff / 86400)); 

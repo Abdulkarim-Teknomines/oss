@@ -250,10 +250,16 @@ class MemberController extends Controller
         $input['email'] = $request->email;
         if($request->isActive=="0"){
             $input['isActive']=0;
+            if($request->isActive!=$request->isActiveDefault) {
+                $date = $request->expiry_date; 
+                $date = strtotime($date); 
+                $new_date = strtotime('+ 1 year', $date); 
+                $expiry_change['expiry_date'] = date('Y-m-d', $new_date);
+                $users_expiry = User::where('id', $user->id)->update($expiry_change);
+            }
         }else{
             $input['isActive']=1;
         }
-        
         $users = User::where('id', $user->id)->update($input);
         // echo $this->db->last_query();die;
         if($users){
@@ -2254,6 +2260,81 @@ class MemberController extends Controller
         $life_insurance->update($input);
         return redirect()->route('life_insurance.view',$life_insurance->user_id)->withSuccess('Life Insurance is updated successfully.');
     }
+    // public function view_insurance_report(Request $request,User $user){
+        
+    //     if ($request->ajax()) {
+    //         if(Auth::User()->hasRole('Member')){
+    //             $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',Auth::User()->id)->first()->toArray();
+    //         }else{
+    //             $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',$user->id)->first()->toArray();
+    //         }
+    //         $d3=array();
+    //         $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund'],$data['vehicle_insurance']);
+    //         return Datatables::of($d3)
+    //             ->addIndexColumn()
+    //             ->addColumn('name', function($row){
+    //                 if(isset($row['policy_holder_name'])){
+    //                     return $row['policy_holder_name'];
+    //                 }elseif(isset($row['mutual_fund_holder_name'])){
+    //                     return $row['mutual_fund_holder_name'];
+    //                 }elseif(isset($row['vehicle_owner_name'])){
+    //                     return $row['vehicle_owner_name'];
+    //                 }
+    //             }) 
+    //             ->addColumn('category', function($row){
+    //                 return $row['category'];
+    //             }) 
+    //             ->addColumn('jan', function($row){
+    //                 return $row['jan'];
+    //             }) 
+    //             ->addColumn('feb', function($row){
+    //                 return $row['feb'];
+    //             }) 
+    //             ->addColumn('mar', function($row){
+    //                 return $row['mar'];
+    //             }) 
+    //             ->addColumn('apr', function($row){
+    //                 return $row['apr'];
+    //             }) 
+    //             ->addColumn('may', function($row){
+    //                 return $row['may'];
+    //             }) 
+    //             ->addColumn('jun', function($row){
+    //                 return $row['jun'];
+    //             }) 
+    //             ->addColumn('jul', function($row){
+    //                 return $row['jul'];
+    //             }) 
+    //             ->addColumn('aug', function($row){
+    //                 return $row['aug'];
+    //             }) 
+    //             ->addColumn('sep', function($row){
+    //                 return $row['sep'];
+    //             }) 
+    //             ->addColumn('oct', function($row){
+    //                 return $row['oct'];
+    //             }) 
+    //             ->addColumn('nov', function($row){
+    //                 return $row['nov'];
+    //             }) 
+    //             ->addColumn('dec', function($row){
+    //                 return $row['dec'];
+    //             })
+    //             ->addColumn('single', function($row){
+    //                 return $row['single'];
+    //             }) 
+    //             ->addColumn('total', function($row){
+    //                 return $row['jan']+$row['feb']+$row['mar']+$row['apr']+$row['may']+$row['jun']+$row['jul']+$row['aug']+$row['sep']+$row['oct']+$row['nov']+$row['dec'];
+    //             }) 
+    //             ->make(true);
+    //     }
+        
+    //     return view('members.reports', [
+    //         // 'users' => $data,
+    //         'title'=>'Member',
+    //         'content'=>'Manage Report'
+    //     ]);
+    // }
     public function view_insurance_report(Request $request,User $user){
         
         if ($request->ajax()) {
@@ -2279,46 +2360,160 @@ class MemberController extends Controller
                     return $row['category'];
                 }) 
                 ->addColumn('jan', function($row){
-                    return $row['jan'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                        return -$row['jan'];
+                    }else{
+                        return $row['jan'];
+                    }
                 }) 
                 ->addColumn('feb', function($row){
-                    return $row['feb'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['feb'];
+                    }else{
+                            return $row['feb'];
+                    }
                 }) 
                 ->addColumn('mar', function($row){
-                    return $row['mar'];
+                    
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['mar'];
+                    }else{
+                            return $row['mar'];
+                    }
                 }) 
                 ->addColumn('apr', function($row){
-                    return $row['apr'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['apr'];
+                    }else{
+                            return $row['apr'];
+                    }
                 }) 
                 ->addColumn('may', function($row){
-                    return $row['may'];
+                    
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['may'];
+                    }else{
+                            return $row['may'];
+                    }
                 }) 
                 ->addColumn('jun', function($row){
-                    return $row['jun'];
+                    
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['jun'];
+                    }else{
+                            return $row['jun'];
+                    }
                 }) 
                 ->addColumn('jul', function($row){
-                    return $row['jul'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['jul'];
+                    }else{
+                            return $row['jul'];
+                    }
                 }) 
                 ->addColumn('aug', function($row){
-                    return $row['aug'];
+                    
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['aug'];
+                    }else{
+                            return $row['aug'];
+                    }
                 }) 
                 ->addColumn('sep', function($row){
-                    return $row['sep'];
+                    
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['sep'];
+                    }else{
+                            return $row['sep'];
+                    }
                 }) 
                 ->addColumn('oct', function($row){
-                    return $row['oct'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['oct'];
+                    }else{
+                            return $row['oct'];
+                    }
                 }) 
                 ->addColumn('nov', function($row){
-                    return $row['nov'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['nov'];
+                    }else{
+                            return $row['nov'];
+                    }
                 }) 
                 ->addColumn('dec', function($row){
-                    return $row['dec'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            return -$row['dec'];
+                    }else{
+                            return $row['dec'];
+                    }
                 })
                 ->addColumn('single', function($row){
                     return $row['single'];
                 }) 
                 ->addColumn('total', function($row){
-                    return $row['jan']+$row['feb']+$row['mar']+$row['apr']+$row['may']+$row['jun']+$row['jul']+$row['aug']+$row['sep']+$row['oct']+$row['nov']+$row['dec'];
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $jan= 0;
+                    }else{
+                            $jan= $row['jan'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $feb = 0;
+                    }else{
+                            $feb = $row['feb'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $mar=0;
+                    }else{
+                            $mar=$row['mar'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $apr= 0;
+                    }else{
+                            $apr= $row['apr'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $may= 0;
+                    }else{
+                            $may= $row['may'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $jun= 0;
+                    }else{
+                            $jun= $row['jun'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $jul= 0;
+                    }else{
+                            $jul= $row['jul'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $aug= 0;
+                    }else{
+                            $aug= $row['aug'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $sep= 0;
+                    }else{
+                            $sep= $row['sep'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $oct= 0;
+                    }else{
+                            $oct= $row['oct'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $nov= 0;
+                    }else{
+                            $nov= $row['nov'];
+                    }
+                    if(($row['category']=="Life Insurance") && (strtotime($row['ppt_end_date'])<strtotime(date('Y-m-d')))){
+                            $dec= 0;
+                    }else{
+                            $dec= $row['dec'];
+                    }
+                    
+                    return $jan+$feb+$mar+$apr+$may+$jun+$jul+$aug+$sep+$oct+$nov+$dec;
                 }) 
                 ->make(true);
         }

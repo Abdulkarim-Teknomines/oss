@@ -82,7 +82,29 @@
                 <p>Member</p>
               </a>
             </li>
-          
+            <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-life-ring"></i>
+              <p>
+                Active / inActive Member
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('member.active_member') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Active Member</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('member.inactive_member') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>inActive Member</p>
+                </a>
+              </li>
+            </ul>
+          </li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_life_insurance') }}"><i class="nav-icon fa fa-life-ring"></i><p>Life Insurance Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_mediclaim') }}"><i class="nav-icon fa fa-hospital"></i><p>Mediclaim Report</p></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('member_vehicle_insurance') }}"><i class="nav-icon fa fa-car"></i><p>Vehicle Insurance Report</p></a></li>

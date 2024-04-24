@@ -195,8 +195,10 @@
                             
                         </div>
                     </div>
+                    <input type="hidden" name="expiry_date" value="{{$user[0]->expiry_date}}">
+                    <input type="hidden" name="isActiveDefault" value="{{$user[0]->isActive}}">
                       <div class="mb-3 row">
-                        <label for="email" class="col-md-3 col-form-label text-md-end text-start">Active / Inactive <span style="color:red">*</span></label>
+                        <label for="isActive" class="col-md-3 col-form-label text-md-end text-start">Active / Inactive <span style="color:red">*</span></label>
                         <div class="col-md-4">
                             <input type="checkbox" name="isActive" id="enable_disable" value="{{ $user[0]->isActive=='0' ? '0' : '1' }}" {{$user[0]->isActive == 0 ? 'checked':''}} data-bootstrap-switch data-off-color="danger" data-on-color="success">
                         </div>
