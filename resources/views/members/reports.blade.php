@@ -63,6 +63,7 @@
                 <th></th>
         </tfoot>
     </table>
+    <p class="text-center"><b style="color:red">*</b> (-) Sign Amount Not Included in Report Because Policy Has Been completed.</p>
     <!-- <div class="float-right"> -->
         <!-- <a class="btn btn-primary float-end" href="{{ route('members.member_export',[Request::segment(2)] )}}">Export Member Report</a> -->
         <!-- <a class="btn btn-warning float-end" href="{{ route('members.generate_pdf',[Request::segment(2)] )}}">Export User Data</a> -->

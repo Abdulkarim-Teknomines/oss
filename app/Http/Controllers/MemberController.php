@@ -51,6 +51,7 @@ class MemberController extends Controller
         $this->middleware('permission:edit-member', ['only' => ['edit','update']]);
         $this->middleware('permission:delete-member', ['only' => ['destroy']]);
     }
+     
     public function index(Request $request)
     {
         
@@ -431,6 +432,29 @@ class MemberController extends Controller
         $data['content']='Create Life Insurance';
         return view('life_insurance.create', $data);
     }
+    public function inactive_expiry_member(Request $request){
+         $users = User::with('life_insurance','vehicle_insurance','mutual_fund','mediclaim','roles')->whereHas('roles', function($query) {
+            $query->where('name','member');
+        })->get();
+        
+        foreach($users as $us){
+            $expiry_date = $us->expiry_date;
+            $today_date = date('Y-m-d');
+            
+            // if(strtotime($today_date)==strtotime($expiry_date)){
+            //     User::whereId($us->id)->update([
+            //         'isActive' => 1
+            //     ]);
+            // }
+            if(strtotime($expiry_date)<=strtotime($today_date)){
+                User::whereId($us->id)->update([
+                    'isActive' => 1
+                ]);
+            }
+        }
+        return redirect()->route('dashboard');
+    }
+    
     public function store_life_insurance(Request $request){
         // dd($request->all());
         $request->validate([
@@ -2260,81 +2284,6 @@ class MemberController extends Controller
         $life_insurance->update($input);
         return redirect()->route('life_insurance.view',$life_insurance->user_id)->withSuccess('Life Insurance is updated successfully.');
     }
-    // public function view_insurance_report(Request $request,User $user){
-        
-    //     if ($request->ajax()) {
-    //         if(Auth::User()->hasRole('Member')){
-    //             $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',Auth::User()->id)->first()->toArray();
-    //         }else{
-    //             $data = User::with('mediclaim','life_insurance','mutual_fund','vehicle_insurance')->where('id',$user->id)->first()->toArray();
-    //         }
-    //         $d3=array();
-    //         $d3 = array_merge($data['mediclaim'],$data['life_insurance'],$data['mutual_fund'],$data['vehicle_insurance']);
-    //         return Datatables::of($d3)
-    //             ->addIndexColumn()
-    //             ->addColumn('name', function($row){
-    //                 if(isset($row['policy_holder_name'])){
-    //                     return $row['policy_holder_name'];
-    //                 }elseif(isset($row['mutual_fund_holder_name'])){
-    //                     return $row['mutual_fund_holder_name'];
-    //                 }elseif(isset($row['vehicle_owner_name'])){
-    //                     return $row['vehicle_owner_name'];
-    //                 }
-    //             }) 
-    //             ->addColumn('category', function($row){
-    //                 return $row['category'];
-    //             }) 
-    //             ->addColumn('jan', function($row){
-    //                 return $row['jan'];
-    //             }) 
-    //             ->addColumn('feb', function($row){
-    //                 return $row['feb'];
-    //             }) 
-    //             ->addColumn('mar', function($row){
-    //                 return $row['mar'];
-    //             }) 
-    //             ->addColumn('apr', function($row){
-    //                 return $row['apr'];
-    //             }) 
-    //             ->addColumn('may', function($row){
-    //                 return $row['may'];
-    //             }) 
-    //             ->addColumn('jun', function($row){
-    //                 return $row['jun'];
-    //             }) 
-    //             ->addColumn('jul', function($row){
-    //                 return $row['jul'];
-    //             }) 
-    //             ->addColumn('aug', function($row){
-    //                 return $row['aug'];
-    //             }) 
-    //             ->addColumn('sep', function($row){
-    //                 return $row['sep'];
-    //             }) 
-    //             ->addColumn('oct', function($row){
-    //                 return $row['oct'];
-    //             }) 
-    //             ->addColumn('nov', function($row){
-    //                 return $row['nov'];
-    //             }) 
-    //             ->addColumn('dec', function($row){
-    //                 return $row['dec'];
-    //             })
-    //             ->addColumn('single', function($row){
-    //                 return $row['single'];
-    //             }) 
-    //             ->addColumn('total', function($row){
-    //                 return $row['jan']+$row['feb']+$row['mar']+$row['apr']+$row['may']+$row['jun']+$row['jul']+$row['aug']+$row['sep']+$row['oct']+$row['nov']+$row['dec'];
-    //             }) 
-    //             ->make(true);
-    //     }
-        
-    //     return view('members.reports', [
-    //         // 'users' => $data,
-    //         'title'=>'Member',
-    //         'content'=>'Manage Report'
-    //     ]);
-    // }
     public function view_insurance_report(Request $request,User $user){
         
         if ($request->ajax()) {
@@ -2652,7 +2601,7 @@ class MemberController extends Controller
         return view('members.all_mediclaims_monthly', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Mediclaim'
+            'content'=>'Mediclaim Monthly Report'
         ]);
     } 
     public function all_mediclaim_yearly(Request $request)
@@ -2705,7 +2654,7 @@ class MemberController extends Controller
         return view('members.all_mediclaims_yearly', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Mediclaim'
+            'content'=>'Mediclaim Yearly Report'
         ]);
     }
 
@@ -2822,7 +2771,7 @@ class MemberController extends Controller
         return view('members.all_vehicle_insurance_monthly', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Vehicle Insurance'
+            'content'=>'Vehicle Insurance Monthly Report'
         ]);
     } 
     public function all_vehicle_insurance_yearly(Request $request)
@@ -2877,7 +2826,7 @@ class MemberController extends Controller
         return view('members.all_vehicle_insurance_yearly', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Vehicle Insurance'
+            'content'=>'Vehicle Insurance Yearly Report'
         ]);
     } 
     public function all_life_insurance(Request $request)
@@ -2986,7 +2935,7 @@ class MemberController extends Controller
         return view('members.all_life_insurance_monthly', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Life Insurance'
+            'content'=>'Life Insurance Monthly Report'
         ]);
     } 
     public function member_life_insurance(Request $request)
@@ -3073,7 +3022,7 @@ class MemberController extends Controller
         return view('members.member_life_insurance', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Life Insurance'
+            'content'=>'Life Insurance Report'
         ]);
     } 
     public function member_mediclaim(Request $request)
@@ -3153,7 +3102,7 @@ class MemberController extends Controller
         return view('members.member_mediclaim', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Mediclaim'
+            'content'=>'Mediclaim Report'
         ]);
     }
     public function member_vehicle_insurance(Request $request)
@@ -3239,7 +3188,7 @@ class MemberController extends Controller
         return view('members.member_vehicle_insurance', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Vehicle Insurance'
+            'content'=>'Vehicle Insurance Report'
         ]);
     } 
     public function member_mutual_fund(Request $request)
@@ -3318,7 +3267,7 @@ class MemberController extends Controller
         
         return view('members.member_mutual_fund', [
             'title'=>'Member',
-            'content'=>'Manage Mututal Fund'
+            'content'=>'Mututal Fund Report'
         ]);
     }
     public function all_life_insurance_yearly(Request $request)
@@ -3369,7 +3318,7 @@ class MemberController extends Controller
         return view('members.all_life_insurances_yearly', [
             // 'users' => $data,
             'title'=>'Member',
-            'content'=>'Manage Life Insurance'
+            'content'=>'Life Insurance Yearly Report'
         ]);
     } 
     public function all_mutual_fund_monthly(Request $request)
@@ -3430,7 +3379,7 @@ class MemberController extends Controller
         
         return view('members.all_mutual_funds_monthly', [
             'title'=>'Member',
-            'content'=>'Manage Mututal Fund'
+            'content'=>'Mutual Fund Monthly Report'
         ]);
     } 
     public function all_mutual_fund_yearly(Request $request)
@@ -3490,7 +3439,7 @@ class MemberController extends Controller
         
         return view('members.all_mutual_funds_yearly', [
             'title'=>'Member',
-            'content'=>'Manage Mututal Fund'
+            'content'=>'Mutual Fund Yearly Report'
         ]);
     } 
     public function all_mutual_fund(Request $request)
@@ -3572,7 +3521,7 @@ class MemberController extends Controller
         }
         
         return view('mediclaim.list_mediclaim_company', [
-            'title'=>'Mediclaim',
+            'title'=>'Settings',
             'content'=>'Mediclaim Company'
         ]);
     }
@@ -3595,7 +3544,7 @@ class MemberController extends Controller
         }
         
         return view('life_insurance.list_life_insurance_company', [
-            'title'=>'Life Insurance',
+            'title'=>'Settings',
             'content'=>'Life Insurance Company'
         ]);
     }
@@ -3619,7 +3568,7 @@ class MemberController extends Controller
         }
         
         return view('vehicle_insurance.list_vehicle_insurance_company', [
-            'title'=>'Vehicle Insurance',
+            'title'=>'Settings',
             'content'=>'Vehicle Insurance Company'
         ]);
     }

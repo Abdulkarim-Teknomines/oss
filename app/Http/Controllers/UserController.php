@@ -157,7 +157,7 @@ class UserController extends Controller
         return view('users.admin_list', [
             // 'users' => $data,
             'title'=>'Users',
-            'content'=>'Manage Users'
+            'content'=>'Admin'
         ]);
     }
     public function manager_list(Request $request,User $user)
@@ -215,7 +215,7 @@ class UserController extends Controller
         return view('users.manager_list', [
             // 'users' => $data,
             'title'=>'Users',
-            'content'=>'Manage Users'
+            'content'=>'Manager'
         ]);
     }
     public function agent_list(Request $request,User $user)
@@ -273,7 +273,7 @@ class UserController extends Controller
         return view('users.agent_list', [
             // 'users' => $data,
             'title'=>'Users',
-            'content'=>'Manage Users'
+            'content'=>'Agent'
         ]);
     }
     public function Member_list(Request $request,User $user)
@@ -337,7 +337,7 @@ class UserController extends Controller
                         $btn='';
                         $btn .= '<a href="members/'.$row['id'].'" class="edit btn btn-info btn-sm">View</a>&nbsp;&nbsp;';
                         $btn.='<a href="members/'.$row['id'].'/edit" class="edit btn btn-primary btn-sm" id="edit">Edit</a>';
-                        
+                        $btn.='<a href="members/'.$row['id'].'/reports" class="ml-1 report btn btn-dark btn-sm" id="view_report">Report</a>';
                         // if(Auth::user()->can('delete-user')) {
                         //     $btn.='<form method="post" action="users/'.$row['id'].'">
                         //     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm("Do you want to delete this user?");"><i class="bi bi-trash"></i> Delete</button>
@@ -352,7 +352,7 @@ class UserController extends Controller
         return view('users.member_list', [
             // 'users' => $data,
             'title'=>'Users',
-            'content'=>'Manage Users'
+            'content'=>'Member'
         ]);
     }
     public function active_member(Request $request,User $user)
@@ -421,7 +421,7 @@ class UserController extends Controller
         return view('users.active_member', [
             // 'users' => $data,
             'title'=>'Users',
-            'content'=>'Manage Users'
+            'content'=>'Active Member'
         ]);
     }
     public function inactive_member(Request $request,User $user)
@@ -489,7 +489,7 @@ class UserController extends Controller
         return view('users.inactive_member', [
             // 'users' => $data,
             'title'=>'Users',
-            'content'=>'Manage Users'
+            'content'=>'inActive Member'
         ]);
     }
     function dateDiffInDays($date1, $date2) { 
@@ -699,7 +699,7 @@ class UserController extends Controller
         // $data['user'] = Auth::user('member');
         $data['user'] = User::with('member')->find(Auth::id());
         
-        $data['title']='Users';
+        $data['title']='Profile Settings';
         $data['content']='Update Profile';
         return view('users.profile',$data);
     }
@@ -727,7 +727,7 @@ class UserController extends Controller
                 ->withSuccess('User is updated successfully.');
     } 
     public function change_password(){
-        $data['title']='Users';
+        $data['title']='Profile Settings';
         $data['content']='Change Password';
         return view('users.change_password',$data);
     }

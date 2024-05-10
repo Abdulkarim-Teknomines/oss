@@ -119,7 +119,9 @@
         ],
         createdRow: function ( row, data, index ) {
             $(data).each(function(key,val){
-                sum = sum+parseInt(val.yearly_premium_amount);
+                if(val.policy_mode_id!=5){
+                    sum = sum+parseInt(val.yearly_premium_amount);
+                }
             });
             $("#sum_yearly_amount").text(parseInt(sum));
         },

@@ -198,7 +198,14 @@
             </div>
 
           @else
-          <div class="row">
+          @if(Auth::User()->hasRole('Super Admin'))
+            <div class="row">
+                <div class="col-md-2 offset-md-10 text-right">
+                    <a href="{{route('inactive_expiry_member')}}" onclick="return confirm('Are you sure you want to inActive Expiry Member?')" class="btn btn-primary" style="color:#fff">inActive Member</a>
+                </div>
+            </div>
+          @endif
+          <div class="row pt-3">
           @if(Auth::User()->hasRole('Super Admin')|| Auth::User()->hasRole('Admin')|| Auth::User()->hasRole('Manager')|| Auth::User()->hasRole('Agemt'))
           @if(Auth::User()->hasRole('Super Admin'))
           <div class="col-lg-3 col-6">

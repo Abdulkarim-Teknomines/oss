@@ -137,12 +137,26 @@
                         @endif
                     </div>
                     </div>
-                    <div class="mb-3 row">
+                    <!-- <div class="mb-3 row">
                         <label for="birth_date" class="col-md-3 col-form-label text-md-end text-start">Birth Date <span style="color:red">*</span></label>
                         <div class="col-md-4">
                             <div class="input-group birth_date" id="reservationdates" data-target-input="nearest">
                                 <input type="text" name="birth_date" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state @error('birth_date') is-invalid @enderror  datetimepicker-input" data-target="#reservationdates" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('birth_date') ? old('birth_date') : $user->birth_date }}"/>
                                 <div class="input-group-append" data-target="#reservationdates" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                            @if ($errors->has('birth_date'))
+                                <span class="error invalid-feedback">{{ $errors->first('birth_date') }}</span>
+                            @endif
+                        </div>
+                    </div> -->
+                    <div class="mb-3 row">
+                        <label for="birth_date" class="col-md-3 col-form-label text-md-end text-start">Birth Date <span style="color:red">*</span></label>
+                        <div class="col-md-4">
+                            <div class="input-group birth_date" id="birth_date" data-target-input="nearest">
+                                <input type="text" name="birth_date" data-toggle="datetimepicker" class="form-control select2 select2-hidden-accessible state @error('birth_date') is-invalid @enderror  datetimepicker-input" data-target="#birth_date" placeholder="YYYY-MM-DD" readonly="true" value="{{ old('birth_date') ? old('birth_date') : $user->birth_date }}"/>
+                                <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>
